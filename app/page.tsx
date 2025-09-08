@@ -31,6 +31,8 @@ export default function Home() {
       
       
       <div className="max-w-4xl mx-auto text-center relative z-10">
+        {/* Content Container with Subtle White Background */}
+        <div className="bg-white bg-opacity-80 backdrop-blur-sm rounded-2xl p-8 md:p-12 shadow-lg border border-white border-opacity-30">
         
         {/* HOA Connect Header with branding */}
         <div className="mb-12">
@@ -42,17 +44,17 @@ export default function Home() {
             />
           </div>
           
-          <h2 className="text-3xl font-semibold text-foreground mb-2">
+          <h2 className="text-3xl font-semibold text-gray-900 mb-2">
             {hoaInfo.name}
           </h2>
           
           
-          <p className="text-lg text-foreground">
+          <p className="text-lg text-gray-700">
             {hoaInfo.address.city}, {hoaInfo.address.state}
           </p>
           
           {hoaInfo.presentedTo && (
-            <p className="text-md text-accent font-medium mt-4 bg-white bg-opacity-90 inline-block px-4 py-2 rounded-lg">
+            <p className="text-md text-green-700 font-medium mt-4 bg-green-50 inline-block px-4 py-2 rounded-lg border border-green-200">
               {hoaInfo.presentedTo}
             </p>
           )}
@@ -78,19 +80,20 @@ export default function Home() {
           </Button>
         </div>
 
-        {/* HOA Admin Contact Info */}
-        <div className="bg-white bg-opacity-85 rounded-lg p-4 mb-8">
-          <p className="text-sm font-medium text-foreground">
-            {hoaInfo.admin.name} - {hoaInfo.admin.role}
-          </p>
-          {hoaInfo.admin.email && (
-            <p className="text-xs text-muted-foreground">
-              {hoaInfo.admin.email}
-              {hoaInfo.admin.phone && ` • ${hoaInfo.admin.phone}`}
+          {/* HOA Admin Contact Info */}
+          <div className="bg-gray-50 rounded-lg p-4 mb-8 border border-gray-200">
+            <p className="text-sm font-medium text-gray-900">
+              {hoaInfo.admin.name} - {hoaInfo.admin.role}
             </p>
-          )}
-        </div>
+            {hoaInfo.admin.email && (
+              <p className="text-xs text-gray-600">
+                {hoaInfo.admin.email}
+                {hoaInfo.admin.phone && ` • ${hoaInfo.admin.phone}`}
+              </p>
+            )}
+          </div>
 
+        </div> {/* Close white background container */}
       </div>
 
       {/* Branding Configuration Modal */}
