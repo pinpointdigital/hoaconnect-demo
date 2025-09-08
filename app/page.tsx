@@ -72,7 +72,10 @@ export default function Home() {
           <Button 
             variant="secondary" 
             size="lg"
-            onClick={() => setShowBrandingConfig(true)}
+            onClick={() => {
+              console.log('Customize Demo button clicked');
+              setShowBrandingConfig(true);
+            }}
             className="bg-white bg-opacity-85 flex items-center gap-2"
           >
             <Palette size={18} />
