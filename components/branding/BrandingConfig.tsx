@@ -13,7 +13,7 @@ interface BrandingConfigProps {
 }
 
 export function BrandingConfig({ isOpen, onClose }: BrandingConfigProps) {
-  const { config, updateHOAInfo, updateAssets, resetToDefaults, softReset } = useBranding();
+  const { config, updateHOAInfo, updateAssets, updateHOAUsers, updateServiceCredentials, resetToDefaults, softReset } = useBranding();
   const [formData, setFormData] = useState<HOAInfo>(config.hoaInfo);
   const [communityImageFiles, setCommunityImageFiles] = useState<File[]>([]);
 
@@ -100,6 +100,24 @@ export function BrandingConfig({ isOpen, onClose }: BrandingConfigProps) {
     
     // Also update local state
     setCommunityImageFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleHOAUserChange = (userType: 'captain' | 'boardMember' | 'management', field: string, value: string) => {
+    updateHOAUsers({
+      [userType]: {
+        ...config.hoaUsers?.[userType],
+        [field]: value
+      }
+    });
+  };
+
+  const handleServiceCredentialChange = (service: 'twilio' | 'sendGrid', field: string, value: string) => {
+    updateServiceCredentials({
+      [service]: {
+        ...config.serviceCredentials?.[service],
+        [field]: value
+      }
+    });
   };
 
   const handleSave = () => {
@@ -273,6 +291,172 @@ export function BrandingConfig({ isOpen, onClose }: BrandingConfigProps) {
                     </div>
                   )}
                 </div>
+            </section>
+
+            {/* HOA User Management */}
+            <section>
+              <h3 className="text-lg font-medium text-foreground mb-4">HOA User Profiles</h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                Manage contact information for built-in demo user roles
+              </p>
+              
+              {/* HOA Captain */}
+              <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <h4 className="text-md font-medium text-blue-900 mb-3">HOA Captain/President</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <Input
+                    label="Name"
+                    value={config.hoaUsers?.captain?.name || ''}
+                    onChange={(e) => handleHOAUserChange('captain', 'name', e.target.value)}
+                    placeholder="Sarah Johnson"
+                  />
+                  <Input
+                    label="Email"
+                    value={config.hoaUsers?.captain?.email || ''}
+                    onChange={(e) => handleHOAUserChange('captain', 'email', e.target.value)}
+                    placeholder="president@samplehoa.com"
+                  />
+                  <Input
+                    label="Phone"
+                    value={config.hoaUsers?.captain?.phone || ''}
+                    onChange={(e) => handleHOAUserChange('captain', 'phone', e.target.value)}
+                    placeholder="(949) 555-0101"
+                  />
+                  <Input
+                    label="Role Title"
+                    value={config.hoaUsers?.captain?.role || ''}
+                    onChange={(e) => handleHOAUserChange('captain', 'role', e.target.value)}
+                    placeholder="HOA President"
+                  />
+                </div>
+              </div>
+
+              {/* Board Member */}
+              <div className="mb-6 p-4 bg-green-50 rounded-lg border border-green-200">
+                <h4 className="text-md font-medium text-green-900 mb-3">Board Member</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <Input
+                    label="Name"
+                    value={config.hoaUsers?.boardMember?.name || ''}
+                    onChange={(e) => handleHOAUserChange('boardMember', 'name', e.target.value)}
+                    placeholder="Mike Chen"
+                  />
+                  <Input
+                    label="Email"
+                    value={config.hoaUsers?.boardMember?.email || ''}
+                    onChange={(e) => handleHOAUserChange('boardMember', 'email', e.target.value)}
+                    placeholder="board@samplehoa.com"
+                  />
+                  <Input
+                    label="Phone"
+                    value={config.hoaUsers?.boardMember?.phone || ''}
+                    onChange={(e) => handleHOAUserChange('boardMember', 'phone', e.target.value)}
+                    placeholder="(949) 555-0102"
+                  />
+                  <Input
+                    label="Role Title"
+                    value={config.hoaUsers?.boardMember?.role || ''}
+                    onChange={(e) => handleHOAUserChange('boardMember', 'role', e.target.value)}
+                    placeholder="Board Member"
+                  />
+                </div>
+              </div>
+
+              {/* Management Company */}
+              <div className="mb-4 p-4 bg-purple-50 rounded-lg border border-purple-200">
+                <h4 className="text-md font-medium text-purple-900 mb-3">Management Company</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <Input
+                    label="Company Name"
+                    value={config.hoaUsers?.management?.name || ''}
+                    onChange={(e) => handleHOAUserChange('management', 'name', e.target.value)}
+                    placeholder="ProManage HOA Services"
+                  />
+                  <Input
+                    label="Email"
+                    value={config.hoaUsers?.management?.email || ''}
+                    onChange={(e) => handleHOAUserChange('management', 'email', e.target.value)}
+                    placeholder="contact@promanage.demo"
+                  />
+                  <Input
+                    label="Phone"
+                    value={config.hoaUsers?.management?.phone || ''}
+                    onChange={(e) => handleHOAUserChange('management', 'phone', e.target.value)}
+                    placeholder="(949) 555-0200"
+                  />
+                  <Input
+                    label="Role Title"
+                    value={config.hoaUsers?.management?.role || ''}
+                    onChange={(e) => handleHOAUserChange('management', 'role', e.target.value)}
+                    placeholder="Management Company"
+                  />
+                </div>
+              </div>
+            </section>
+
+            {/* Service Credentials */}
+            <section>
+              <h3 className="text-lg font-medium text-foreground mb-4">Service Integration</h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                Configure live credentials for SMS and email services (optional)
+              </p>
+              
+              {/* Twilio Configuration */}
+              <div className="mb-6 p-4 bg-red-50 rounded-lg border border-red-200">
+                <h4 className="text-md font-medium text-red-900 mb-3">📱 Twilio SMS</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <Input
+                    label="Account SID"
+                    value={config.serviceCredentials?.twilio?.accountSid || ''}
+                    onChange={(e) => handleServiceCredentialChange('twilio', 'accountSid', e.target.value)}
+                    placeholder="AC..."
+                    type="password"
+                  />
+                  <Input
+                    label="Auth Token"
+                    value={config.serviceCredentials?.twilio?.authToken || ''}
+                    onChange={(e) => handleServiceCredentialChange('twilio', 'authToken', e.target.value)}
+                    placeholder="Your auth token"
+                    type="password"
+                  />
+                  <div className="md:col-span-2">
+                    <Input
+                      label="Phone Number"
+                      value={config.serviceCredentials?.twilio?.phoneNumber || ''}
+                      onChange={(e) => handleServiceCredentialChange('twilio', 'phoneNumber', e.target.value)}
+                      placeholder="+1234567890"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* SendGrid Configuration */}
+              <div className="mb-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <h4 className="text-md font-medium text-blue-900 mb-3">📧 SendGrid Email</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="md:col-span-2">
+                    <Input
+                      label="API Key"
+                      value={config.serviceCredentials?.sendGrid?.apiKey || ''}
+                      onChange={(e) => handleServiceCredentialChange('sendGrid', 'apiKey', e.target.value)}
+                      placeholder="SG..."
+                      type="password"
+                    />
+                  </div>
+                  <Input
+                    label="From Email"
+                    value={config.serviceCredentials?.sendGrid?.fromEmail || ''}
+                    onChange={(e) => handleServiceCredentialChange('sendGrid', 'fromEmail', e.target.value)}
+                    placeholder="noreply@yourhoa.com"
+                  />
+                  <Input
+                    label="From Name"
+                    value={config.serviceCredentials?.sendGrid?.fromName || ''}
+                    onChange={(e) => handleServiceCredentialChange('sendGrid', 'fromName', e.target.value)}
+                    placeholder="Your HOA Name"
+                  />
+                </div>
+              </div>
             </section>
           </div>
 

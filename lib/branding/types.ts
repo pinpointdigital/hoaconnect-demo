@@ -27,9 +27,35 @@ export interface BrandingAssets {
   }[];
 }
 
+export interface HOAUserProfile {
+  name: string;
+  email: string;
+  phone: string;
+  role: string;
+}
+
+export interface ServiceCredentials {
+  twilio?: {
+    accountSid?: string;
+    authToken?: string;
+    phoneNumber?: string;
+  };
+  sendGrid?: {
+    apiKey?: string;
+    fromEmail?: string;
+    fromName?: string;
+  };
+}
+
 export interface BrandingConfig {
   hoaInfo: HOAInfo;
   assets: BrandingAssets;
+  hoaUsers?: {
+    captain?: HOAUserProfile;
+    boardMember?: HOAUserProfile;
+    management?: HOAUserProfile;
+  };
+  serviceCredentials?: ServiceCredentials;
   theme?: {
     primaryColor?: string;
     secondaryColor?: string;
@@ -41,6 +67,8 @@ export interface BrandingContextType {
   config: BrandingConfig;
   updateHOAInfo: (info: Partial<HOAInfo>) => void;
   updateAssets: (assets: Partial<BrandingAssets>) => void;
+  updateHOAUsers: (users: Partial<BrandingConfig['hoaUsers']>) => void;
+  updateServiceCredentials: (credentials: Partial<ServiceCredentials>) => void;
   updateTheme: (theme: Partial<BrandingConfig['theme']>) => void;
   resetToDefaults: () => void;
   softReset: () => void;
@@ -64,9 +92,45 @@ export const DEFAULT_HOA_INFO: HOAInfo = {
   presentedTo: "Presented to: Sample HOA Board"
 };
 
+export const DEFAULT_HOA_USERS = {
+  captain: {
+    name: "Sarah Johnson",
+    email: "president@samplehoa.com",
+    phone: "(949) 555-0101",
+    role: "HOA President"
+  },
+  boardMember: {
+    name: "Mike Chen",
+    email: "board@samplehoa.com", 
+    phone: "(949) 555-0102",
+    role: "Board Member"
+  },
+  management: {
+    name: "ProManage HOA Services",
+    email: "contact@promanage.demo",
+    phone: "(949) 555-0200",
+    role: "Management Company"
+  }
+};
+
+export const DEFAULT_SERVICE_CREDENTIALS: ServiceCredentials = {
+  twilio: {
+    accountSid: '',
+    authToken: '',
+    phoneNumber: ''
+  },
+  sendGrid: {
+    apiKey: '',
+    fromEmail: '',
+    fromName: ''
+  }
+};
+
 export const DEFAULT_BRANDING_CONFIG: BrandingConfig = {
   hoaInfo: DEFAULT_HOA_INFO,
   assets: {},
+  hoaUsers: DEFAULT_HOA_USERS,
+  serviceCredentials: DEFAULT_SERVICE_CREDENTIALS,
   theme: {
     primaryColor: "#1e40af",
     secondaryColor: "#f1f5f9"

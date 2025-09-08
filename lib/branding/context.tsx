@@ -11,6 +11,7 @@ import {
   BrandingContextType, 
   HOAInfo, 
   BrandingAssets, 
+  ServiceCredentials,
   DEFAULT_BRANDING_CONFIG,
   ResetType
 } from './types';
@@ -82,6 +83,28 @@ export function BrandingProvider({ children }: BrandingProviderProps) {
     }));
   }, []);
 
+  const updateHOAUsers = useCallback((users: Partial<BrandingConfig['hoaUsers']>) => {
+    setConfig(prev => ({
+      ...prev,
+      hoaUsers: {
+        ...prev.hoaUsers,
+        ...users
+      },
+      lastUpdated: new Date()
+    }));
+  }, []);
+
+  const updateServiceCredentials = useCallback((credentials: Partial<ServiceCredentials>) => {
+    setConfig(prev => ({
+      ...prev,
+      serviceCredentials: {
+        ...prev.serviceCredentials,
+        ...credentials
+      },
+      lastUpdated: new Date()
+    }));
+  }, []);
+
   const updateTheme = useCallback((theme: Partial<BrandingConfig['theme']>) => {
     setConfig(prev => ({
       ...prev,
@@ -117,6 +140,8 @@ export function BrandingProvider({ children }: BrandingProviderProps) {
     config,
     updateHOAInfo,
     updateAssets,
+    updateHOAUsers,
+    updateServiceCredentials,
     updateTheme,
     resetToDefaults,
     softReset,
