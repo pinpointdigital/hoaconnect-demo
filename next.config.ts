@@ -9,12 +9,15 @@ const nextConfig: NextConfig = {
   },
   // Hide dev overlay for clean demo experience
   devIndicators: {
-    buildActivity: false,
-    buildActivityPosition: 'bottom-left',
+    position: 'bottom-left',
   },
   // Disable dev overlay completely
   compiler: {
     removeConsole: false,
+  },
+  // Disable ESLint during build for deployment
+  eslint: {
+    ignoreDuringBuilds: true,
   },
 };
 

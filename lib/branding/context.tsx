@@ -111,7 +111,7 @@ export function BrandingProvider({ children }: BrandingProviderProps) {
   // Check if the HOA has been configured beyond defaults
   const isConfigured = config.hoaInfo.name !== DEFAULT_BRANDING_CONFIG.hoaInfo.name ||
                       config.hoaInfo.admin.name !== DEFAULT_BRANDING_CONFIG.hoaInfo.admin.name ||
-                      (config.assets.communityImages && config.assets.communityImages.length > 0);
+                      Boolean(config.assets.communityImages && config.assets.communityImages.length > 0);
 
   const contextValue: BrandingContextType = {
     config,

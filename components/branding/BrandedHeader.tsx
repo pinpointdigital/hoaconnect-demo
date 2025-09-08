@@ -29,15 +29,6 @@ export function BrandedHeader({ showHOAConnect = true, className = '' }: Branded
               </div>
             )}
             
-            {assets.logo?.url && (
-              <div className="flex items-center">
-                <img
-                  src={assets.logo.url}
-                  alt={`${hoaInfo.name} Logo`}
-                  className="h-8 w-auto object-contain"
-                />
-              </div>
-            )}
             
             <div>
               <h2 className="text-lg font-semibold text-foreground">
@@ -75,13 +66,6 @@ export function CompactBrandedHeader({ className = '' }: { className?: string })
 
   return (
     <div className={`flex items-center space-x-3 ${className}`}>
-      {assets.logo?.url && (
-        <img
-          src={assets.logo.url}
-          alt={`${hoaInfo.name} Logo`}
-          className="h-6 w-auto object-contain"
-        />
-      )}
       <div>
         <h3 className="text-sm font-semibold text-foreground">
           {hoaInfo.name}

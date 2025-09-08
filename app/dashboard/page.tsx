@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '@/lib/auth/context';
+import { UserRole } from '@/lib/auth/types';
 import { Button } from '@/components/ui/Button';
 import { Play, Users, FileText, Wrench, MessageSquare, Home as HomeIcon, AlertTriangle, Clock, CheckCircle, Bot, Send, User, ArrowRight, X } from 'lucide-react';
 import Link from 'next/link';
@@ -75,7 +76,7 @@ interface ChatMessage {
 }
 
 export default function DashboardPage() {
-  const { userProfile, hasPermission } = useAuth();
+  const { userProfile, hasPermission, currentRole } = useAuth();
   const [chatInput, setChatInput] = useState('');
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
     {
@@ -113,7 +114,7 @@ export default function DashboardPage() {
     }
     
     // Return random fallback response
-    return FALLBACK_RESPONSES[Math.floor(Math.random() * FALLBACK_RESPONSES.length)];
+    return FALLBACK_RESPONSES[Math.floor(Math.random() * FALLBACK_RESPONSES.length)] || "I'm here to help! Please try asking about community rules, HOA procedures, or services.";
   };
 
   const handleSendMessage = async () => {
@@ -153,7 +154,7 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-8">
-      {userProfile.role === 'homeowner' ? (
+      {(currentRole as UserRole) === 'homeowner' ? (
         // Homeowner Dashboard
         <div className="space-y-6">
           {/* Page Header Format - Minimal */}
@@ -370,24 +371,24 @@ export default function DashboardPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             
             {/* ARC Requests - Role-specific content */}
-            {(hasPermission('canViewAllARCRequests') || userProfile.role === 'homeowner') && (
+            {(hasPermission('canViewAllARCRequests') || (currentRole as UserRole) === 'homeowner') && (
               <div className="rounded-card border border-ink-900/8 bg-white shadow-elev1 p-6 hover:shadow-lg hover:-translate-y-1 transition-all duration-150 cursor-pointer">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-11 h-11 bg-primary/10 rounded-ctl flex items-center justify-center">
                     <FileText size={20} className="text-primary" />
                   </div>
                   <h3 className="text-h4 font-medium text-ink-900">
-                    {userProfile.role === 'homeowner' ? 'My ARC Requests' : 'ARC Requests'}
+                    {(currentRole as UserRole) === 'homeowner' ? 'My ARC Requests' : 'ARC Requests'}
                   </h3>
                 </div>
                 <p className="text-body text-ink-800 mb-4">
-                  {userProfile.role === 'homeowner' 
+                  {(currentRole as UserRole) === 'homeowner' 
                     ? 'Submit and track your architectural review requests.'
                     : 'Manage architectural review requests and approvals.'
                   }
                 </p>
                 <Button variant="ghost" size="sm">
-                  {userProfile.role === 'homeowner' ? 'My Requests' : 'View All'}
+                  {(currentRole as UserRole) === 'homeowner' ? 'My Requests' : 'View All'}
                 </Button>
               </div>
             )}
@@ -434,17 +435,17 @@ export default function DashboardPage() {
                   <MessageSquare size={20} className="text-ink-900" />
                 </div>
                 <h3 className="text-h4 font-medium text-ink-900">
-                  {userProfile.role === 'homeowner' ? 'Community News' : 'Communications'}
+                  {(currentRole as UserRole) === 'homeowner' ? 'Community News' : 'Communications'}
                 </h3>
               </div>
               <p className="text-body text-ink-800 mb-4">
-                {userProfile.role === 'homeowner'
+                {(currentRole as UserRole) === 'homeowner'
                   ? 'Stay updated with community announcements and news.'
                   : 'Notices, forms, and community communication center.'
                 }
               </p>
               <Button variant="ghost" size="sm">
-                {userProfile.role === 'homeowner' ? 'View News' : 'Center'}
+                {(currentRole as UserRole) === 'homeowner' ? 'View News' : 'Center'}
               </Button>
             </div>
 

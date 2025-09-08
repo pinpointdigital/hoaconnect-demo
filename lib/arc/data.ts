@@ -195,12 +195,13 @@ export const SAMPLE_ARC_REQUESTS: ARCRequest[] = [
       license: 'C-27-1234567',
       contact: '(949) 555-0298'
     },
+    documents: [],
     neighborSignoffs: [
       {
         address: '1421 Oceanview Drive',
         name: 'Robert Chen',
         status: 'approved',
-        submittedAt: new Date('2024-01-30')
+        signedAt: new Date('2024-01-30')
       },
       {
         address: '1425 Oceanview Drive', 

@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/Input';
 import { StepModal } from '@/components/ui/StepModal';
 import { SAMPLE_ARC_REQUESTS } from '@/lib/arc/data';
 import { ARC_STATUS_LABELS, PROJECT_TYPES } from '@/lib/arc/types';
-import { Plus, Clock, CheckCircle, XCircle, AlertCircle, AlertTriangle, TrendingUp, Users, Timer, Filter, Upload, Zap, Home as HomeIcon, Sparkles, Mail, MessageSquare, FileText, Send, Info, UserCheck, FileCheck, Vote, Eye, ClipboardCheck } from 'lucide-react';
+import { Plus, Clock, CheckCircle, XCircle, AlertCircle, AlertTriangle, Users, Timer, Filter, Upload, Zap, Home as HomeIcon, Mail, MessageSquare, FileText, Send, Info, UserCheck, FileCheck, Vote, Eye, ClipboardCheck } from 'lucide-react';
 import Link from 'next/link';
 
 const STATUS_COLORS = {
@@ -486,7 +486,7 @@ export default function ARCPage() {
                                    ['under-review'].includes(request.status) ? '50%' :
                                    request.status === 'board-voting' ? '75%' :
                                    request.status === 'approved' ? '75%' :
-                                   request.status === 'pending-inspection' ? '100%' :
+                                   request.status === 'inspection-required' ? '100%' :
                                    request.status === 'completed' ? '100%' : '0%'
                           }}
                         />
@@ -511,10 +511,10 @@ export default function ARCPage() {
                         {/* Step 2: HOA Review */}
                         <div className="flex flex-col items-center">
                           <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-2 relative z-10 border-4 border-white shadow-sm ${
-                            ['under-review', 'board-voting', 'approved', 'pending-inspection', 'completed'].includes(request.status) 
+                            ['under-review', 'board-voting', 'approved', 'inspection-required', 'completed'].includes(request.status) 
                               ? 'bg-green-100' : request.status === 'neighbor-signoff' ? 'bg-yellow-100' : 'bg-neutral-100'
                           }`}>
-                            {['under-review', 'board-voting', 'approved', 'pending-inspection', 'completed'].includes(request.status) ? (
+                            {['under-review', 'board-voting', 'approved', 'inspection-required', 'completed'].includes(request.status) ? (
                               <CheckCircle className="text-green-600" size={20} />
                             ) : request.status === 'neighbor-signoff' ? (
                               <Clock className="text-yellow-600" size={20} />
@@ -524,14 +524,14 @@ export default function ARCPage() {
                           </div>
                           <div className="text-center">
                             <p className={`text-caption font-medium ${
-                              ['under-review', 'board-voting', 'approved', 'pending-inspection', 'completed'].includes(request.status) || request.status === 'neighbor-signoff'
+                              ['under-review', 'board-voting', 'approved', 'inspection-required', 'completed'].includes(request.status) || request.status === 'neighbor-signoff'
                                 ? 'text-ink-900' : 'text-neutral-400'
                             }`}>HOA/ARC Review</p>
                             <p className={`text-xs ${
-                              ['under-review', 'board-voting', 'approved', 'pending-inspection', 'completed'].includes(request.status) || request.status === 'neighbor-signoff'
+                              ['under-review', 'board-voting', 'approved', 'inspection-required', 'completed'].includes(request.status) || request.status === 'neighbor-signoff'
                                 ? 'text-ink-700' : 'text-neutral-400'
                             }`}>
-                              {['under-review', 'board-voting', 'approved', 'pending-inspection', 'completed'].includes(request.status) 
+                              {['under-review', 'board-voting', 'approved', 'inspection-required', 'completed'].includes(request.status) 
                                 ? 'Complete' : request.status === 'neighbor-signoff' ? 'In Progress' : 'Pending'}
                             </p>
                           </div>
@@ -540,10 +540,10 @@ export default function ARCPage() {
                         {/* Step 3: Board Voting */}
                         <div className="flex flex-col items-center">
                           <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-2 relative z-10 border-4 border-white shadow-sm ${
-                            ['approved', 'pending-inspection', 'completed'].includes(request.status) ? 'bg-green-100' :
+                            ['approved', 'inspection-required', 'completed'].includes(request.status) ? 'bg-green-100' :
                             request.status === 'board-voting' ? 'bg-blue-100' : 'bg-neutral-100'
                           }`}>
-                            {['approved', 'pending-inspection', 'completed'].includes(request.status) ? (
+                            {['approved', 'inspection-required', 'completed'].includes(request.status) ? (
                               <CheckCircle className="text-green-600" size={20} />
                             ) : request.status === 'board-voting' ? (
                               <Clock className="text-blue-600" size={20} />
@@ -553,16 +553,16 @@ export default function ARCPage() {
                           </div>
                           <div className="text-center">
                             <p className={`text-caption font-medium ${
-                              ['approved', 'pending-inspection', 'completed', 'board-voting'].includes(request.status) || 
+                              ['approved', 'inspection-required', 'completed', 'board-voting'].includes(request.status) || 
                               ['under-review', 'neighbor-signoff'].includes(request.status)
                                 ? 'text-ink-900' : 'text-neutral-400'
                             }`}>Board Vote</p>
                             <p className={`text-xs ${
-                              ['approved', 'pending-inspection', 'completed', 'board-voting'].includes(request.status) ||
+                              ['approved', 'inspection-required', 'completed', 'board-voting'].includes(request.status) ||
                               ['under-review', 'neighbor-signoff'].includes(request.status)
                                 ? 'text-ink-700' : 'text-neutral-400'
                             }`}>
-                              {['approved', 'pending-inspection', 'completed'].includes(request.status) ? 'Approved' :
+                              {['approved', 'inspection-required', 'completed'].includes(request.status) ? 'Approved' :
                                request.status === 'board-voting' ? 'Voting' : 'Pending'}
                             </p>
                           </div>
@@ -572,11 +572,11 @@ export default function ARCPage() {
                         <div className="flex flex-col items-center">
                           <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-2 relative z-10 border-4 border-white shadow-sm ${
                             request.status === 'completed' ? 'bg-green-100' :
-                            request.status === 'pending-inspection' ? 'bg-orange-100' : 'bg-neutral-100'
+                            request.status === 'inspection-required' ? 'bg-orange-100' : 'bg-neutral-100'
                           }`}>
                             {request.status === 'completed' ? (
                               <CheckCircle className="text-green-600" size={20} />
-                            ) : request.status === 'pending-inspection' ? (
+                            ) : request.status === 'inspection-required' ? (
                               <Clock className="text-orange-600" size={20} />
                             ) : (
                               <ClipboardCheck className="text-neutral-400" size={20} />
@@ -584,17 +584,17 @@ export default function ARCPage() {
                           </div>
                           <div className="text-center">
                             <p className={`text-caption font-medium ${
-                              ['completed', 'pending-inspection'].includes(request.status) || 
+                              ['completed', 'inspection-required'].includes(request.status) || 
                               ['approved', 'board-voting', 'under-review', 'neighbor-signoff'].includes(request.status)
                                 ? 'text-ink-900' : 'text-neutral-400'
                             }`}>Inspection</p>
                             <p className={`text-xs ${
-                              ['completed', 'pending-inspection'].includes(request.status) ||
+                              ['completed', 'inspection-required'].includes(request.status) ||
                               ['approved', 'board-voting', 'under-review', 'neighbor-signoff'].includes(request.status)
                                 ? 'text-ink-700' : 'text-neutral-400'
                             }`}>
                               {request.status === 'completed' ? 'Passed' :
-                               request.status === 'pending-inspection' ? 'Scheduled' : 'Pending'}
+                               request.status === 'inspection-required' ? 'Scheduled' : 'Pending'}
                             </p>
                           </div>
                         </div>
@@ -612,11 +612,11 @@ export default function ARCPage() {
                           </div>
                           <div className="text-center">
                             <p className={`text-caption font-medium ${
-                              request.status === 'completed' || ['pending-inspection', 'approved', 'board-voting', 'under-review', 'neighbor-signoff'].includes(request.status)
+                              request.status === 'completed' || ['inspection-required', 'approved', 'board-voting', 'under-review', 'neighbor-signoff'].includes(request.status)
                                 ? 'text-ink-900' : 'text-neutral-400'
                             }`}>Complete</p>
                             <p className={`text-xs ${
-                              request.status === 'completed' || ['pending-inspection', 'approved', 'board-voting', 'under-review', 'neighbor-signoff'].includes(request.status)
+                              request.status === 'completed' || ['inspection-required', 'approved', 'board-voting', 'under-review', 'neighbor-signoff'].includes(request.status)
                                 ? 'text-ink-700' : 'text-neutral-400'
                             }`}>
                               {request.status === 'completed' ? 'Done' : 'Pending'}
@@ -773,7 +773,7 @@ export default function ARCPage() {
                                   {/* File Attachment */}
                                   <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-2">
-                                      <Button size="xs" variant="ghost" className="text-ink-700 hover:text-ink-900">
+                                      <Button size="sm" variant="ghost" className="text-ink-700 hover:text-ink-900">
                                         <Upload size={12} />
                                         Attach File
                                       </Button>
@@ -874,7 +874,7 @@ export default function ARCPage() {
                             </Button>
                           </div>
                           <p className="text-xs text-ink-700">
-                            <strong>Manager Note:</strong> "Please review the outdoor kitchen requirements in Section 4.2.3"
+                            <strong>Manager Note:</strong> &quot;Please review the outdoor kitchen requirements in Section 4.2.3&quot;
                           </p>
                           <p className="text-xs text-ink-600">Attached by Mike Thompson - Jan 29, 2024</p>
                         </div>
@@ -893,7 +893,7 @@ export default function ARCPage() {
                             </span>
                           </div>
                           <p className="text-xs text-ink-700">
-                            <strong>Manager Note:</strong> "For your reference - general guidelines for outdoor structures"
+                            <strong>Manager Note:</strong> &quot;For your reference - general guidelines for outdoor structures&quot;
                           </p>
                           <p className="text-xs text-ink-600">Attached by Mike Thompson - Jan 29, 2024</p>
                         </div>
@@ -995,7 +995,7 @@ export default function ARCPage() {
                 <FileText className="text-neutral-400" size={24} />
               </div>
               <h3 className="text-h4 font-medium text-ink-900 mb-2">No Active Requests</h3>
-              <p className="text-body text-ink-700 mb-4">You don't have any ARC requests in progress.</p>
+              <p className="text-body text-ink-700 mb-4">You don&apos;t have any ARC requests in progress.</p>
               <Button variant="primary" onClick={openNewRequestModal}>
                 <Plus size={16} />
                 Submit Your First Request

@@ -260,7 +260,7 @@ export function BrandingConfig({ isOpen, onClose }: BrandingConfigProps) {
                             </div>
                             <Button
                               type="button"
-                              variant="outline"
+                              variant="secondary"
                               size="sm"
                               onClick={() => handleDeleteCommunityImage(index)}
                               className="text-error border-error hover:bg-error hover:text-white p-1"
