@@ -1,103 +1,103 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from 'react';
+import { useHOAInfo, useBrandingAssets } from '@/lib/branding/context';
+import { useAuth } from '@/lib/auth/context';
+import { BrandingConfig } from '@/components/branding/BrandingConfig';
+import { KenBurnsSlideshow } from '@/components/branding/KenBurnsSlideshow';
+import { RoleSwitcher } from '@/components/auth/RoleSwitcher';
+import { Button } from '@/components/ui/Button';
+import { Home as HomeIcon, Play, FileText, Palette } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const hoaInfo = useHOAInfo();
+  const assets = useBrandingAssets();
+  const { userProfile, hasPermission } = useAuth();
+  const [showBrandingConfig, setShowBrandingConfig] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  // Get community image URLs for slideshow
+  const communityImageUrls = assets.communityImages?.map(img => img.url) || [];
+  console.log('Community images for slideshow:', communityImageUrls.length, 'images');
+
+  return (
+    <div className="min-h-screen flex items-center justify-center p-8 relative">
+      {/* Ken Burns Slideshow Background */}
+      {communityImageUrls.length > 0 ? (
+        <KenBurnsSlideshow images={communityImageUrls} duration={6} />
+      ) : (
+        <div className="absolute inset-0 bg-white" />
+      )}
+      
+      
+      <div className="max-w-4xl mx-auto text-center relative z-10">
+        
+        {/* HOA Connect Header with branding */}
+        <div className="mb-12">
+          <div className="flex items-center justify-center space-x-4 mb-6">
+            <img
+              src="/hoa-connect-logo.png"
+              alt="HOA Connect"
+              className="h-12 w-auto object-contain"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          </div>
+          
+          <h2 className="text-3xl font-semibold text-foreground mb-2">
+            {hoaInfo.name}
+          </h2>
+          
+          
+          <p className="text-lg text-foreground">
+            {hoaInfo.address.city}, {hoaInfo.address.state}
+          </p>
+          
+          {hoaInfo.presentedTo && (
+            <p className="text-md text-accent font-medium mt-4 bg-white bg-opacity-90 inline-block px-4 py-2 rounded-lg">
+              {hoaInfo.presentedTo}
+            </p>
+          )}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+
+        {/* Quick Actions */}
+        <div className="flex flex-wrap gap-4 justify-center mb-8">
+          <Link href="/dashboard">
+            <Button size="lg" className="flex items-center gap-2">
+              <Play size={18} />
+              Get Started
+            </Button>
+          </Link>
+          <Button 
+            variant="secondary" 
+            size="lg"
+            onClick={() => setShowBrandingConfig(true)}
+            className="bg-white bg-opacity-85 flex items-center gap-2"
+          >
+            <Palette size={18} />
+            Customize Demo
+          </Button>
+        </div>
+
+        {/* HOA Admin Contact Info */}
+        <div className="bg-white bg-opacity-85 rounded-lg p-4 mb-8">
+          <p className="text-sm font-medium text-foreground">
+            {hoaInfo.admin.name} - {hoaInfo.admin.role}
+          </p>
+          {hoaInfo.admin.email && (
+            <p className="text-xs text-muted-foreground">
+              {hoaInfo.admin.email}
+              {hoaInfo.admin.phone && ` • ${hoaInfo.admin.phone}`}
+            </p>
+          )}
+        </div>
+
+      </div>
+
+      {/* Branding Configuration Modal */}
+      <BrandingConfig 
+        isOpen={showBrandingConfig}
+        onClose={() => setShowBrandingConfig(false)}
+      />
     </div>
   );
 }

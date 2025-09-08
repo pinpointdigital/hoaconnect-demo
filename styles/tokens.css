@@ -1,0 +1,63 @@
+/**
+ * Awardco-inspired Design Tokens
+ * Authoritative design system variables
+ */
+
+:root {
+  /* Colors */
+  --color-primary: #256CFA;
+  --color-primary-700: #1B55C9;
+  --color-ink-900: #11274C;
+  --color-ink-800: #1A2F59;
+  --color-accent: #A8F39B;
+  --color-neutral-50: #F6F8FC;
+  --color-neutral-100: #E7ECF5;
+  --color-neutral-900: #0A0F1C;
+  
+  /* Typography Scale */
+  --type-h1-size: 44px;
+  --type-h1-leading: 52px;
+  --type-h2-size: 34px;
+  --type-h2-leading: 42px;
+  --type-h3-size: 26px;
+  --type-h3-leading: 34px;
+  --type-h4-size: 22px;
+  --type-h4-leading: 30px;
+  --type-body-size: 16px;
+  --type-body-leading: 26px;
+  --type-body-lg-size: 18px;
+  --type-body-lg-leading: 28px;
+  --type-caption-size: 13px;
+  --type-caption-leading: 18px;
+  
+  /* Border Radius */
+  --radius-card: 1rem;
+  --radius-control: 0.75rem;
+  
+  /* Shadows */
+  --shadow-elev1: 0 1px 2px rgba(17, 39, 76, 0.06), 0 8px 24px rgba(17, 39, 76, 0.08);
+}
+
+/* Global Accessibility Defaults */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+
