@@ -106,6 +106,12 @@ export default function NewResidentsPage() {
               Onboarding Journey
             </button>
           </Link>
+          <Link href="/dashboard/new-residents/simple-setup">
+            <button className="px-4 py-2 text-body font-medium text-ink-800 hover:text-primary hover:bg-primary/5 transition-colors">
+              <CheckCircle size={16} className="inline mr-2" />
+              Simple Setup
+            </button>
+          </Link>
         </div>
       </div>
 
