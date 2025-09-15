@@ -1389,6 +1389,12 @@ export default function RequestDetailPage({ params }: RequestDetailPageProps) {
                         <Button 
                           size="sm"
                           onClick={() => {
+                            // Initialize positions if they don't exist
+                            if (!request.neighborPositions || request.neighborPositions.length === 0) {
+                              updateNeighborPositions(['left', 'right', 'front-left', 'front-right', 'back']);
+                              return;
+                            }
+                            
                             // Toggle all positions
                             const allRequired = request.neighborPositions?.every((pos: any) => pos.required) || false;
                             updateNeighborPositions(allRequired ? [] : ['left', 'right', 'front-left', 'front-right', 'back']);
