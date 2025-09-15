@@ -65,17 +65,40 @@ export default function RequestDetailPage({ params }: RequestDetailPageProps) {
         if (stored) {
           const requests = JSON.parse(stored);
           const foundRequest = requests.find((r: any) => r.id === paramId);
-          if (foundRequest) {
-            // Parse dates back from strings
-            foundRequest.submittedAt = new Date(foundRequest.submittedAt);
-            foundRequest.desiredStartDate = new Date(foundRequest.desiredStartDate);
-            if (foundRequest.conversations) {
-              foundRequest.conversations.forEach((conv: any) => {
-                conv.timestamp = new Date(conv.timestamp);
-              });
+            if (foundRequest) {
+              // Parse dates back from strings
+              foundRequest.submittedAt = new Date(foundRequest.submittedAt);
+              foundRequest.desiredStartDate = new Date(foundRequest.desiredStartDate);
+              if (foundRequest.conversations) {
+                foundRequest.conversations.forEach((conv: any) => {
+                  conv.timestamp = new Date(conv.timestamp);
+                });
+              }
+              // Parse neighbor notification dates
+              if (foundRequest.neighborPositions) {
+                foundRequest.neighborPositions.forEach((pos: any) => {
+                  if (pos.assignedNeighbor && pos.assignedNeighbor.notifiedAt) {
+                    pos.assignedNeighbor.notifiedAt = new Date(pos.assignedNeighbor.notifiedAt);
+                  }
+                  if (pos.assignedNeighbor && pos.assignedNeighbor.signedAt) {
+                    pos.assignedNeighbor.signedAt = new Date(pos.assignedNeighbor.signedAt);
+                  }
+                });
+              }
+              // Parse form assignment dates
+              if (foundRequest.formAssignments) {
+                foundRequest.formAssignments.forEach((assignment: any) => {
+                  assignment.assignedAt = new Date(assignment.assignedAt);
+                });
+              }
+              // Parse CC&R attachment dates
+              if (foundRequest.ccrAttachments) {
+                foundRequest.ccrAttachments.forEach((attachment: any) => {
+                  attachment.attachedAt = new Date(attachment.attachedAt);
+                });
+              }
+              setCurrentRequest(foundRequest);
             }
-            setCurrentRequest(foundRequest);
-          }
         }
       } catch (error) {
         console.error('Error loading request:', error);
@@ -348,7 +371,7 @@ export default function RequestDetailPage({ params }: RequestDetailPageProps) {
 
   // Neighbor management functions
   const updateNeighborPositions = (positions: string[]) => {
-    if (typeof window === 'undefined' || !currentRequest) return;
+    if (typeof window === 'undefined') return;
 
     try {
       const stored = localStorage.getItem('hoa-connect-arc-requests');
@@ -357,13 +380,19 @@ export default function RequestDetailPage({ params }: RequestDetailPageProps) {
       const requests = JSON.parse(stored);
       const updatedRequests = requests.map((req: any) => {
         if (req.id === paramId) {
+          // Preserve existing neighbor assignments while updating requirements
+          const existingPositions = req.neighborPositions || [];
           const newPositions = [
-            { position: 'left', required: positions.includes('left') },
-            { position: 'right', required: positions.includes('right') },
-            { position: 'front-left', required: positions.includes('front-left') },
-            { position: 'front-right', required: positions.includes('front-right') },
-            { position: 'back', required: positions.includes('back') }
-          ];
+            'left', 'right', 'front-left', 'front-right', 'back'
+          ].map(position => {
+            const existing = existingPositions.find((pos: any) => pos.position === position);
+            return {
+              position,
+              required: positions.includes(position),
+              assignedNeighbor: existing?.assignedNeighbor || null,
+              hasNoNeighbor: existing?.hasNoNeighbor || false
+            };
+          });
 
           return {
             ...req,
@@ -457,6 +486,49 @@ export default function RequestDetailPage({ params }: RequestDetailPageProps) {
     setHasUnsavedNeighborChanges(false);
     // Changes are already saved to localStorage in real-time
   };
+
+  // Initialize neighbor positions if they don't exist
+  const initializeNeighborPositions = () => {
+    if (typeof window === 'undefined') return;
+
+    try {
+      const stored = localStorage.getItem('hoa-connect-arc-requests');
+      if (!stored) return;
+
+      const requests = JSON.parse(stored);
+      const foundRequest = requests.find((r: any) => r.id === paramId);
+      
+      if (foundRequest && !foundRequest.neighborPositions) {
+        const updatedRequests = requests.map((req: any) => {
+          if (req.id === paramId) {
+            return {
+              ...req,
+              neighborPositions: [
+                { position: 'left', required: false, assignedNeighbor: null, hasNoNeighbor: false },
+                { position: 'right', required: false, assignedNeighbor: null, hasNoNeighbor: false },
+                { position: 'front-left', required: false, assignedNeighbor: null, hasNoNeighbor: false },
+                { position: 'front-right', required: false, assignedNeighbor: null, hasNoNeighbor: false },
+                { position: 'back', required: false, assignedNeighbor: null, hasNoNeighbor: false }
+              ]
+            };
+          }
+          return req;
+        });
+
+        localStorage.setItem('hoa-connect-arc-requests', JSON.stringify(updatedRequests));
+        window.dispatchEvent(new Event('storage'));
+      }
+    } catch (error) {
+      console.error('Error initializing neighbor positions:', error);
+    }
+  };
+
+  // Initialize neighbor positions when component loads
+  useEffect(() => {
+    if (paramId && currentRequest) {
+      initializeNeighborPositions();
+    }
+  }, [paramId, currentRequest]);
 
   // Inspection management functions
   const handleInspectionPhotos = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -1357,18 +1429,15 @@ export default function RequestDetailPage({ params }: RequestDetailPageProps) {
                               <div key={position.key} className={position.style}>
                                 <button
                                   onClick={() => {
-                                    if (isRequired && !hasNoNeighbor) {
-                                      // If position is required and has a neighbor, just toggle the requirement
-                                      const currentPositions = request.neighborPositions?.filter((pos: any) => pos.required && pos.position !== position.key).map((pos: any) => pos.position) || [];
-                                      updateNeighborPositions(currentPositions);
-                                    } else {
-                                      // If not required or has no neighbor, toggle the requirement
-                                      const currentPositions = request.neighborPositions?.filter((pos: any) => pos.required).map((pos: any) => pos.position) || [];
-                                      const newPositions = isRequired 
-                                        ? currentPositions.filter(p => p !== position.key)
-                                        : [...currentPositions, position.key];
-                                      updateNeighborPositions(newPositions);
-                                    }
+                                    // Get current required positions
+                                    const currentPositions = request.neighborPositions?.filter((pos: any) => pos.required).map((pos: any) => pos.position) || [];
+                                    
+                                    // Toggle this position
+                                    const newPositions = isRequired 
+                                      ? currentPositions.filter(p => p !== position.key)  // Remove if currently required
+                                      : [...currentPositions, position.key];             // Add if not currently required
+                                    
+                                    updateNeighborPositions(newPositions);
                                   }}
                                   className={`w-12 h-12 border rounded-lg text-xs font-medium transition-colors relative ${
                                     isRequired
