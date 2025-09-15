@@ -18,6 +18,32 @@ export default function Home() {
   const [showPreloader, setShowPreloader] = useState(true);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState('');
+  const [showPasswordError, setShowPasswordError] = useState(false);
+
+  // Check for existing authentication on load
+  useEffect(() => {
+    const authStatus = localStorage.getItem('hoa-connect-demo-auth');
+    if (authStatus === 'authenticated') {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  // Password validation
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const correctPassword = 'hoaconnect2025'; // You can change this password
+    
+    if (password === correctPassword) {
+      setIsAuthenticated(true);
+      localStorage.setItem('hoa-connect-demo-auth', 'authenticated');
+      setShowPasswordError(false);
+    } else {
+      setShowPasswordError(true);
+      setPassword('');
+    }
+  };
 
   useEffect(() => {
     // Progress counter animation
@@ -125,6 +151,63 @@ export default function Home() {
       };
     }
   }, []);
+
+  // Show password protection screen if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-neutral-900 flex items-center justify-center p-4">
+        <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-8">
+          <div className="text-center mb-6">
+            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <HomeIcon className="text-blue-600" size={32} />
+            </div>
+            <h1 className="text-h2 font-bold text-ink-900 mb-2">HOA Connect Demo</h1>
+            <p className="text-body text-ink-600">This demo is currently in development</p>
+          </div>
+
+          <form onSubmit={handlePasswordSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-ink-700 mb-2">
+                Access Password
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setShowPasswordError(false);
+                }}
+                placeholder="Enter password to access demo"
+                className={`w-full p-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:border-transparent ${
+                  showPasswordError 
+                    ? 'border-red-300 focus:ring-red-500 bg-red-50' 
+                    : 'border-ink-200 focus:ring-blue-500'
+                }`}
+                autoFocus
+              />
+              {showPasswordError && (
+                <p className="text-xs text-red-600 mt-1">Incorrect password. Please try again.</p>
+              )}
+            </div>
+            
+            <Button 
+              type="submit" 
+              className="w-full"
+              disabled={!password.trim()}
+            >
+              Access Demo
+            </Button>
+          </form>
+
+          <div className="mt-6 pt-6 border-t border-ink-200 text-center">
+            <p className="text-xs text-ink-500">
+              Demo access restricted during development phase
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
