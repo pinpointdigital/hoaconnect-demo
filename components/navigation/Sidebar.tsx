@@ -12,7 +12,8 @@ import {
   Home as HomeIcon,
   UserPlus,
   CreditCard,
-  User
+  User,
+  ClipboardCheck
 } from 'lucide-react';
 
 interface NavItem {
@@ -30,7 +31,7 @@ const getNavigation = (userRole: import('@/lib/auth/types').UserRole): NavItem[]
   // ARC Requests - Different access levels
   ...(userRole === 'homeowner' 
     ? [{ name: 'My ARC Requests', href: '/dashboard/arc', icon: <FileText size={20} />, hasNotification: true }]
-    : [{ name: 'ARC Requests', href: '/dashboard/arc', icon: <FileText size={20} />, permission: 'canViewAllARCRequests' as const }]
+    : [{ name: 'ARC Management', href: '/dashboard/arc-management', icon: <ClipboardCheck size={20} />, permission: 'canReviewARCRequests' as const }]
   ),
   
   // Onboarding & Welcome - Admin/Board only

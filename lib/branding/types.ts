@@ -20,11 +20,22 @@ export interface HOAInfo {
   presentedTo?: string;
 }
 
+export interface UtilityCompany {
+  name: string;
+  website: string;
+  logo?: string;
+}
+
 export interface BrandingAssets {
   communityImages?: {
     url: string;
     file: File | null;
   }[];
+  headerImage?: {
+    url: string;
+    file: File | null;
+  };
+  utilityCompanies?: UtilityCompany[];
 }
 
 export interface HOAUserProfile {
@@ -126,9 +137,18 @@ export const DEFAULT_SERVICE_CREDENTIALS: ServiceCredentials = {
   }
 };
 
+const DEFAULT_UTILITY_COMPANIES: UtilityCompany[] = [
+  { name: 'Southern California Edison', website: 'https://sce.com', logo: 'https://via.placeholder.com/120x60/003366/FFFFFF?text=SCE' },
+  { name: 'Los Angeles Dept of Water & Power', website: 'https://ladwp.com', logo: 'https://via.placeholder.com/120x60/0066CC/FFFFFF?text=LADWP' },
+  { name: 'Republic Services', website: 'https://republicservices.com', logo: 'https://via.placeholder.com/120x60/00AA44/FFFFFF?text=Republic' },
+  { name: 'Spectrum', website: 'https://spectrum.com', logo: 'https://via.placeholder.com/120x60/CC0000/FFFFFF?text=Spectrum' },
+];
+
 export const DEFAULT_BRANDING_CONFIG: BrandingConfig = {
   hoaInfo: DEFAULT_HOA_INFO,
-  assets: {},
+  assets: {
+    utilityCompanies: DEFAULT_UTILITY_COMPANIES
+  },
   hoaUsers: DEFAULT_HOA_USERS,
   serviceCredentials: DEFAULT_SERVICE_CREDENTIALS,
   theme: {
