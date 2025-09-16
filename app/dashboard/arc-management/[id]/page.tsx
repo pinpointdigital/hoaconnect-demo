@@ -895,12 +895,12 @@ export default function RequestDetailPage({ params }: RequestDetailPageProps) {
                                   {conv.attachments.map((attachment: any, index: number) => (
                                     <a
                                       key={index}
-                                      href={URL.createObjectURL(attachment)}
+                                      href={attachment instanceof File ? URL.createObjectURL(attachment) : '#'}
                                       target="_blank"
                                       rel="noopener noreferrer"
                                       className="text-xs text-blue-600 hover:text-blue-700 hover:underline block"
                                     >
-                                      📎 {attachment.name}
+                                      📎 {attachment.name || 'Attachment'}
                                     </a>
                                   ))}
                                 </div>
@@ -1914,9 +1914,12 @@ export default function RequestDetailPage({ params }: RequestDetailPageProps) {
                         {request.inspectionPhotos.map((photo: any, index: number) => (
                           <div key={index} className="relative">
                             <img
-                              src={URL.createObjectURL(photo)}
+                              src={photo instanceof File ? URL.createObjectURL(photo) : (photo.url || '#')}
                               alt={`Inspection photo ${index + 1}`}
                               className="w-full h-32 object-cover rounded-lg border border-ink-200"
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                              }}
                             />
                           </div>
                         ))}
@@ -1975,18 +1978,27 @@ export default function RequestDetailPage({ params }: RequestDetailPageProps) {
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                           {inspectionPhotos.map((photo, index) => (
                             <div key={index} className="relative">
-                              <img
-                                src={URL.createObjectURL(photo)}
-                                alt={`Inspection photo ${index + 1}`}
-                                className="w-full h-32 object-cover rounded-lg border border-ink-200"
-                              />
+                              {photo instanceof File ? (
+                                <img
+                                  src={URL.createObjectURL(photo)}
+                                  alt={`Inspection photo ${index + 1}`}
+                                  className="w-full h-32 object-cover rounded-lg border border-ink-200"
+                                  onError={(e) => {
+                                    e.currentTarget.style.display = 'none';
+                                  }}
+                                />
+                              ) : (
+                                <div className="w-full h-32 bg-neutral-100 rounded-lg border border-ink-200 flex items-center justify-center">
+                                  <span className="text-neutral-500 text-xs">Invalid photo</span>
+                                </div>
+                              )}
                               <button
                                 onClick={() => removeInspectionPhoto(index)}
                                 className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs hover:bg-red-600 transition-colors"
                               >
                                 ×
                               </button>
-                              <p className="text-xs text-ink-600 mt-1 truncate">{photo.name}</p>
+                              <p className="text-xs text-ink-600 mt-1 truncate">{photo.name || 'Unknown file'}</p>
                             </div>
                           ))}
                         </div>
