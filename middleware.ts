@@ -53,60 +53,6 @@ export function middleware(request: NextRequest) {
             text-align: center;
         }
         
-        .logo-container {
-            margin: 0 auto 1.5rem;
-            text-align: center;
-            background: none;
-            border: none;
-            border-radius: 0;
-            padding: 0;
-        }
-        
-        .logo {
-            height: 4rem;
-            width: auto;
-            max-width: 200px;
-            background: none !important;
-            border: none !important;
-            border-radius: 0 !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            box-shadow: none !important;
-        }
-        
-        .text-logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-        }
-        
-        .logo-icon {
-            font-size: 2.5rem;
-            line-height: 1;
-        }
-        
-        .logo-text {
-            display: flex;
-            flex-direction: column;
-            line-height: 1;
-        }
-        
-        .logo-hoa {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #2563eb;
-            letter-spacing: -0.025em;
-        }
-        
-        .logo-connect {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #374151;
-            margin-top: -0.125rem;
-            letter-spacing: 0.025em;
-        }
         
         .title {
             font-size: 1.5rem;
@@ -149,16 +95,6 @@ export function middleware(request: NextRequest) {
 </head>
 <body>
     <div class="container">
-        <!-- LOGO: Text-based HOA Connect logo -->
-        <div class="logo-container" style="margin: 0 auto 1.5rem; text-align: center;">
-            <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;">
-                <span style="font-size: 2.5rem; line-height: 1;">🏠</span>
-                <div style="display: flex; flex-direction: column; line-height: 1;">
-                    <span style="font-size: 1.5rem; font-weight: bold; color: #2563eb; letter-spacing: -0.025em;">HOA</span>
-                    <span style="font-size: 1rem; font-weight: 600; color: #374151; margin-top: -0.125rem; letter-spacing: 0.025em;">Connect</span>
-                </div>
-            </div>
-        </div>
         
         <h1 class="title">HOA Connect Demo</h1>
         
