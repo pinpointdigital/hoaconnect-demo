@@ -10,6 +10,9 @@ import { Button } from '@/components/ui/Button';
 import { Home as HomeIcon, Play, FileText, Palette, User, Building, UserPlus, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 
+// 🚧 MAINTENANCE MODE TOGGLE - Set to true to enable maintenance mode for live site
+const FORCE_MAINTENANCE_MODE = true;
+
 export default function Home() {
   const hoaInfo = useHOAInfo();
   const assets = useBrandingAssets();
@@ -27,11 +30,20 @@ export default function Home() {
 
   // Check for existing authentication on load
   useEffect(() => {
-    // Check if we're in production (live site)
-    const isProduction = window.location.hostname === 'demo.hoaconnect.ai';
+    // Check if we're in maintenance mode - multiple ways to detect
+    const isProduction = window.location.hostname === 'demo.hoaconnect.ai' || 
+                         window.location.hostname.includes('railway.app') ||
+                         window.location.hostname.includes('vercel.app');
     
-    // If in production, force maintenance mode (no authentication allowed)
-    if (isProduction) {
+    // Also check for environment variable
+    const maintenanceEnv = process.env.NEXT_PUBLIC_MAINTENANCE_MODE === 'true';
+    
+    // Force maintenance mode if flag is set AND not on localhost
+    const isMaintenanceMode = FORCE_MAINTENANCE_MODE && window.location.hostname !== 'localhost';
+    
+    // If in maintenance mode, force no authentication
+    if (isMaintenanceMode) {
+      console.log('🚧 Maintenance mode active for:', window.location.hostname);
       setIsAuthenticated(false);
       return;
     }
@@ -145,8 +157,10 @@ export default function Home() {
 
   // Show password protection screen if not authenticated
   if (!isAuthenticated) {
-    // Check if we're in production (live site) for maintenance mode
-    const isProduction = typeof window !== 'undefined' && window.location.hostname === 'demo.hoaconnect.ai';
+    // Check if we're in maintenance mode
+    const isMaintenanceMode = typeof window !== 'undefined' && 
+                             FORCE_MAINTENANCE_MODE && 
+                             window.location.hostname !== 'localhost';
     
     return (
       <div className="min-h-screen bg-neutral-900 flex items-center justify-center p-4">
@@ -156,7 +170,7 @@ export default function Home() {
               <HomeIcon className="text-blue-600" size={32} />
             </div>
             <h1 className="text-h2 font-bold text-ink-900 mb-2">HOA Connect Demo</h1>
-            {isProduction ? (
+            {isMaintenanceMode ? (
               <div>
                 <p className="text-body text-amber-600 font-semibold mb-2">🚧 Maintenance Mode</p>
                 <p className="text-body text-ink-600">We're currently updating the demo platform with new features and improvements.</p>
@@ -166,7 +180,7 @@ export default function Home() {
             )}
           </div>
 
-          {isProduction ? (
+          {isMaintenanceMode ? (
             // Maintenance mode - no password input
             <div className="text-center">
               <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
