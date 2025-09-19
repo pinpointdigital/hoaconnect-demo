@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 // 🚧 MAINTENANCE MODE TOGGLE - Set to true to enable maintenance mode for live site
-// Last updated: 2025-09-18 23:27:00 - Testing deployment
-const MAINTENANCE_MODE = false;
+// Last updated: 2025-09-18 23:30:00 - Fixing logo with working deployment
+const MAINTENANCE_MODE = true;
 
 export function middleware(request: NextRequest) {
   // Skip maintenance mode for localhost development
@@ -159,7 +159,7 @@ export function middleware(request: NextRequest) {
             </div>
         </div>
         
-        <h1 class="title">🚨 DEPLOYMENT TEST - HOA Connect Demo 🚨</h1>
+        <h1 class="title">HOA Connect Demo</h1>
         
         <div>
             <p class="maintenance-badge">🚧 Maintenance Mode</p>
