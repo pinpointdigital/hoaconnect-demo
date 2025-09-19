@@ -159,7 +159,7 @@ export function middleware(request: NextRequest) {
             </div>
         </div>
         
-        <h1 class="title">HOA Connect Demo</h1>
+        <h1 class="title">🚨 DEPLOYMENT TEST - HOA Connect Demo 🚨</h1>
         
         <div>
             <p class="maintenance-badge">🚧 Maintenance Mode</p>
