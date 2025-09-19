@@ -192,13 +192,29 @@ export default function Home() {
                 </p>
               </div>
               
-              <div className="text-center text-gray-600">
-                <p className="text-sm">
-                  Questions? Contact us at <br />
-                  <a href="mailto:support@hoaconnect.ai" className="text-blue-600 hover:underline">
-                    support@hoaconnect.ai
-                  </a>
-                </p>
+              <div className="text-center">
+                <img
+                  src="/hoa-connect-logo.png"
+                  alt="HOA Connect"
+                  className="h-6 w-auto mx-auto opacity-60"
+                  onError={(e) => {
+                    // Fallback to text logo if image fails
+                    const parent = e.currentTarget.parentElement;
+                    if (parent) {
+                      parent.innerHTML = `
+                        <div class="flex items-center justify-center gap-2 opacity-60">
+                          <div class="w-4 h-4 bg-blue-100 rounded flex items-center justify-center">
+                            <span class="text-blue-600 font-bold text-xs">H</span>
+                          </div>
+                          <div class="text-sm font-bold">
+                            <span class="text-blue-600">HOA</span>
+                            <span class="text-gray-600 ml-1">Connect</span>
+                          </div>
+                        </div>
+                      `;
+                    }
+                  }}
+                />
               </div>
             </div>
           ) : (
