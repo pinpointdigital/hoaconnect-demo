@@ -13,19 +13,20 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 
-// All Requests Tab Component
-export function AllRequestsTab({ requests, filteredRequests, searchTerm, setSearchTerm, statusFilter, setStatusFilter, updateRequestStatus, STATUS_COLORS, STATUS_ICONS, ARC_STATUS_LABELS }) {
+// Archives Tab Component - Searchable archive of previous ARC requests
+export function ArchivesTab({ requests, filteredRequests, searchTerm, setSearchTerm, statusFilter, setStatusFilter, updateRequestStatus, STATUS_COLORS, STATUS_ICONS, ARC_STATUS_LABELS }) {
   return (
     <div className="space-y-6">
       {/* Search and Filters */}
       <div className="bg-white rounded-card border border-ink-900/8 p-4">
+        <h3 className="text-h3 font-semibold text-ink-900 mb-4">Search Archives</h3>
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="flex-1">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-ink-500" size={16} />
               <input
                 type="text"
-                placeholder="Search requests by title, homeowner, or address..."
+                placeholder="Search by request title, homeowner name, or address..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-control text-body focus:ring-2 focus:ring-primary focus:border-transparent"
@@ -38,37 +39,42 @@ export function AllRequestsTab({ requests, filteredRequests, searchTerm, setSear
               onChange={(e) => setStatusFilter(e.target.value)}
               className="px-3 py-2 border border-neutral-300 rounded-control text-body focus:ring-2 focus:ring-primary focus:border-transparent"
             >
-              <option value="all">All Statuses</option>
-              <option value="submitted">Submitted</option>
-              <option value="under-review">Under Review</option>
-              <option value="neighbor-signoff">Neighbor Sign-off</option>
-              <option value="board-voting">Board Voting</option>
-              <option value="approved">Approved</option>
-              <option value="in-progress">In Progress</option>
-              <option value="inspection-required">Inspection Required</option>
+              <option value="all">All Requests</option>
               <option value="completed">Completed</option>
+              <option value="approved">Approved</option>
               <option value="denied">Denied</option>
+              <option value="in-progress">In Progress</option>
+              <option value="board-voting">Board Review</option>
+              <option value="under-review">Under Review</option>
+              <option value="submitted">Submitted</option>
             </select>
           </div>
         </div>
       </div>
 
-      {/* Requests List */}
+      {/* Archive Results */}
       <div className="bg-white rounded-card border border-ink-900/8">
         <div className="p-4 border-b border-neutral-200">
           <h3 className="text-h3 font-semibold text-ink-900">
-            {filteredRequests.length === 0 ? 'No Requests' : `${filteredRequests.length} Request${filteredRequests.length !== 1 ? 's' : ''}`}
+            {filteredRequests.length === 0 ? 'No Results Found' : `${filteredRequests.length} Request${filteredRequests.length !== 1 ? 's' : ''} Found`}
           </h3>
+          {searchTerm && (
+            <p className="text-sm text-ink-600 mt-1">
+              Searching for "{searchTerm}"
+            </p>
+          )}
         </div>
 
         {filteredRequests.length === 0 ? (
           <div className="p-8 text-center">
             <FileText className="mx-auto text-ink-400 mb-4" size={48} />
-            <h4 className="text-h4 font-medium text-ink-900 mb-2">No ARC Requests</h4>
+            <h4 className="text-h4 font-medium text-ink-900 mb-2">
+              {requests.length === 0 ? 'No ARC Requests in Archive' : 'No Matching Requests'}
+            </h4>
             <p className="text-body text-ink-600">
               {requests.length === 0 
-                ? 'Start the demo by creating a sample ARC request to walk through the complete workflow.'
-                : 'No requests match your current search criteria.'
+                ? 'Completed and processed ARC requests will appear here for future reference.'
+                : 'Try adjusting your search terms or filters to find what you\'re looking for.'
               }
             </p>
           </div>
@@ -99,19 +105,11 @@ export function AllRequestsTab({ requests, filteredRequests, searchTerm, setSear
                         variant="ghost" 
                         size="sm" 
                         className="flex items-center gap-1"
-                        onClick={() => {
-                          if (request.status === 'submitted') {
-                            updateRequestStatus(request.id, 'under-review', 'HOA Manager');
-                          }
-                        }}
                       >
                         <Eye size={14} />
-                        Review
+                        View Details
                       </Button>
                     </Link>
-                    <Button variant="ghost" size="sm">
-                      <MoreVertical size={14} />
-                    </Button>
                   </div>
                 </div>
               </div>

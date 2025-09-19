@@ -24,10 +24,13 @@ import {
   TrendingUp,
   Calendar,
   Activity,
-  PieChart
+  PieChart,
+  LayoutDashboard,
+  Bell,
+  Archive
 } from 'lucide-react';
 import Link from 'next/link';
-import { AllRequestsTab, AnalyticsTab, SettingsTab } from './additional-tabs';
+import { ArchivesTab, AnalyticsTab, SettingsTab } from './additional-tabs';
 
 const STATUS_COLORS = {
   'draft': 'bg-neutral-100 text-neutral-700',
@@ -62,7 +65,7 @@ const STATUS_ICONS = {
 
 export default function ARCManagementPage() {
   const { hasPermission, currentRole } = useAuth();
-  const [activeTab, setActiveTab] = useState<string>('overview');
+  const [activeTab, setActiveTab] = useState<string>('dashboard');
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -268,9 +271,8 @@ export default function ARCManagementPage() {
 
   // Tab definitions
   const tabs = [
-    { id: 'overview', label: 'Overview', icon: <Activity size={16} /> },
-    { id: 'active', label: 'Active Requests', icon: <AlertCircle size={16} />, badge: needsAttention.length },
-    { id: 'all', label: 'All Requests', icon: <FileText size={16} /> },
+    { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={16} />, badge: needsAttention.length > 0 ? needsAttention.length : null },
+    { id: 'archives', label: 'Archives', icon: <FileText size={16} /> },
     { id: 'analytics', label: 'Analytics', icon: <BarChart3 size={16} /> },
     { id: 'settings', label: 'Settings', icon: <Settings size={16} /> }
   ];
@@ -320,19 +322,18 @@ export default function ARCManagementPage() {
       </div>
 
       {/* Tab Content */}
-      {activeTab === 'overview' && <OverviewTab 
+      {activeTab === 'dashboard' && <DashboardTab 
         requests={requests}
         activeRequests={activeRequests}
         needsAttention={needsAttention}
         setActiveTab={setActiveTab}
-      />}
-      
-      {activeTab === 'active' && <ActiveRequestsTab 
-        requests={needsAttention}
+        STATUS_COLORS={STATUS_COLORS}
+        STATUS_ICONS={STATUS_ICONS}
+        ARC_STATUS_LABELS={ARC_STATUS_LABELS}
         updateRequestStatus={updateRequestStatus}
       />}
       
-      {activeTab === 'all' && <AllRequestsTab 
+      {activeTab === 'archives' && <ArchivesTab 
         requests={requests}
         filteredRequests={filteredRequests}
         searchTerm={searchTerm}
@@ -377,111 +378,136 @@ export default function ARCManagementPage() {
   );
 }
 
-// Overview Tab Component
-function OverviewTab({ requests, activeRequests, needsAttention, setActiveTab }) {
-  const completedRequests = requests.filter(r => r.status === 'completed');
-  const boardVotingRequests = requests.filter(r => r.status === 'board-voting');
-  const recentActivity = requests
-    .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
-    .slice(0, 5);
+// Dashboard Tab Component
+function DashboardTab({ requests, activeRequests, needsAttention, setActiveTab, STATUS_COLORS, STATUS_ICONS, ARC_STATUS_LABELS, updateRequestStatus }) {
+  // Sample notifications - in real app, these would come from API
+  const notifications = [
+    ...(needsAttention.length > 0 ? [{
+      id: 'pending-reviews',
+      type: 'action_required',
+      title: 'Pending ARC Reviews',
+      message: `${needsAttention.length} request${needsAttention.length !== 1 ? 's' : ''} require${needsAttention.length === 1 ? 's' : ''} your review`,
+      timestamp: new Date(),
+      action: () => setActiveTab('dashboard') // Stay on dashboard to see active requests
+    }] : []),
+    // Add more notification types as needed
+  ];
 
   return (
-    <div className="space-y-6">{/* Key metrics removed - most HOAs have very few requests */}
-
-      {/* Quick Actions - Streamlined for typical HOA needs */}
-      <div className="bg-white rounded-card border border-ink-900/8 p-6">
-        <h3 className="text-h3 font-semibold text-ink-900 mb-4">Quick Actions</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {needsAttention.length > 0 && (
-            <Button 
-              variant="outline" 
-              className="flex items-center gap-2 justify-start p-4 h-auto"
-              onClick={() => setActiveTab('active')}
-            >
-              <AlertCircle className="text-yellow-600" size={20} />
-              <div className="text-left">
-                <div className="font-medium">Review Pending Requests</div>
-                <div className="text-sm text-ink-600">{needsAttention.length} request{needsAttention.length !== 1 ? 's' : ''} need attention</div>
+    <div className="space-y-6">
+      {/* Notifications */}
+      {notifications.length > 0 && (
+        <div className="bg-white rounded-card border border-ink-900/8">
+          <div className="p-4 border-b border-neutral-200">
+            <h3 className="text-h3 font-semibold text-ink-900 flex items-center gap-2">
+              <Bell size={18} />
+              Notifications
+            </h3>
+          </div>
+          <div className="divide-y divide-neutral-200">
+            {notifications.map((notification) => (
+              <div key={notification.id} className="p-4">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <div className={`w-2 h-2 rounded-full ${
+                        notification.type === 'action_required' ? 'bg-yellow-500' : 'bg-blue-500'
+                      }`} />
+                      <h4 className="text-body font-medium text-ink-900">{notification.title}</h4>
+                    </div>
+                    <p className="text-sm text-ink-600 mb-2">{notification.message}</p>
+                    <p className="text-xs text-ink-500">{notification.timestamp.toLocaleString()}</p>
+                  </div>
+                  {notification.action && (
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={notification.action}
+                      className="flex items-center gap-1"
+                    >
+                      <Eye size={14} />
+                      View
+                    </Button>
+                  )}
+                </div>
               </div>
-            </Button>
-          )}
-          
-          <Button 
-            variant="outline" 
-            className="flex items-center gap-2 justify-start p-4 h-auto"
-            onClick={() => setActiveTab('all')}
-          >
-            <FileText className="text-blue-600" size={20} />
-            <div className="text-left">
-              <div className="font-medium">View All Requests</div>
-              <div className="text-sm text-ink-600">Browse complete history</div>
-            </div>
-          </Button>
-          
-          <Button 
-            variant="outline" 
-            className="flex items-center gap-2 justify-start p-4 h-auto"
-            onClick={() => setActiveTab('settings')}
-          >
-            <Settings className="text-ink-600" size={20} />
-            <div className="text-left">
-              <div className="font-medium">ARC Settings</div>
-              <div className="text-sm text-ink-600">Configure workflow</div>
-            </div>
-          </Button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
-      {/* Recent Activity */}
+      {/* Active Requests */}
       <div className="bg-white rounded-card border border-ink-900/8">
         <div className="p-4 border-b border-neutral-200">
-          <h3 className="text-h3 font-semibold text-ink-900">
-            {requests.length > 0 ? 'Recent Activity' : 'ARC Requests'}
-          </h3>
+          <h3 className="text-h3 font-semibold text-ink-900">Active Requests</h3>
+          <p className="text-body text-ink-600 mt-1">
+            {activeRequests.length === 0 
+              ? 'No active requests at this time'
+              : `${activeRequests.length} request${activeRequests.length !== 1 ? 's' : ''} currently in progress`
+            }
+          </p>
         </div>
-        
-        {recentActivity.length === 0 ? (
+
+        {activeRequests.length === 0 ? (
           <div className="p-8 text-center">
-            <FileText className="mx-auto text-ink-400 mb-4" size={48} />
-            <h4 className="text-h4 font-medium text-ink-900 mb-2">No ARC Requests Yet</h4>
+            <CheckCircle className="mx-auto text-green-400 mb-4" size={48} />
+            <h4 className="text-h4 font-medium text-ink-900 mb-2">All Caught Up!</h4>
             <p className="text-body text-ink-600 mb-6">
-              When homeowners submit architectural review requests, they'll appear here for your review and management.
+              No active ARC requests need your attention right now.
             </p>
             <Button 
-              onClick={() => setActiveTab('settings')} 
+              onClick={() => setActiveTab('archives')} 
               variant="outline"
               className="flex items-center gap-2"
             >
-              <Settings size={16} />
-              Configure ARC Process
+              <Archive size={16} />
+              View Archives
             </Button>
           </div>
         ) : (
           <div className="divide-y divide-neutral-200">
-            {recentActivity.map((request) => (
+            {activeRequests.map((request) => (
               <div key={request.id} className="p-4">
                 <div className="flex items-center justify-between">
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-3 mb-1">
-                      <h4 className="text-body font-medium text-ink-900 truncate">
+                    <div className="flex items-center gap-3 mb-2">
+                      <h4 className="text-body font-semibold text-ink-900 truncate">
                         {request.title}
                       </h4>
                       <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${STATUS_COLORS[request.status]}`}>
                         {STATUS_ICONS[request.status]}
                         {ARC_STATUS_LABELS[request.status]}
                       </span>
+                      {needsAttention.some(r => r.id === request.id) && (
+                        <span className="bg-red-100 text-red-600 text-xs font-medium px-2 py-0.5 rounded-full">
+                          Action Required
+                        </span>
+                      )}
                     </div>
-                    <div className="flex items-center gap-4 text-caption text-ink-600">
+                    <div className="flex items-center gap-4 text-caption text-ink-600 mb-2">
                       <span>{request.submittedBy.name}</span>
-                      <span>Updated {request.updatedAt.toLocaleDateString()}</span>
+                      <span>{request.submittedBy.address}</span>
+                      <span>Submitted {request.submittedAt.toLocaleDateString()}</span>
                     </div>
+                    <p className="text-sm text-ink-600 truncate">{request.description}</p>
                   </div>
-                  <Link href={`/dashboard/arc-management/${request.id}`}>
-                    <Button variant="ghost" size="sm" className="flex items-center gap-1">
-                      <Eye size={14} />
-                      View
-                    </Button>
-                  </Link>
+                  <div className="flex items-center gap-2 ml-4">
+                    <Link href={`/dashboard/arc-management/${request.id}`}>
+                      <Button 
+                        size="sm" 
+                        className={needsAttention.some(r => r.id === request.id) ? "flex items-center gap-1" : ""}
+                        variant={needsAttention.some(r => r.id === request.id) ? "default" : "ghost"}
+                        onClick={() => {
+                          if (request.status === 'submitted') {
+                            updateRequestStatus(request.id, 'under-review', 'HOA Manager');
+                          }
+                        }}
+                      >
+                        <Eye size={14} />
+                        {needsAttention.some(r => r.id === request.id) ? 'Review Now' : 'View'}
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
               </div>
             ))}
