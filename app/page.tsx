@@ -69,9 +69,19 @@ export default function Home() {
       video.autoplay = true;
       video.loop = true;
       video.playsInline = true;
+      video.defaultMuted = true;
+      
+      // Safari-specific fixes
+      video.setAttribute('muted', 'true');
+      video.setAttribute('playsinline', 'true');
+      video.setAttribute('webkit-playsinline', 'true');
+      video.volume = 0;
       
       // Force reload
       video.load();
+      
+      // Detect Safari
+      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
       
       // Aggressive play strategy
       const forcePlay = async () => {
@@ -82,8 +92,13 @@ export default function Home() {
           video.defaultMuted = true;
           
           // Additional attributes to help with autoplay
-          video.setAttribute('muted', '');
-          video.setAttribute('playsinline', '');
+          video.setAttribute('muted', 'true');
+          video.setAttribute('playsinline', 'true');
+          if (isSafari) {
+            video.setAttribute('webkit-playsinline', 'true');
+            // Safari needs extra time sometimes
+            await new Promise(resolve => setTimeout(resolve, 100));
+          }
           
           const playPromise = video.play();
           
@@ -127,10 +142,20 @@ export default function Home() {
       };
       
       // Try multiple times with different delays
-      const attempts = [0, 100, 500, 1000, 2000];
+      const attempts = isSafari ? [0, 200, 800, 2000] : [0, 100, 500, 1000, 2000];
       attempts.forEach(delay => {
         setTimeout(forcePlay, delay);
       });
+      
+      // For Safari, show prompt earlier if autoplay fails
+      if (isSafari) {
+        setTimeout(() => {
+          if (!videoPlaying) {
+            console.log('🍎 Safari detected - showing video prompt early');
+            setShowVideoPrompt(true);
+          }
+        }, 3000);
+      }
       
       // Try when video metadata loads
       video.addEventListener('loadedmetadata', forcePlay);
@@ -361,6 +386,7 @@ export default function Home() {
         ref={videoRef}
         autoPlay={true}
         muted={true}
+        defaultMuted={true}
         loop={true}
         playsInline={true}
         controls={false}
@@ -396,23 +422,33 @@ export default function Home() {
       {/* Video Play Prompt */}
       {showVideoPrompt && !videoPlaying && (
         <div 
-          className="fixed bottom-4 right-4 bg-black bg-opacity-80 text-white px-4 py-2 rounded-lg flex items-center gap-2 cursor-pointer hover:bg-opacity-90 transition-all"
+          className="fixed bottom-4 right-4 bg-black bg-opacity-90 text-white px-6 py-3 rounded-lg flex items-center gap-3 cursor-pointer hover:bg-opacity-95 transition-all shadow-lg border border-white border-opacity-20"
           style={{ zIndex: 10 }}
           onClick={async () => {
             if (videoRef.current) {
               try {
-                videoRef.current.muted = true;
-                await videoRef.current.play();
+                const video = videoRef.current;
+                video.muted = true;
+                video.volume = 0;
+                video.defaultMuted = true;
+                video.setAttribute('muted', 'true');
+                video.setAttribute('playsinline', 'true');
+                video.setAttribute('webkit-playsinline', 'true');
+                
+                await video.play();
                 setVideoPlaying(true);
                 setShowVideoPrompt(false);
+                video.style.opacity = '1';
               } catch (e) {
                 console.log('Manual play failed:', e);
               }
             }
           }}
         >
-          <Play size={16} />
-          <span className="text-sm">Click to play background video</span>
+          <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+            <Play size={16} fill="white" />
+          </div>
+          <span className="text-sm font-medium">Click to play background video</span>
         </div>
       )}
       
