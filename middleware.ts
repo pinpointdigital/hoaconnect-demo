@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 // 🚧 MAINTENANCE MODE TOGGLE - Set to true to enable maintenance mode for live site
-// Last updated: 2025-09-18 23:30:00 - Fixing logo with working deployment
-const MAINTENANCE_MODE = true;
+// TESTING: Completely disable middleware to see what happens
+const MAINTENANCE_MODE = false;
 
 export function middleware(request: NextRequest) {
   // Skip maintenance mode for localhost development
