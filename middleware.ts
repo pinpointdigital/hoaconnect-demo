@@ -25,7 +25,7 @@ export function middleware(request: NextRequest) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HOA Connect Demo - Maintenance Mode</title>
-    <!-- Cache bust: 2025-09-18-23-25-00 -->
+    <!-- FORCE REFRESH: 2025-09-18-23-46-00 - INLINE STYLES -->
     <style>
         * {
             margin: 0;
@@ -149,13 +149,14 @@ export function middleware(request: NextRequest) {
 </head>
 <body>
     <div class="container">
-        <div class="logo-container">
-            <div class="text-logo">
-                <span class="logo-icon">🏠</span>
-                <span class="logo-text">
-                    <span class="logo-hoa">HOA</span>
-                    <span class="logo-connect">Connect</span>
-                </span>
+        <!-- LOGO: Text-based HOA Connect logo -->
+        <div class="logo-container" style="margin: 0 auto 1.5rem; text-align: center;">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;">
+                <span style="font-size: 2.5rem; line-height: 1;">🏠</span>
+                <div style="display: flex; flex-direction: column; line-height: 1;">
+                    <span style="font-size: 1.5rem; font-weight: bold; color: #2563eb; letter-spacing: -0.025em;">HOA</span>
+                    <span style="font-size: 1rem; font-weight: 600; color: #374151; margin-top: -0.125rem; letter-spacing: 0.025em;">Connect</span>
+                </div>
             </div>
         </div>
         
