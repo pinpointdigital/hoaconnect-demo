@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 // 🚧 MAINTENANCE MODE TOGGLE - Set to true to enable maintenance mode for live site
+// Last updated: 2025-09-18 23:25:00 - Force deployment
 const MAINTENANCE_MODE = true;
 
 export function middleware(request: NextRequest) {
@@ -24,6 +25,7 @@ export function middleware(request: NextRequest) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HOA Connect Demo - Maintenance Mode</title>
+    <!-- Cache bust: 2025-09-18-23-25-00 -->
     <style>
         * {
             margin: 0;
@@ -177,6 +179,9 @@ export function middleware(request: NextRequest) {
       headers: {
         'Content-Type': 'text/html; charset=utf-8',
         'Retry-After': '3600', // Suggest retry after 1 hour
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
       },
     });
   }
