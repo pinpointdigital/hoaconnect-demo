@@ -386,101 +386,35 @@ function OverviewTab({ requests, activeRequests, needsAttention, setActiveTab })
     .slice(0, 5);
 
   return (
-    <div className="space-y-6">
-      {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div 
-          className="bg-white rounded-card border border-ink-900/8 p-4 cursor-pointer hover:shadow-md transition-shadow"
-          onClick={() => setActiveTab('active')}
-        >
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-caption text-ink-600">Active Requests</p>
-              <p className="text-h2 font-bold text-ink-900">{activeRequests.length}</p>
-            </div>
-            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-              <FileText className="text-blue-600" size={20} />
-            </div>
-          </div>
-        </div>
+    <div className="space-y-6">{/* Key metrics removed - most HOAs have very few requests */}
 
-        <div 
-          className="bg-white rounded-card border border-ink-900/8 p-4 cursor-pointer hover:shadow-md transition-shadow"
-          onClick={() => setActiveTab('active')}
-        >
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-caption text-ink-600">Needs Attention</p>
-              <p className="text-h2 font-bold text-ink-900">{needsAttention.length}</p>
-            </div>
-            <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">
-              <AlertCircle className="text-yellow-600" size={20} />
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-card border border-ink-900/8 p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-caption text-ink-600">Board Review</p>
-              <p className="text-h2 font-bold text-ink-900">{boardVotingRequests.length}</p>
-            </div>
-            <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
-              <Users className="text-orange-600" size={20} />
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-card border border-ink-900/8 p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-caption text-ink-600">Completed</p>
-              <p className="text-h2 font-bold text-ink-900">{completedRequests.length}</p>
-            </div>
-            <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-              <CheckCircle className="text-green-600" size={20} />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Quick Actions */}
+      {/* Quick Actions - Streamlined for typical HOA needs */}
       <div className="bg-white rounded-card border border-ink-900/8 p-6">
         <h3 className="text-h3 font-semibold text-ink-900 mb-4">Quick Actions</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <Button 
-            variant="outline" 
-            className="flex items-center gap-2 justify-start p-4 h-auto"
-            onClick={() => setActiveTab('active')}
-          >
-            <AlertCircle className="text-yellow-600" size={20} />
-            <div className="text-left">
-              <div className="font-medium">Review Pending</div>
-              <div className="text-sm text-ink-600">{needsAttention.length} requests</div>
-            </div>
-          </Button>
-          
-          <Button 
-            variant="outline" 
-            className="flex items-center gap-2 justify-start p-4 h-auto"
-            onClick={() => setActiveTab('analytics')}
-          >
-            <BarChart3 className="text-blue-600" size={20} />
-            <div className="text-left">
-              <div className="font-medium">View Analytics</div>
-              <div className="text-sm text-ink-600">Performance metrics</div>
-            </div>
-          </Button>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {needsAttention.length > 0 && (
+            <Button 
+              variant="outline" 
+              className="flex items-center gap-2 justify-start p-4 h-auto"
+              onClick={() => setActiveTab('active')}
+            >
+              <AlertCircle className="text-yellow-600" size={20} />
+              <div className="text-left">
+                <div className="font-medium">Review Pending Requests</div>
+                <div className="text-sm text-ink-600">{needsAttention.length} request{needsAttention.length !== 1 ? 's' : ''} need attention</div>
+              </div>
+            </Button>
+          )}
           
           <Button 
             variant="outline" 
             className="flex items-center gap-2 justify-start p-4 h-auto"
             onClick={() => setActiveTab('all')}
           >
-            <FileText className="text-green-600" size={20} />
+            <FileText className="text-blue-600" size={20} />
             <div className="text-left">
-              <div className="font-medium">All Requests</div>
-              <div className="text-sm text-ink-600">{requests.length} total</div>
+              <div className="font-medium">View All Requests</div>
+              <div className="text-sm text-ink-600">Browse complete history</div>
             </div>
           </Button>
           
@@ -491,7 +425,7 @@ function OverviewTab({ requests, activeRequests, needsAttention, setActiveTab })
           >
             <Settings className="text-ink-600" size={20} />
             <div className="text-left">
-              <div className="font-medium">Settings</div>
+              <div className="font-medium">ARC Settings</div>
               <div className="text-sm text-ink-600">Configure workflow</div>
             </div>
           </Button>
@@ -501,37 +435,58 @@ function OverviewTab({ requests, activeRequests, needsAttention, setActiveTab })
       {/* Recent Activity */}
       <div className="bg-white rounded-card border border-ink-900/8">
         <div className="p-4 border-b border-neutral-200">
-          <h3 className="text-h3 font-semibold text-ink-900">Recent Activity</h3>
+          <h3 className="text-h3 font-semibold text-ink-900">
+            {requests.length > 0 ? 'Recent Activity' : 'ARC Requests'}
+          </h3>
         </div>
-        <div className="divide-y divide-neutral-200">
-          {recentActivity.map((request) => (
-            <div key={request.id} className="p-4">
-              <div className="flex items-center justify-between">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-3 mb-1">
-                    <h4 className="text-body font-medium text-ink-900 truncate">
-                      {request.title}
-                    </h4>
-                    <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${STATUS_COLORS[request.status]}`}>
-                      {STATUS_ICONS[request.status]}
-                      {ARC_STATUS_LABELS[request.status]}
-                    </span>
+        
+        {recentActivity.length === 0 ? (
+          <div className="p-8 text-center">
+            <FileText className="mx-auto text-ink-400 mb-4" size={48} />
+            <h4 className="text-h4 font-medium text-ink-900 mb-2">No ARC Requests Yet</h4>
+            <p className="text-body text-ink-600 mb-6">
+              When homeowners submit architectural review requests, they'll appear here for your review and management.
+            </p>
+            <Button 
+              onClick={() => setActiveTab('settings')} 
+              variant="outline"
+              className="flex items-center gap-2"
+            >
+              <Settings size={16} />
+              Configure ARC Process
+            </Button>
+          </div>
+        ) : (
+          <div className="divide-y divide-neutral-200">
+            {recentActivity.map((request) => (
+              <div key={request.id} className="p-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-3 mb-1">
+                      <h4 className="text-body font-medium text-ink-900 truncate">
+                        {request.title}
+                      </h4>
+                      <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${STATUS_COLORS[request.status]}`}>
+                        {STATUS_ICONS[request.status]}
+                        {ARC_STATUS_LABELS[request.status]}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-4 text-caption text-ink-600">
+                      <span>{request.submittedBy.name}</span>
+                      <span>Updated {request.updatedAt.toLocaleDateString()}</span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-4 text-caption text-ink-600">
-                    <span>{request.submittedBy.name}</span>
-                    <span>Updated {request.updatedAt.toLocaleDateString()}</span>
-                  </div>
+                  <Link href={`/dashboard/arc-management/${request.id}`}>
+                    <Button variant="ghost" size="sm" className="flex items-center gap-1">
+                      <Eye size={14} />
+                      View
+                    </Button>
+                  </Link>
                 </div>
-                <Link href={`/dashboard/arc-management/${request.id}`}>
-                  <Button variant="ghost" size="sm" className="flex items-center gap-1">
-                    <Eye size={14} />
-                    View
-                  </Button>
-                </Link>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
