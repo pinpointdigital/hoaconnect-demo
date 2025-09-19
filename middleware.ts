@@ -118,7 +118,7 @@ export function middleware(request: NextRequest) {
 <body>
     <div class="container">
         <div class="logo-container">
-            <img src="/hoa-connect-logo.png" alt="HOA Connect" class="logo" style="background: none; border: none; border-radius: 0; padding: 0; margin: 0;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
+            <img src="/hoa-connect-logo-full.png" alt="HOA Connect" class="logo" style="background: none; border: none; border-radius: 0; padding: 0; margin: 0;" onerror="this.src='/hoa-connect-logo.png'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='inline-block';}">
             <div class="logo-fallback" style="display: none;">
                 <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2">
                     <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
