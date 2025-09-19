@@ -23,12 +23,22 @@ export default function Home() {
   const [showPasswordError, setShowPasswordError] = useState(false);
   const [videoPlaying, setVideoPlaying] = useState(false);
   const [showVideoPrompt, setShowVideoPrompt] = useState(false);
+  const [isSafari, setIsSafari] = useState(false);
 
   // Check for existing authentication on load
   useEffect(() => {
     const authStatus = localStorage.getItem('hoa-connect-demo-auth');
     if (authStatus === 'authenticated') {
       setIsAuthenticated(true);
+    }
+    
+    // Detect Safari
+    const safariDetected = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    setIsSafari(safariDetected);
+    
+    // For Safari, show video prompt immediately
+    if (safariDetected) {
+      setShowVideoPrompt(true);
     }
   }, []);
 
@@ -80,25 +90,19 @@ export default function Home() {
       // Force reload
       video.load();
       
-      // Detect Safari
-      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-      
-      // Aggressive play strategy
-      const forcePlay = async () => {
+      // Simple autoplay attempt - only for non-Safari browsers
+      const tryAutoplay = async () => {
+        if (isSafari) {
+          console.log('🍎 Safari detected - skipping autoplay, showing manual button');
+          return;
+        }
+        
         try {
-          // Ensure it's muted and ready
           video.muted = true;
           video.volume = 0;
           video.defaultMuted = true;
-          
-          // Additional attributes to help with autoplay
           video.setAttribute('muted', 'true');
           video.setAttribute('playsinline', 'true');
-          if (isSafari) {
-            video.setAttribute('webkit-playsinline', 'true');
-            // Safari needs extra time sometimes
-            await new Promise(resolve => setTimeout(resolve, 100));
-          }
           
           const playPromise = video.play();
           
@@ -106,83 +110,20 @@ export default function Home() {
             await playPromise;
             console.log('✅ Video autoplay SUCCESS!');
             video.style.opacity = '1';
+            setVideoPlaying(true);
           }
         } catch (error) {
           console.log('❌ Autoplay blocked:', error.name, error.message);
-          
-          // Fallback strategies
-          if (error.name === 'NotAllowedError') {
-            console.log('🔄 Setting up user interaction listeners...');
-            setShowVideoPrompt(true);
-            
-            // Try on any user interaction
-            const playOnClick = async (event) => {
-              try {
-                video.muted = true;
-                await video.play();
-                console.log('✅ Video started after user interaction');
-                video.style.opacity = '1';
-                setVideoPlaying(true);
-                setShowVideoPrompt(false);
-                // Remove listeners after successful play
-                document.removeEventListener('click', playOnClick, true);
-                document.removeEventListener('touchstart', playOnClick, true);
-                document.removeEventListener('keydown', playOnClick, true);
-              } catch (e) {
-                console.log('❌ User interaction play failed:', e);
-              }
-            };
-            
-            // Listen for any user interaction
-            document.addEventListener('click', playOnClick, true);
-            document.addEventListener('touchstart', playOnClick, true);
-            document.addEventListener('keydown', playOnClick, true);
-          }
+          setShowVideoPrompt(true);
         }
       };
       
-      // Try multiple times with different delays
-      const attempts = isSafari ? [0, 200, 800, 2000] : [0, 100, 500, 1000, 2000];
-      attempts.forEach(delay => {
-        setTimeout(forcePlay, delay);
-      });
-      
-      // For Safari, show prompt earlier if autoplay fails
-      if (isSafari) {
-        setTimeout(() => {
-          if (!videoPlaying) {
-            console.log('🍎 Safari detected - showing video prompt early');
-            setShowVideoPrompt(true);
-          }
-        }, 3000);
-      }
-      
-      // Try when video metadata loads
-      video.addEventListener('loadedmetadata', forcePlay);
-      video.addEventListener('canplay', forcePlay);
-      
-      // User interaction fallback
-      const playOnInteraction = async () => {
-        try {
-          await video.play();
-          console.log('✅ Video started after user interaction');
-          document.removeEventListener('click', playOnInteraction);
-          document.removeEventListener('touchstart', playOnInteraction);
-        } catch (e) {
-          console.log('❌ User interaction play failed');
-        }
-      };
-      
-      document.addEventListener('click', playOnInteraction);
-      document.addEventListener('touchstart', playOnInteraction);
+      // Try autoplay only for non-Safari browsers
+      setTimeout(tryAutoplay, 100);
       
       return () => {
         clearTimeout(preloaderTimer);
         clearInterval(progressInterval);
-        video.removeEventListener('loadedmetadata', forcePlay);
-        video.removeEventListener('canplay', forcePlay);
-        document.removeEventListener('click', playOnInteraction);
-        document.removeEventListener('touchstart', playOnInteraction);
       };
     } else {
       return () => {
@@ -421,35 +362,82 @@ export default function Home() {
 
       {/* Video Play Prompt */}
       {showVideoPrompt && !videoPlaying && (
-        <div 
-          className="fixed bottom-4 right-4 bg-black bg-opacity-90 text-white px-6 py-3 rounded-lg flex items-center gap-3 cursor-pointer hover:bg-opacity-95 transition-all shadow-lg border border-white border-opacity-20"
-          style={{ zIndex: 10 }}
-          onClick={async () => {
-            if (videoRef.current) {
-              try {
-                const video = videoRef.current;
-                video.muted = true;
-                video.volume = 0;
-                video.defaultMuted = true;
-                video.setAttribute('muted', 'true');
-                video.setAttribute('playsinline', 'true');
-                video.setAttribute('webkit-playsinline', 'true');
-                
-                await video.play();
-                setVideoPlaying(true);
-                setShowVideoPrompt(false);
-                video.style.opacity = '1';
-              } catch (e) {
-                console.log('Manual play failed:', e);
-              }
-            }
-          }}
-        >
-          <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-            <Play size={16} fill="white" />
-          </div>
-          <span className="text-sm font-medium">Click to play background video</span>
-        </div>
+        <>
+          {/* Safari - Center Prompt */}
+          {isSafari && (
+            <div 
+              className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+              style={{ zIndex: 15 }}
+            >
+              <div 
+                className="bg-white rounded-2xl p-8 text-center max-w-sm mx-4 shadow-2xl"
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  if (videoRef.current) {
+                    try {
+                      const video = videoRef.current;
+                      video.muted = true;
+                      video.volume = 0;
+                      video.defaultMuted = true;
+                      video.setAttribute('muted', 'true');
+                      video.setAttribute('playsinline', 'true');
+                      video.setAttribute('webkit-playsinline', 'true');
+                      
+                      await video.play();
+                      setVideoPlaying(true);
+                      setShowVideoPrompt(false);
+                      video.style.opacity = '1';
+                      console.log('✅ Safari video started manually');
+                    } catch (e) {
+                      console.log('❌ Safari manual play failed:', e);
+                    }
+                  }
+                }}
+              >
+                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Play size={24} className="text-blue-600 ml-1" fill="currentColor" />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Enable Background Video</h3>
+                <p className="text-sm text-gray-600 mb-6">Click to play the background video for the full experience</p>
+                <button className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                  Play Video
+                </button>
+              </div>
+            </div>
+          )}
+          
+          {/* Non-Safari - Corner Prompt */}
+          {!isSafari && (
+            <div 
+              className="fixed bottom-4 right-4 bg-black bg-opacity-90 text-white px-6 py-3 rounded-lg flex items-center gap-3 cursor-pointer hover:bg-opacity-95 transition-all shadow-lg border border-white border-opacity-20"
+              style={{ zIndex: 10 }}
+              onClick={async () => {
+                if (videoRef.current) {
+                  try {
+                    const video = videoRef.current;
+                    video.muted = true;
+                    video.volume = 0;
+                    video.defaultMuted = true;
+                    video.setAttribute('muted', 'true');
+                    video.setAttribute('playsinline', 'true');
+                    
+                    await video.play();
+                    setVideoPlaying(true);
+                    setShowVideoPrompt(false);
+                    video.style.opacity = '1';
+                  } catch (e) {
+                    console.log('Manual play failed:', e);
+                  }
+                }
+              }}
+            >
+              <div className="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                <Play size={16} fill="white" />
+              </div>
+              <span className="text-sm font-medium">Click to play background video</span>
+            </div>
+          )}
+        </>
       )}
       
       <div className="min-h-screen relative" style={{ zIndex: 1 }}>
