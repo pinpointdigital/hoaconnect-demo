@@ -167,7 +167,18 @@ export default function Home() {
         <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-8">
           <div className="text-center mb-6">
             <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <HomeIcon className="text-blue-600" size={32} />
+              <img
+                src="/hoa-connect-logo.png"
+                alt="HOA Connect"
+                className="h-8 w-auto"
+                onError={(e) => {
+                  // Fallback to home icon if logo fails
+                  const parent = e.currentTarget.parentElement;
+                  if (parent) {
+                    parent.innerHTML = `<svg class="text-blue-600" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9,22 9,12 15,12 15,22"></polyline></svg>`;
+                  }
+                }}
+              />
             </div>
             <h1 className="text-h2 font-bold text-ink-900 mb-2">HOA Connect Demo</h1>
             {isMaintenanceMode ? (
@@ -192,30 +203,6 @@ export default function Home() {
                 </p>
               </div>
               
-              <div className="text-center">
-                <img
-                  src="/hoa-connect-logo.png"
-                  alt="HOA Connect"
-                  className="h-6 w-auto mx-auto opacity-60"
-                  onError={(e) => {
-                    // Fallback to text logo if image fails
-                    const parent = e.currentTarget.parentElement;
-                    if (parent) {
-                      parent.innerHTML = `
-                        <div class="flex items-center justify-center gap-2 opacity-60">
-                          <div class="w-4 h-4 bg-blue-100 rounded flex items-center justify-center">
-                            <span class="text-blue-600 font-bold text-xs">H</span>
-                          </div>
-                          <div class="text-sm font-bold">
-                            <span class="text-blue-600">HOA</span>
-                            <span class="text-gray-600 ml-1">Connect</span>
-                          </div>
-                        </div>
-                      `;
-                    }
-                  }}
-                />
-              </div>
             </div>
           ) : (
             // Development mode - show password form
