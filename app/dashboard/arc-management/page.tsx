@@ -1,6 +1,24 @@
 'use client';
 // @ts-nocheck
 
+/**
+ * HOA CONNECT TYPOGRAPHY SYSTEM FOR TAB PAGES
+ * 
+ * 1. PAGE TITLE (Tab Page Title):
+ *    - Class: text-3xl font-bold text-ink-900
+ *    - Icon: w-10 h-10 bg-[color]-100 rounded-lg with [color]-600 icon (size={24})
+ *    - Usage: Main page title with icon (e.g., "ARC Management Dashboard")
+ *    - No subtext unless specifically required
+ * 
+ * 2. SECTION TITLE (Tab Page Subsection Title):
+ *    - Class: text-2xl font-bold text-ink-900
+ *    - No icon
+ *    - Usage: Major sections within tabs (e.g., "Active Requests", "Search Archives")
+ *    - Can have descriptive subtext with text-body text-ink-600
+ * 
+ * Apply this pattern consistently across all tab-based pages in HOA Connect.
+ */
+
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/lib/auth/context';
 import { Button } from '@/components/ui/Button';
@@ -27,7 +45,8 @@ import {
   PieChart,
   LayoutDashboard,
   Bell,
-  Archive
+  Archive,
+  ClipboardCheck
 } from 'lucide-react';
 import Link from 'next/link';
 import { ArchivesTab, AnalyticsTab, SettingsTab } from './additional-tabs';
@@ -281,11 +300,11 @@ export default function ARCManagementPage() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-h1 font-bold text-ink-900">ARC Management Dashboard</h1>
-          <p className="text-body text-ink-600 mt-1">
-            Comprehensive oversight of architectural review committee operations
-          </p>
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+            <ClipboardCheck className="text-blue-600" size={24} />
+          </div>
+          <h1 className="text-3xl font-bold text-ink-900">ARC Management Dashboard</h1>
         </div>
         <Button 
           onClick={() => setShowCreateModal(true)}
@@ -398,11 +417,11 @@ function DashboardTab({ requests, activeRequests, needsAttention, setActiveTab, 
       {/* Notifications */}
       {notifications.length > 0 && (
         <div className="bg-white rounded-card border border-ink-900/8">
-          <div className="p-4 border-b border-neutral-200">
-            <h3 className="text-h3 font-semibold text-ink-900 flex items-center gap-2">
-              <Bell size={18} />
+          <div className="p-6 border-b border-neutral-200">
+            <h2 className="text-2xl font-bold text-ink-900 flex items-center gap-3">
+              <Bell size={20} />
               Notifications
-            </h3>
+            </h2>
           </div>
           <div className="divide-y divide-neutral-200">
             {notifications.map((notification) => (
@@ -438,9 +457,9 @@ function DashboardTab({ requests, activeRequests, needsAttention, setActiveTab, 
 
       {/* Active Requests */}
       <div className="bg-white rounded-card border border-ink-900/8">
-        <div className="p-4 border-b border-neutral-200">
-          <h3 className="text-h3 font-semibold text-ink-900">Active Requests</h3>
-          <p className="text-body text-ink-600 mt-1">
+        <div className="p-6 border-b border-neutral-200">
+          <h2 className="text-2xl font-bold text-ink-900 mb-2">Active Requests</h2>
+          <p className="text-body text-ink-600">
             {activeRequests.length === 0 
               ? 'No active requests at this time'
               : `${activeRequests.length} request${activeRequests.length !== 1 ? 's' : ''} currently in progress`

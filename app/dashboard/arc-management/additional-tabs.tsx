@@ -18,8 +18,8 @@ export function ArchivesTab({ requests, filteredRequests, searchTerm, setSearchT
   return (
     <div className="space-y-6">
       {/* Search and Filters */}
-      <div className="bg-white rounded-card border border-ink-900/8 p-4">
-        <h3 className="text-h3 font-semibold text-ink-900 mb-4">Search Archives</h3>
+      <div className="bg-white rounded-card border border-ink-900/8 p-6">
+        <h2 className="text-2xl font-bold text-ink-900 mb-4">Search Archives</h2>
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="flex-1">
             <div className="relative">
@@ -54,12 +54,12 @@ export function ArchivesTab({ requests, filteredRequests, searchTerm, setSearchT
 
       {/* Archive Results */}
       <div className="bg-white rounded-card border border-ink-900/8">
-        <div className="p-4 border-b border-neutral-200">
-          <h3 className="text-h3 font-semibold text-ink-900">
+        <div className="p-6 border-b border-neutral-200">
+          <h2 className="text-2xl font-bold text-ink-900 mb-2">
             {filteredRequests.length === 0 ? 'No Results Found' : `${filteredRequests.length} Request${filteredRequests.length !== 1 ? 's' : ''} Found`}
-          </h3>
+          </h2>
           {searchTerm && (
-            <p className="text-sm text-ink-600 mt-1">
+            <p className="text-body text-ink-600">
               Searching for "{searchTerm}"
             </p>
           )}
