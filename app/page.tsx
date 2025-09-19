@@ -21,6 +21,8 @@ export default function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [showPasswordError, setShowPasswordError] = useState(false);
+  const [videoPlaying, setVideoPlaying] = useState(false);
+  const [showVideoPrompt, setShowVideoPrompt] = useState(false);
 
   // Check for existing authentication on load
   useEffect(() => {
@@ -77,6 +79,11 @@ export default function Home() {
           // Ensure it's muted and ready
           video.muted = true;
           video.volume = 0;
+          video.defaultMuted = true;
+          
+          // Additional attributes to help with autoplay
+          video.setAttribute('muted', '');
+          video.setAttribute('playsinline', '');
           
           const playPromise = video.play();
           
@@ -88,25 +95,33 @@ export default function Home() {
         } catch (error) {
           console.log('❌ Autoplay blocked:', error.name, error.message);
           
-          // Try different approaches
+          // Fallback strategies
           if (error.name === 'NotAllowedError') {
-            console.log('🔄 Trying intersection observer approach...');
+            console.log('🔄 Setting up user interaction listeners...');
+            setShowVideoPrompt(true);
             
-            // Use Intersection Observer to play when visible
-            const observer = new IntersectionObserver((entries) => {
-              entries.forEach(async (entry) => {
-                if (entry.isIntersecting) {
-                  try {
-                    await video.play();
-                    console.log('✅ Video played via intersection observer');
-                    observer.disconnect();
-                  } catch (e) {
-                    console.log('❌ Intersection observer play failed');
-                  }
-                }
-              });
-            });
-            observer.observe(video);
+            // Try on any user interaction
+            const playOnClick = async (event) => {
+              try {
+                video.muted = true;
+                await video.play();
+                console.log('✅ Video started after user interaction');
+                video.style.opacity = '1';
+                setVideoPlaying(true);
+                setShowVideoPrompt(false);
+                // Remove listeners after successful play
+                document.removeEventListener('click', playOnClick, true);
+                document.removeEventListener('touchstart', playOnClick, true);
+                document.removeEventListener('keydown', playOnClick, true);
+              } catch (e) {
+                console.log('❌ User interaction play failed:', e);
+              }
+            };
+            
+            // Listen for any user interaction
+            document.addEventListener('click', playOnClick, true);
+            document.addEventListener('touchstart', playOnClick, true);
+            document.addEventListener('keydown', playOnClick, true);
           }
         }
       };
@@ -356,14 +371,20 @@ export default function Home() {
         onCanPlay={() => console.log('▶️ Video can play')}
         onPlay={() => {
           console.log('🎬 Video is playing!');
+          setVideoPlaying(true);
+          setShowVideoPrompt(false);
+          // Make video visible when it starts playing
+          if (videoRef.current) {
+            videoRef.current.style.opacity = '1';
+          }
         }}
         onError={(e) => {
           console.log('❌ Video error:', e.currentTarget.error);
           e.currentTarget.style.display = 'none';
         }}
       >
-        <source src="/HOAConnect_Demo_720.webm" type="video/webm; codecs=vp9" />
-        <source src="/HOAConnect_Demo_BG-Video.mp4" type="video/mp4; codecs=avc1.42E01E,mp4a.40.2" />
+        <source src="/HOAConnect_Demo_BG-Video.mp4" type="video/mp4" />
+        <source src="/HOAConnect_Demo_720.webm" type="video/webm" />
       </video>
       
       {/* Dark overlay */}
@@ -371,6 +392,29 @@ export default function Home() {
         className="fixed inset-0 w-full h-full bg-black opacity-40"
         style={{ zIndex: 0 }}
       />
+
+      {/* Video Play Prompt */}
+      {showVideoPrompt && !videoPlaying && (
+        <div 
+          className="fixed bottom-4 right-4 bg-black bg-opacity-80 text-white px-4 py-2 rounded-lg flex items-center gap-2 cursor-pointer hover:bg-opacity-90 transition-all"
+          style={{ zIndex: 10 }}
+          onClick={async () => {
+            if (videoRef.current) {
+              try {
+                videoRef.current.muted = true;
+                await videoRef.current.play();
+                setVideoPlaying(true);
+                setShowVideoPrompt(false);
+              } catch (e) {
+                console.log('Manual play failed:', e);
+              }
+            }
+          }}
+        >
+          <Play size={16} />
+          <span className="text-sm">Click to play background video</span>
+        </div>
+      )}
       
       <div className="min-h-screen relative" style={{ zIndex: 1 }}>
         {/* Content */}
