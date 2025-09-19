@@ -27,6 +27,16 @@ export default function Home() {
 
   // Check for existing authentication on load
   useEffect(() => {
+    // Check if we're in production (live site)
+    const isProduction = window.location.hostname === 'demo.hoaconnect.ai';
+    
+    // If in production, force maintenance mode (no authentication allowed)
+    if (isProduction) {
+      setIsAuthenticated(false);
+      return;
+    }
+    
+    // For localhost development, check normal authentication
     const authStatus = localStorage.getItem('hoa-connect-demo-auth');
     if (authStatus === 'authenticated') {
       setIsAuthenticated(true);
@@ -135,6 +145,9 @@ export default function Home() {
 
   // Show password protection screen if not authenticated
   if (!isAuthenticated) {
+    // Check if we're in production (live site) for maintenance mode
+    const isProduction = typeof window !== 'undefined' && window.location.hostname === 'demo.hoaconnect.ai';
+    
     return (
       <div className="min-h-screen bg-neutral-900 flex items-center justify-center p-4">
         <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-8">
@@ -143,48 +156,81 @@ export default function Home() {
               <HomeIcon className="text-blue-600" size={32} />
             </div>
             <h1 className="text-h2 font-bold text-ink-900 mb-2">HOA Connect Demo</h1>
-            <p className="text-body text-ink-600">This demo is currently in development</p>
+            {isProduction ? (
+              <div>
+                <p className="text-body text-amber-600 font-semibold mb-2">🚧 Maintenance Mode</p>
+                <p className="text-body text-ink-600">We're currently updating the demo platform with new features and improvements.</p>
+              </div>
+            ) : (
+              <p className="text-body text-ink-600">This demo is currently in development</p>
+            )}
           </div>
 
-          <form onSubmit={handlePasswordSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-ink-700 mb-2">
-                Access Password
-              </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  setShowPasswordError(false);
-                }}
-                placeholder="Enter password to access demo"
-                className={`w-full p-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:border-transparent ${
-                  showPasswordError 
-                    ? 'border-red-300 focus:ring-red-500 bg-red-50' 
-                    : 'border-ink-200 focus:ring-blue-500'
-                }`}
-                autoFocus
-              />
-              {showPasswordError && (
-                <p className="text-xs text-red-600 mt-1">Incorrect password. Please try again.</p>
-              )}
+          {isProduction ? (
+            // Maintenance mode - no password input
+            <div className="text-center">
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
+                <p className="text-sm text-amber-800 mb-2">
+                  <strong>Scheduled Maintenance</strong>
+                </p>
+                <p className="text-sm text-amber-700">
+                  Our team is working hard to bring you an enhanced experience. Please check back soon!
+                </p>
+              </div>
+              
+              <div className="text-center text-gray-600">
+                <p className="text-sm">
+                  Questions? Contact us at <br />
+                  <a href="mailto:support@hoaconnect.ai" className="text-blue-600 hover:underline">
+                    support@hoaconnect.ai
+                  </a>
+                </p>
+              </div>
             </div>
-            
-            <Button 
-              type="submit" 
-              className="w-full"
-              disabled={!password.trim()}
-            >
-              Access Demo
-            </Button>
-          </form>
+          ) : (
+            // Development mode - show password form
+            <>
+              <form onSubmit={handlePasswordSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-ink-700 mb-2">
+                    Access Password
+                  </label>
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      setShowPasswordError(false);
+                    }}
+                    placeholder="Enter password to access demo"
+                    className={`w-full p-3 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:border-transparent ${
+                      showPasswordError 
+                        ? 'border-red-300 focus:ring-red-500 bg-red-50' 
+                        : 'border-ink-200 focus:ring-blue-500'
+                    }`}
+                    autoFocus
+                  />
+                  {showPasswordError && (
+                    <p className="text-xs text-red-600 mt-1">Incorrect password. Please try again.</p>
+                  )}
+                </div>
+                
+                <Button 
+                  type="submit" 
+                  className="w-full"
+                  disabled={!password.trim()}
+                >
+                  Access Demo
+                </Button>
+              </form>
 
-          <div className="mt-6 pt-6 border-t border-ink-200 text-center">
-            <p className="text-xs text-ink-500">
-              Demo access restricted during development phase
-            </p>
-          </div>
+              <div className="mt-6 pt-6 border-t border-ink-200 text-center">
+                <p className="text-xs text-ink-500">
+                  Demo access restricted during development phase
+                </p>
+              </div>
+            </>
+          )}
         </div>
       </div>
     );
@@ -394,13 +440,35 @@ export default function Home() {
                   }
                 }}
               >
-                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Play size={24} className="text-blue-600 ml-1" fill="currentColor" />
+                {/* HOA Connect Logo */}
+                <div className="mb-4">
+                  <img
+                    src="/hoa-connect-logo.png"
+                    alt="HOA Connect"
+                    className="h-8 w-auto mx-auto"
+                    onError={(e) => {
+                      // Fallback to text logo if image fails
+                      const parent = e.currentTarget.parentElement;
+                      if (parent) {
+                        parent.innerHTML = `
+                          <div class="flex items-center justify-center gap-2 mb-4">
+                            <div class="w-6 h-6 bg-blue-100 rounded flex items-center justify-center">
+                              <span class="text-blue-600 font-bold text-xs">H</span>
+                            </div>
+                            <div class="text-lg font-bold">
+                              <span class="text-blue-600">HOA</span>
+                              <span class="text-gray-900 ml-1">Connect</span>
+                            </div>
+                          </div>
+                        `;
+                      }
+                    }}
+                  />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Enable Background Video</h3>
-                <p className="text-sm text-gray-600 mb-6">Click to play the background video for the full experience</p>
-                <button className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
-                  Play Video
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Welcome</h3>
+                <p className="text-sm text-gray-600 mb-6">Ready to experience the HOA Connect platform?</p>
+                <button className="bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                  Get Started
                 </button>
               </div>
             </div>
@@ -528,7 +596,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </div>
+    </div>
 
       {/* Branding Configuration Modal */}
       <BrandingConfig 
