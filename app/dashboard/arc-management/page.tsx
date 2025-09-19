@@ -1,7 +1,7 @@
 'use client';
 // @ts-nocheck
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/lib/auth/context';
 import { Button } from '@/components/ui/Button';
 import { SAMPLE_ARC_REQUESTS, createNewARCRequest } from '@/lib/arc/data';
@@ -18,9 +18,16 @@ import {
   FileText,
   Eye,
   MessageSquare,
-  MoreVertical
+  MoreVertical,
+  BarChart3,
+  Settings,
+  TrendingUp,
+  Calendar,
+  Activity,
+  PieChart
 } from 'lucide-react';
 import Link from 'next/link';
+import { AllRequestsTab, AnalyticsTab, SettingsTab } from './additional-tabs';
 
 const STATUS_COLORS = {
   'draft': 'bg-neutral-100 text-neutral-700',
@@ -55,6 +62,7 @@ const STATUS_ICONS = {
 
 export default function ARCManagementPage() {
   const { hasPermission, currentRole } = useAuth();
+  const [activeTab, setActiveTab] = useState<string>('overview');
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -258,14 +266,23 @@ export default function ARCManagementPage() {
     }
   };
 
+  // Tab definitions
+  const tabs = [
+    { id: 'overview', label: 'Overview', icon: <Activity size={16} /> },
+    { id: 'active', label: 'Active Requests', icon: <AlertCircle size={16} />, badge: needsAttention.length },
+    { id: 'all', label: 'All Requests', icon: <FileText size={16} /> },
+    { id: 'analytics', label: 'Analytics', icon: <BarChart3 size={16} /> },
+    { id: 'settings', label: 'Settings', icon: <Settings size={16} /> }
+  ];
+
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-h1 font-bold text-ink-900">ARC Request Management</h1>
+          <h1 className="text-h1 font-bold text-ink-900">ARC Management Dashboard</h1>
           <p className="text-body text-ink-600 mt-1">
-            Review and manage architectural review committee requests
+            Comprehensive oversight of architectural review committee operations
           </p>
         </div>
         <Button 
@@ -277,168 +294,65 @@ export default function ARCManagementPage() {
         </Button>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white rounded-card border border-ink-900/8 p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-caption text-ink-600">Active Requests</p>
-              <p className="text-h2 font-bold text-ink-900">{activeRequests.length}</p>
-            </div>
-            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-              <FileText className="text-blue-600" size={20} />
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-card border border-ink-900/8 p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-caption text-ink-600">Needs Attention</p>
-              <p className="text-h2 font-bold text-ink-900">{needsAttention.length}</p>
-            </div>
-            <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">
-              <AlertCircle className="text-yellow-600" size={20} />
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-card border border-ink-900/8 p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-caption text-ink-600">Board Review</p>
-              <p className="text-h2 font-bold text-ink-900">
-                {requests.filter(r => r.status === 'board-voting').length}
-              </p>
-            </div>
-            <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
-              <Users className="text-orange-600" size={20} />
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-card border border-ink-900/8 p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-caption text-ink-600">Completed</p>
-              <p className="text-h2 font-bold text-ink-900">
-                {requests.filter(r => r.status === 'completed').length}
-              </p>
-            </div>
-            <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-              <CheckCircle className="text-green-600" size={20} />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Search and Filters */}
-      <div className="bg-white rounded-card border border-ink-900/8 p-4">
-        <div className="flex flex-col sm:flex-row gap-4">
-          <div className="flex-1">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-ink-500" size={16} />
-              <input
-                type="text"
-                placeholder="Search requests by title, homeowner, or address..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-neutral-300 rounded-control text-body focus:ring-2 focus:ring-primary focus:border-transparent"
-              />
-            </div>
-          </div>
-          <div className="flex gap-2">
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-3 py-2 border border-neutral-300 rounded-control text-body focus:ring-2 focus:ring-primary focus:border-transparent"
+      {/* Tab Navigation */}
+      <div className="border-b border-ink-200">
+        <nav className="flex space-x-8">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center gap-2 py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                activeTab === tab.id
+                  ? 'border-primary text-primary'
+                  : 'border-transparent text-ink-600 hover:text-ink-900 hover:border-ink-300'
+              }`}
             >
-              <option value="all">All Statuses</option>
-              <option value="submitted">Submitted</option>
-              <option value="under-review">Under Review</option>
-              <option value="neighbor-signoff">Neighbor Sign-off</option>
-              <option value="board-voting">Board Voting</option>
-              <option value="approved">Approved</option>
-              <option value="in-progress">In Progress</option>
-              <option value="inspection-required">Inspection Required</option>
-            </select>
-          </div>
-        </div>
+              {tab.icon}
+              {tab.label}
+              {tab.badge && tab.badge > 0 && (
+                <span className="ml-2 bg-red-100 text-red-600 text-xs font-medium px-2 py-0.5 rounded-full">
+                  {tab.badge}
+                </span>
+              )}
+            </button>
+          ))}
+        </nav>
       </div>
 
-      {/* Requests List */}
-      <div className="bg-white rounded-card border border-ink-900/8">
-        <div className="p-4 border-b border-neutral-200">
-          <h3 className="text-h3 font-semibold text-ink-900">
-            {filteredRequests.length === 0 ? 'No Requests' : `${filteredRequests.length} Request${filteredRequests.length !== 1 ? 's' : ''}`}
-          </h3>
-        </div>
-
-        {filteredRequests.length === 0 ? (
-          <div className="p-8 text-center">
-            <FileText className="mx-auto text-ink-400 mb-4" size={48} />
-            <h4 className="text-h4 font-medium text-ink-900 mb-2">No ARC Requests</h4>
-            <p className="text-body text-ink-600 mb-6">
-              {requests.length === 0 
-                ? 'Start the demo by creating a sample ARC request to walk through the complete workflow.'
-                : 'No requests match your current search criteria.'
-              }
-            </p>
-            {requests.length === 0 && (
-              <Button onClick={() => setShowCreateModal(true)} className="flex items-center gap-2">
-                <Plus size={16} />
-                Start Demo Request
-              </Button>
-            )}
-          </div>
-        ) : (
-          <div className="divide-y divide-neutral-200">
-            {filteredRequests.map((request) => (
-              <div key={request.id} className="p-4 hover:bg-neutral-50 transition-colors">
-                <div className="flex items-center justify-between">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-3 mb-2">
-                      <h4 className="text-body font-semibold text-ink-900 truncate">
-                        {request.title}
-                      </h4>
-                      <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${STATUS_COLORS[request.status]}`}>
-                        {STATUS_ICONS[request.status]}
-                        {ARC_STATUS_LABELS[request.status]}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-4 text-caption text-ink-600">
-                      <span>{request.submittedBy.name}</span>
-                      <span>{request.submittedBy.address}</span>
-                      <span>Submitted {request.submittedAt.toLocaleDateString()}</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Link href={`/dashboard/arc-management/${request.id}`}>
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        className="flex items-center gap-1"
-                        onClick={() => {
-                          // Update status to "under-review" when manager clicks Review
-                          if (request.status === 'submitted') {
-                            updateRequestStatus(request.id, 'under-review', 'HOA Manager');
-                          }
-                        }}
-                      >
-                        <Eye size={14} />
-                        Review
-                      </Button>
-                    </Link>
-                    <Button variant="ghost" size="sm">
-                      <MoreVertical size={14} />
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+      {/* Tab Content */}
+      {activeTab === 'overview' && <OverviewTab 
+        requests={requests}
+        activeRequests={activeRequests}
+        needsAttention={needsAttention}
+        setActiveTab={setActiveTab}
+      />}
+      
+      {activeTab === 'active' && <ActiveRequestsTab 
+        requests={needsAttention}
+        updateRequestStatus={updateRequestStatus}
+      />}
+      
+      {activeTab === 'all' && <AllRequestsTab 
+        requests={requests}
+        filteredRequests={filteredRequests}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        statusFilter={statusFilter}
+        setStatusFilter={setStatusFilter}
+        updateRequestStatus={updateRequestStatus}
+        STATUS_COLORS={STATUS_COLORS}
+        STATUS_ICONS={STATUS_ICONS}
+        ARC_STATUS_LABELS={ARC_STATUS_LABELS}
+      />}
+      
+      {activeTab === 'analytics' && <AnalyticsTab 
+        requests={requests}
+        STATUS_COLORS={STATUS_COLORS}
+        STATUS_ICONS={STATUS_ICONS}
+        ARC_STATUS_LABELS={ARC_STATUS_LABELS}
+      />}
+      
+      {activeTab === 'settings' && <SettingsTab />}
 
       {/* Create Demo Request Modal */}
       {showCreateModal && (
@@ -459,6 +373,244 @@ export default function ARCManagementPage() {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+// Overview Tab Component
+function OverviewTab({ requests, activeRequests, needsAttention, setActiveTab }) {
+  const completedRequests = requests.filter(r => r.status === 'completed');
+  const boardVotingRequests = requests.filter(r => r.status === 'board-voting');
+  const recentActivity = requests
+    .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+    .slice(0, 5);
+
+  return (
+    <div className="space-y-6">
+      {/* Key Metrics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div 
+          className="bg-white rounded-card border border-ink-900/8 p-4 cursor-pointer hover:shadow-md transition-shadow"
+          onClick={() => setActiveTab('active')}
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-caption text-ink-600">Active Requests</p>
+              <p className="text-h2 font-bold text-ink-900">{activeRequests.length}</p>
+            </div>
+            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+              <FileText className="text-blue-600" size={20} />
+            </div>
+          </div>
+        </div>
+
+        <div 
+          className="bg-white rounded-card border border-ink-900/8 p-4 cursor-pointer hover:shadow-md transition-shadow"
+          onClick={() => setActiveTab('active')}
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-caption text-ink-600">Needs Attention</p>
+              <p className="text-h2 font-bold text-ink-900">{needsAttention.length}</p>
+            </div>
+            <div className="w-10 h-10 bg-yellow-100 rounded-full flex items-center justify-center">
+              <AlertCircle className="text-yellow-600" size={20} />
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-card border border-ink-900/8 p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-caption text-ink-600">Board Review</p>
+              <p className="text-h2 font-bold text-ink-900">{boardVotingRequests.length}</p>
+            </div>
+            <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
+              <Users className="text-orange-600" size={20} />
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-card border border-ink-900/8 p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-caption text-ink-600">Completed</p>
+              <p className="text-h2 font-bold text-ink-900">{completedRequests.length}</p>
+            </div>
+            <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+              <CheckCircle className="text-green-600" size={20} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Quick Actions */}
+      <div className="bg-white rounded-card border border-ink-900/8 p-6">
+        <h3 className="text-h3 font-semibold text-ink-900 mb-4">Quick Actions</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <Button 
+            variant="outline" 
+            className="flex items-center gap-2 justify-start p-4 h-auto"
+            onClick={() => setActiveTab('active')}
+          >
+            <AlertCircle className="text-yellow-600" size={20} />
+            <div className="text-left">
+              <div className="font-medium">Review Pending</div>
+              <div className="text-sm text-ink-600">{needsAttention.length} requests</div>
+            </div>
+          </Button>
+          
+          <Button 
+            variant="outline" 
+            className="flex items-center gap-2 justify-start p-4 h-auto"
+            onClick={() => setActiveTab('analytics')}
+          >
+            <BarChart3 className="text-blue-600" size={20} />
+            <div className="text-left">
+              <div className="font-medium">View Analytics</div>
+              <div className="text-sm text-ink-600">Performance metrics</div>
+            </div>
+          </Button>
+          
+          <Button 
+            variant="outline" 
+            className="flex items-center gap-2 justify-start p-4 h-auto"
+            onClick={() => setActiveTab('all')}
+          >
+            <FileText className="text-green-600" size={20} />
+            <div className="text-left">
+              <div className="font-medium">All Requests</div>
+              <div className="text-sm text-ink-600">{requests.length} total</div>
+            </div>
+          </Button>
+          
+          <Button 
+            variant="outline" 
+            className="flex items-center gap-2 justify-start p-4 h-auto"
+            onClick={() => setActiveTab('settings')}
+          >
+            <Settings className="text-ink-600" size={20} />
+            <div className="text-left">
+              <div className="font-medium">Settings</div>
+              <div className="text-sm text-ink-600">Configure workflow</div>
+            </div>
+          </Button>
+        </div>
+      </div>
+
+      {/* Recent Activity */}
+      <div className="bg-white rounded-card border border-ink-900/8">
+        <div className="p-4 border-b border-neutral-200">
+          <h3 className="text-h3 font-semibold text-ink-900">Recent Activity</h3>
+        </div>
+        <div className="divide-y divide-neutral-200">
+          {recentActivity.map((request) => (
+            <div key={request.id} className="p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-3 mb-1">
+                    <h4 className="text-body font-medium text-ink-900 truncate">
+                      {request.title}
+                    </h4>
+                    <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${STATUS_COLORS[request.status]}`}>
+                      {STATUS_ICONS[request.status]}
+                      {ARC_STATUS_LABELS[request.status]}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-4 text-caption text-ink-600">
+                    <span>{request.submittedBy.name}</span>
+                    <span>Updated {request.updatedAt.toLocaleDateString()}</span>
+                  </div>
+                </div>
+                <Link href={`/dashboard/arc-management/${request.id}`}>
+                  <Button variant="ghost" size="sm" className="flex items-center gap-1">
+                    <Eye size={14} />
+                    View
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Active Requests Tab Component  
+function ActiveRequestsTab({ requests, updateRequestStatus }) {
+  return (
+    <div className="space-y-6">
+      <div className="bg-white rounded-card border border-ink-900/8">
+        <div className="p-4 border-b border-neutral-200">
+          <h3 className="text-h3 font-semibold text-ink-900">
+            Requests Requiring Attention ({requests.length})
+          </h3>
+          <p className="text-body text-ink-600 mt-1">
+            These requests need immediate review or action
+          </p>
+        </div>
+
+        {requests.length === 0 ? (
+          <div className="p-8 text-center">
+            <CheckCircle className="mx-auto text-green-400 mb-4" size={48} />
+            <h4 className="text-h4 font-medium text-ink-900 mb-2">All Caught Up!</h4>
+            <p className="text-body text-ink-600">
+              No requests currently need attention. Great work!
+            </p>
+          </div>
+        ) : (
+          <div className="divide-y divide-neutral-200">
+            {requests.map((request) => (
+              <div key={request.id} className="p-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-3 mb-2">
+                      <h4 className="text-body font-semibold text-ink-900 truncate">
+                        {request.title}
+                      </h4>
+                      <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${STATUS_COLORS[request.status]}`}>
+                        {STATUS_ICONS[request.status]}
+                        {ARC_STATUS_LABELS[request.status]}
+                      </span>
+                      <span className="bg-red-100 text-red-600 text-xs font-medium px-2 py-0.5 rounded-full">
+                        Urgent
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-4 text-caption text-ink-600 mb-2">
+                      <span>{request.submittedBy.name}</span>
+                      <span>{request.submittedBy.address}</span>
+                      <span>Submitted {request.submittedAt.toLocaleDateString()}</span>
+                    </div>
+                    <p className="text-sm text-ink-600 truncate">{request.description}</p>
+                  </div>
+                  <div className="flex items-center gap-2 ml-4">
+                    <Link href={`/dashboard/arc-management/${request.id}`}>
+                      <Button 
+                        size="sm" 
+                        className="flex items-center gap-1"
+                        onClick={() => {
+                          if (request.status === 'submitted') {
+                            updateRequestStatus(request.id, 'under-review', 'HOA Manager');
+                          }
+                        }}
+                      >
+                        <Eye size={14} />
+                        Review Now
+                      </Button>
+                    </Link>
+                    <div className="relative">
+                      <Button variant="ghost" size="sm">
+                        <MoreVertical size={14} />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
