@@ -52,21 +52,28 @@ export function middleware(request: NextRequest) {
         }
         
         .logo-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
             margin: 0 auto 1.5rem;
+            text-align: center;
+            background: none;
+            border: none;
+            border-radius: 0;
+            padding: 0;
         }
         
         .logo {
-            height: 3rem;
+            height: 4rem;
             width: auto;
+            max-width: 200px;
+            background: none !important;
+            border: none !important;
+            border-radius: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            box-shadow: none !important;
         }
         
         .logo-fallback {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: inline-block;
         }
         
         .title {
@@ -111,9 +118,9 @@ export function middleware(request: NextRequest) {
 <body>
     <div class="container">
         <div class="logo-container">
-            <img src="/hoa-connect-logo.png" alt="HOA Connect" class="logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <img src="/hoa-connect-logo.png" alt="HOA Connect" class="logo" style="background: none; border: none; border-radius: 0; padding: 0; margin: 0;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
             <div class="logo-fallback" style="display: none;">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2">
                     <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                     <polyline points="9,22 9,12 15,12 15,22"></polyline>
                 </svg>
