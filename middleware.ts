@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 // 🚧 MAINTENANCE MODE TOGGLE - Set to true to enable maintenance mode for live site
-// Last updated: 2025-09-18 23:25:00 - Force deployment
-const MAINTENANCE_MODE = true;
+// Last updated: 2025-09-18 23:27:00 - Testing deployment
+const MAINTENANCE_MODE = false;
 
 export function middleware(request: NextRequest) {
   // Skip maintenance mode for localhost development
