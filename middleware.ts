@@ -72,8 +72,38 @@ export function middleware(request: NextRequest) {
             box-shadow: none !important;
         }
         
-        .logo-fallback {
-            display: inline-block;
+        .text-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        }
+        
+        .logo-icon {
+            font-size: 2.5rem;
+            line-height: 1;
+        }
+        
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+        }
+        
+        .logo-hoa {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2563eb;
+            letter-spacing: -0.025em;
+        }
+        
+        .logo-connect {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #374151;
+            margin-top: -0.125rem;
+            letter-spacing: 0.025em;
         }
         
         .title {
@@ -118,12 +148,12 @@ export function middleware(request: NextRequest) {
 <body>
     <div class="container">
         <div class="logo-container">
-            <img src="/hoa-connect-logo-full.png" alt="HOA Connect" class="logo" style="background: none; border: none; border-radius: 0; padding: 0; margin: 0;" onerror="this.src='/hoa-connect-logo.png'; this.onerror=function(){this.style.display='none'; this.nextElementSibling.style.display='inline-block';}">
-            <div class="logo-fallback" style="display: none;">
-                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2">
-                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                    <polyline points="9,22 9,12 15,12 15,22"></polyline>
-                </svg>
+            <div class="text-logo">
+                <span class="logo-icon">🏠</span>
+                <span class="logo-text">
+                    <span class="logo-hoa">HOA</span>
+                    <span class="logo-connect">Connect</span>
+                </span>
             </div>
         </div>
         
