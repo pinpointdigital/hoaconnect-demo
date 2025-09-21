@@ -54,3 +54,4 @@ export function Avatar({ src, name, size = 'md', className = '' }: AvatarProps) 
 
 
 
+
