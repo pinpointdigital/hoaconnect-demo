@@ -51,6 +51,8 @@ export function DemoRoleSwitcher() {
   const handleRoleChange = (role: UserRole) => {
     switchRole(role);
     setIsOpen(false);
+    // Navigate to dashboard view when switching roles
+    router.push('/dashboard');
   };
 
   const handleDemoRestart = () => {
