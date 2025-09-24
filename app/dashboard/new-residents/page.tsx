@@ -80,9 +80,15 @@ export default function NewResidentsPage() {
           </div>
           
           <div className="flex gap-3">
-            <Button variant="primary" size="sm">
+            <Link href="/dashboard/new-residents/registration">
+              <Button variant="primary" size="sm">
+                <UserPlus size={16} />
+                New Registration
+              </Button>
+            </Link>
+            <Button variant="outline" size="sm">
               <UserPlus size={16} />
-              Add New Resident
+              Add Existing Resident
             </Button>
           </div>
         </div>
