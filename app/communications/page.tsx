@@ -17,7 +17,6 @@ import {
   BarChart3,
   Calendar,
   Eye,
-  MessageCircle,
   Bell,
   X,
   Send
@@ -321,7 +320,6 @@ export default function CommunicationsPage() {
   });
 
   const filteredPolls = polls.filter(poll => poll.status === pollsFilter);
-  const userItems = items.filter(item => item.submittedBy.name === user?.name);
 
   const canManage = hasPermission('canManageResidents') || hasPermission('canReviewARCRequests');
 
@@ -346,162 +344,117 @@ export default function CommunicationsPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Main Content */}
-        <div className="lg:col-span-2 space-y-6">
-
-          {/* My Items */}
-          <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6">
-            <h2 className="text-2xl font-semibold text-ink-900 mb-4">My Items</h2>
-            {userItems.length === 0 ? (
-              <div className="text-center py-8">
-                <MessageCircle className="mx-auto text-neutral-400 mb-4" size={48} />
-                <p className="text-body text-ink-600">No requests yet. Start one.</p>
-              </div>
-            ) : (
-              <div className="space-y-3">
-                {userItems.map((item) => (
-                  <div 
-                    key={item.id}
-                    onClick={() => setShowItemDetail(item)}
-                    className="p-4 border border-ink-900/8 rounded-lg hover:border-neutral-300 transition-colors cursor-pointer"
-                  >
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-h4 font-semibold text-ink-900">{item.title}</h3>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        item.status === 'Open' ? 'bg-blue-100 text-blue-700' :
-                        item.status === 'In Progress' ? 'bg-yellow-100 text-yellow-700' :
-                        'bg-green-100 text-green-700'
-                      }`}>
-                        {item.status}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-4 text-caption text-ink-600">
-                      <span className="px-2 py-1 bg-neutral-100 rounded text-xs">{item.category}</span>
-                      <span>Last update: {item.lastUpdate.toLocaleDateString()}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Community Updates */}
+        <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-semibold text-ink-900">Community Updates</h2>
+            <select
+              value={updatesFilter}
+              onChange={(e) => setUpdatesFilter(e.target.value as any)}
+              className="px-3 py-1 border border-neutral-300 rounded-lg text-body"
+            >
+              <option value="All">All</option>
+              <option value="Notices">Notices</option>
+              <option value="Resolutions">Resolutions</option>
+            </select>
           </div>
-
-          {/* Community Updates Feed */}
-          <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-semibold text-ink-900">Community Updates</h2>
-              <select
-                value={updatesFilter}
-                onChange={(e) => setUpdatesFilter(e.target.value as any)}
-                className="px-3 py-1 border border-neutral-300 rounded-lg text-body"
-              >
-                <option value="All">All</option>
-                <option value="Notices">Notices</option>
-                <option value="Resolutions">Resolutions</option>
-              </select>
+          
+          {filteredUpdates.length === 0 ? (
+            <div className="text-center py-8">
+              <Bell className="mx-auto text-neutral-400 mb-4" size={48} />
+              <p className="text-body text-ink-600">No updates posted.</p>
             </div>
-            
-            {filteredUpdates.length === 0 ? (
-              <div className="text-center py-8">
-                <Bell className="mx-auto text-neutral-400 mb-4" size={48} />
-                <p className="text-body text-ink-600">No updates posted.</p>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {filteredUpdates.map((update) => (
-                  <div key={update.id} className="p-4 border border-ink-900/8 rounded-lg">
-                    <div className="flex items-start justify-between mb-2">
-                      <h3 className="text-h4 font-semibold text-ink-900">{update.title}</h3>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        update.type === 'notice' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'
-                      }`}>
-                        {update.type === 'notice' ? 'Notice' : 'Resolution'}
-                      </span>
-                    </div>
-                    <p className="text-body text-ink-700 mb-3">{update.content}</p>
-                    <div className="flex items-center gap-4 text-caption text-ink-600">
-                      <span>{update.author.name} ({update.author.role})</span>
-                      <span>{update.postedAt.toLocaleDateString()}</span>
-                    </div>
+          ) : (
+            <div className="space-y-4">
+              {filteredUpdates.map((update) => (
+                <div key={update.id} className="p-4 border border-ink-900/8 rounded-lg">
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="text-h4 font-semibold text-ink-900">{update.title}</h3>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      update.type === 'notice' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'
+                    }`}>
+                      {update.type === 'notice' ? 'Notice' : 'Resolution'}
+                    </span>
                   </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Polls */}
-          <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-semibold text-ink-900">Polls</h2>
-              <div className="flex items-center gap-3">
-                <select
-                  value={pollsFilter}
-                  onChange={(e) => setPollsFilter(e.target.value as any)}
-                  className="px-3 py-1 border border-neutral-300 rounded-lg text-body"
-                >
-                  <option value="Active">Active</option>
-                  <option value="Scheduled">Scheduled</option>
-                  <option value="Closed">Closed</option>
-                </select>
-                {canManage && (
-                  <Button 
-                    size="sm"
-                    onClick={() => setShowCreatePollModal(true)}
-                    className="flex items-center gap-1"
-                  >
-                    <Plus size={14} />
-                    Create Poll
-                  </Button>
-                )}
-              </div>
+                  <p className="text-body text-ink-700 mb-3">{update.content}</p>
+                  <div className="flex items-center gap-4 text-caption text-ink-600">
+                    <span>{update.author.name} ({update.author.role})</span>
+                    <span>{update.postedAt.toLocaleDateString()}</span>
+                  </div>
+                </div>
+              ))}
             </div>
-            
-            {filteredPolls.length === 0 ? (
-              <div className="text-center py-8">
-                <BarChart3 className="mx-auto text-neutral-400 mb-4" size={48} />
-                <p className="text-body text-ink-600">No {pollsFilter.toLowerCase()} polls.</p>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {filteredPolls.map((poll) => (
-                  <div key={poll.id} className="p-4 border border-ink-900/8 rounded-lg">
-                    <div className="flex items-start justify-between mb-2">
-                      <h3 className="text-h4 font-semibold text-ink-900">{poll.title}</h3>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        poll.status === 'Active' ? 'bg-green-100 text-green-700' :
-                        poll.status === 'Scheduled' ? 'bg-blue-100 text-blue-700' :
-                        'bg-neutral-100 text-neutral-700'
-                      }`}>
-                        {poll.status}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-4 text-caption text-ink-600 mb-3">
-                      <span>{poll.audience} Poll</span>
-                      <span>Closes: {poll.closeDate.toLocaleDateString()}</span>
-                      <span>{poll.votes.length} votes</span>
-                    </div>
-                    {poll.status === 'Active' && (
-                      <div className="space-y-2">
-                        {poll.options.map((option, index) => (
-                          <button
-                            key={index}
-                            className="w-full p-2 text-left border border-neutral-300 rounded-lg hover:border-primary transition-colors"
-                          >
-                            {option}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          )}
         </div>
 
-        {/* Sidebar - Empty for now */}
-        <div className="space-y-6">
-          {/* Sidebar content removed for cleaner manager view */}
+        {/* Polls */}
+        <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-semibold text-ink-900">Polls</h2>
+            <div className="flex items-center gap-3">
+              <select
+                value={pollsFilter}
+                onChange={(e) => setPollsFilter(e.target.value as any)}
+                className="px-3 py-1 border border-neutral-300 rounded-lg text-body"
+              >
+                <option value="Active">Active</option>
+                <option value="Scheduled">Scheduled</option>
+                <option value="Closed">Closed</option>
+              </select>
+              {canManage && (
+                <Button 
+                  size="sm"
+                  onClick={() => setShowCreatePollModal(true)}
+                  className="flex items-center gap-1"
+                >
+                  <Plus size={14} />
+                  Create Poll
+                </Button>
+              )}
+            </div>
+          </div>
+          
+          {filteredPolls.length === 0 ? (
+            <div className="text-center py-8">
+              <BarChart3 className="mx-auto text-neutral-400 mb-4" size={48} />
+              <p className="text-body text-ink-600">No {pollsFilter.toLowerCase()} polls.</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {filteredPolls.map((poll) => (
+                <div key={poll.id} className="p-4 border border-ink-900/8 rounded-lg">
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="text-h4 font-semibold text-ink-900">{poll.title}</h3>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      poll.status === 'Active' ? 'bg-green-100 text-green-700' :
+                      poll.status === 'Scheduled' ? 'bg-blue-100 text-blue-700' :
+                      'bg-neutral-100 text-neutral-700'
+                    }`}>
+                      {poll.status}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-4 text-caption text-ink-600 mb-3">
+                    <span>{poll.audience} Poll</span>
+                    <span>Closes: {poll.closeDate.toLocaleDateString()}</span>
+                    <span>{poll.votes.length} votes</span>
+                  </div>
+                  {poll.status === 'Active' && (
+                    <div className="space-y-2">
+                      {poll.options.map((option, index) => (
+                        <button
+                          key={index}
+                          className="w-full p-2 text-left border border-neutral-300 rounded-lg hover:border-primary transition-colors"
+                        >
+                          {option}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
