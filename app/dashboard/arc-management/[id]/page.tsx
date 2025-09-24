@@ -1488,7 +1488,7 @@ export default function RequestDetailPage({ params }: RequestDetailPageProps) {
                                     
                                     updateNeighborPositions(newPositions);
                                   }}
-                                  className={`w-16 h-16 border-2 rounded-lg text-xs font-medium transition-all duration-200 relative flex flex-col items-center justify-center gap-1 ${
+                                  className={`w-20 h-20 border-2 rounded-lg text-sm font-medium transition-all duration-200 relative flex flex-col items-center justify-center gap-1 ${
                                     isRequired
                                       ? hasNoNeighbor
                                         ? 'bg-red-100 border-red-400 text-red-700 hover:bg-red-200 shadow-md scale-105'
@@ -1499,7 +1499,7 @@ export default function RequestDetailPage({ params }: RequestDetailPageProps) {
                                   }`}
                                 >
                                   <Home 
-                                    size={16} 
+                                    size={20} 
                                     className={`${
                                       isRequired 
                                         ? hasNoNeighbor 
