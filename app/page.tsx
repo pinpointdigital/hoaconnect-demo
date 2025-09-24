@@ -410,11 +410,21 @@ export default function Home() {
         }}
         onError={(e) => {
           console.log('❌ Video error:', e.currentTarget.error);
+          console.log('❌ Video source:', e.currentTarget.currentSrc);
           e.currentTarget.style.display = 'none';
         }}
+        onLoadStart={() => {
+          console.log('🎬 Video load started');
+        }}
+        onCanPlay={() => {
+          console.log('🎬 Video can play');
+        }}
+        onLoadedData={() => {
+          console.log('🎬 Video data loaded');
+        }}
       >
-        <source src="/HOAConnect_Demo_BG-Video.mp4" type="video/mp4" />
         <source src="/HOAConnect_Demo_720.webm" type="video/webm" />
+        Your browser does not support the video tag.
       </video>
       
       {/* Dark overlay */}
