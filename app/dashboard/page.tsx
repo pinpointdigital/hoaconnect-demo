@@ -468,10 +468,10 @@ export default function DashboardPage() {
                       <h4 className="text-base font-semibold text-ink-900 mb-2">
                         Board review overdue - Solar Panel Installation
                       </h4>
-                      <p className="text-sm text-ink-600 mb-1">
+                      <p className="text-body font-medium text-ink-600 mb-1">
                         David Martinez
                       </p>
-                      <p className="text-sm text-ink-600 mb-2">
+                      <p className="text-body text-ink-600 mb-2">
                         1423 Oceanview Dr
                       </p>
                       <p className="text-sm text-red-600 font-medium">
@@ -493,10 +493,10 @@ export default function DashboardPage() {
                       <h4 className="text-base font-semibold text-ink-900 mb-2">
                         Neighbor sign-offs pending
                       </h4>
-                      <p className="text-sm text-ink-600 mb-1">
+                      <p className="text-body font-medium text-ink-600 mb-1">
                         Sarah Johnson
                       </p>
-                      <p className="text-sm text-ink-600 mb-2">
+                      <p className="text-body text-ink-600 mb-2">
                         1427 Oceanview Dr
                       </p>
                       <p className="text-sm text-yellow-600 font-medium">
@@ -518,10 +518,10 @@ export default function DashboardPage() {
                       <h4 className="text-base font-semibold text-ink-900 mb-2">
                         New request submitted
                       </h4>
-                      <p className="text-sm text-ink-600 mb-1">
+                      <p className="text-body font-medium text-ink-600 mb-1">
                         Robert Chen
                       </p>
-                      <p className="text-sm text-ink-600 mb-2">
+                      <p className="text-body text-ink-600 mb-2">
                         1429 Oceanview Dr
                       </p>
                       <p className="text-sm text-blue-600 font-medium">
