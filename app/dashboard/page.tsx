@@ -486,10 +486,7 @@ export default function DashboardPage() {
             {/* AI Video Assistant */}
             {(currentRole === 'management-company' || currentRole === 'captain') && (
               <div className="rounded-card border border-ink-900/8 bg-white shadow-elev1 p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                    <Bot className="text-primary" size={20} />
-                  </div>
+                <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
                     <h3 className="text-h3 font-semibold text-ink-900">HOA Connect Assistant</h3>
                     <span className="px-2 py-0.5 bg-neutral-100 text-neutral-600 text-caption font-medium rounded-full border border-neutral-200">
