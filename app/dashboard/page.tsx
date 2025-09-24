@@ -394,14 +394,14 @@ export default function DashboardPage() {
             {/* ARC Request Alerts */}
             <div className="rounded-card border border-ink-900/8 bg-white shadow-elev1 p-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-h3 font-semibold text-ink-900 flex items-center gap-2">
-                  <AlertTriangle className="text-yellow-600" size={20} />
+                <h3 className="text-h3 font-semibold text-ink-900">
                   ARC Request Alerts
                 </h3>
-                <Link href="/dashboard/arc-management">
-                  <Button variant="ghost" size="sm">
-                    View All
-                  </Button>
+                <Link href="/dashboard/arc-management" className="text-primary hover:text-primary-700 text-body font-medium flex items-center gap-1 transition-colors">
+                  View All
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
                 </Link>
               </div>
               
