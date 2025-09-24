@@ -88,13 +88,47 @@ export default function DashboardPage() {
   ]);
   const [isTyping, setIsTyping] = useState(false);
   const [hiddenAlerts, setHiddenAlerts] = useState<Set<string>>(new Set());
+  const [showImageUploadModal, setShowImageUploadModal] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   
   // Banner image management
   const [communityBannerImage, setCommunityBannerImage] = useState('/HOAConnect_Demo_BG.jpg');
 
   const hideAlert = (alertId: string) => {
     setHiddenAlerts(prev => new Set([...prev, alertId]));
+  };
+
+  // Image upload functions
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedImage(file);
+      if (file instanceof File) {
+        const previewUrl = URL.createObjectURL(file);
+        setImagePreview(previewUrl);
+      }
+    }
+  };
+
+  const uploadBannerImage = () => {
+    if (selectedImage && imagePreview) {
+      setCommunityBannerImage(imagePreview);
+      setShowImageUploadModal(false);
+      setSelectedImage(null);
+      setImagePreview(null);
+    }
+  };
+
+  const cancelImageUpload = () => {
+    setShowImageUploadModal(false);
+    setSelectedImage(null);
+    if (imagePreview) {
+      URL.revokeObjectURL(imagePreview);
+    }
+    setImagePreview(null);
   };
 
 
@@ -371,6 +405,17 @@ export default function DashboardPage() {
               {/* Gradient overlay for text readability */}
               <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-black/20" />
               
+              {/* Upload button */}
+              <button
+                onClick={() => setShowImageUploadModal(true)}
+                className="absolute top-4 right-4 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-2 transition-colors duration-200 text-white"
+                title="Change banner image"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </button>
+              
               {/* Content overlay */}
               <div className="absolute inset-0 flex items-end">
                 <div className="p-6 md:p-8 text-white">
@@ -532,6 +577,59 @@ export default function DashboardPage() {
           </div>
 
 
+        </div>
+      )}
+
+      {/* Image Upload Modal */}
+      {showImageUploadModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6">
+            <h3 className="text-h3 font-semibold text-ink-900 mb-4">Change Banner Image</h3>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">
+                  Select Image
+                </label>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="block w-full text-caption text-ink-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-caption file:font-medium file:bg-primary file:text-white hover:file:bg-primary/90"
+                />
+              </div>
+              
+              {imagePreview && (
+                <div>
+                  <label className="block text-body font-medium text-ink-700 mb-2">
+                    Preview
+                  </label>
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    className="w-full h-32 object-cover rounded-lg border border-ink-900/8"
+                  />
+                </div>
+              )}
+            </div>
+            
+            <div className="flex justify-end gap-3 mt-6">
+              <Button
+                variant="outline"
+                onClick={cancelImageUpload}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="primary"
+                onClick={uploadBannerImage}
+                disabled={!selectedImage}
+              >
+                Upload Image
+              </Button>
+            </div>
+          </div>
         </div>
       )}
     </div>
