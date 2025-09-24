@@ -483,14 +483,13 @@ function DashboardTab({ communityData, saveData, canEdit, onImageUpload, updateH
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-semibold text-ink-900">HOA Information</h2>
             {canEdit && !editingHOA && (
-              <Button
-                variant="outline"
+              <button
                 onClick={() => setEditingHOA(true)}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 text-primary hover:text-primary-700 transition-colors text-body font-medium"
               >
                 <Edit3 size={16} />
                 Edit
-              </Button>
+              </button>
             )}
           </div>
 
