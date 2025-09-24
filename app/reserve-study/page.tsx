@@ -50,41 +50,45 @@ interface ReserveData {
   }>;
 }
 
-const SAMPLE_RESERVE_DATA: ReserveData = {
+const ACTUAL_RESERVE_DATA: ReserveData = {
   reserveHealth: {
-    percentage: 57,
+    percentage: 57.24,
     status: 'fair',
-    description: "Our reserves are at 57% of the recommended level. This means we're in a fair position, but not fully funded."
+    description: "Our reserves are at 57% of the recommended level ($887k on hand vs $1.55M needed). This means we're in a fair position, but not fully funded."
   },
   memberDues: {
-    monthlyReserveAmount: 53,
-    totalMonthlyDues: 285,
-    reservePercentage: 18.6
+    monthlyReserveAmount: 53.53,
+    totalMonthlyDues: 415, // Calculated from $498k annual budget / 120 homes / 12 months
+    reservePercentage: 12.9
   },
   upcomingProjects: [
-    { name: 'Street Repairs', year: 2025, estimatedCost: 125000, priority: 'high' },
-    { name: 'Community Painting', year: 2026, estimatedCost: 85000, priority: 'medium' },
-    { name: 'Fencing/Wall Replacement', year: 2027, estimatedCost: 95000, priority: 'high' },
-    { name: 'Pool Resurfacing', year: 2028, estimatedCost: 45000, priority: 'medium' },
-    { name: 'Roof Maintenance', year: 2029, estimatedCost: 75000, priority: 'low' }
+    { name: 'Street Repairs', year: 2025, estimatedCost: 659315, priority: 'high' },
+    { name: 'Community Painting', year: 2024, estimatedCost: 50119, priority: 'high' },
+    { name: 'Fencing & Wall Replacement', year: 2026, estimatedCost: 1161288, priority: 'high' },
+    { name: 'Tot Lot Improvements', year: 2029, estimatedCost: 118000, priority: 'medium' },
+    { name: 'Lighting System Upgrades', year: 2027, estimatedCost: 84200, priority: 'medium' }
   ],
   riskAreas: [
-    { component: 'Fencing & Gates', fundingLevel: 32, risk: 'high' },
-    { component: 'Mailboxes', fundingLevel: 41, risk: 'medium' },
-    { component: 'Lighting Systems', fundingLevel: 68, risk: 'low' }
+    { component: 'Fencing & Walls', fundingLevel: 8.3, risk: 'high' }, // $96k / $1.16M
+    { component: 'Mailboxes/Monuments', fundingLevel: 0, risk: 'high' }, // $0 / $80k
+    { component: 'Tot Lot', fundingLevel: 5.3, risk: 'high' }, // $6k / $118k
+    { component: 'Lighting Systems', fundingLevel: 21.3, risk: 'medium' }, // $18k / $84k
+    { component: 'Streets', fundingLevel: 56.6, risk: 'medium' }, // $373k / $659k
+    { component: 'Landscape', fundingLevel: 314.5, risk: 'low' } // $348k / $110k (overfunded)
   ],
   budgetBreakdown: [
-    { category: 'Landscaping', amount: 95, percentage: 33.3 },
-    { category: 'Insurance', amount: 72, percentage: 25.3 },
-    { category: 'Utilities', amount: 45, percentage: 15.8 },
-    { category: 'Reserves', amount: 53, percentage: 18.6 },
-    { category: 'Administration', amount: 20, percentage: 7.0 }
+    { category: 'Landscaping', amount: 107, percentage: 21.5 }, // $107k / $498k
+    { category: 'Water & Sewer', amount: 55, percentage: 11.0 },
+    { category: 'Insurance', amount: 46, percentage: 9.2 },
+    { category: 'Management Services', amount: 23, percentage: 4.7 },
+    { category: 'Reserves', amount: 77, percentage: 15.5 }, // 2024 allocation
+    { category: 'Other Operations', amount: 190, percentage: 38.1 } // Utilities, patrol, maintenance, etc.
   ]
 };
 
 export default function ReserveStudyPage() {
   const { hasPermission } = useAuth();
-  const [reserveData] = useState<ReserveData>(SAMPLE_RESERVE_DATA);
+  const [reserveData] = useState<ReserveData>(ACTUAL_RESERVE_DATA);
   const [viewMode, setViewMode] = useState<'dashboard' | 'cards'>('dashboard');
   const [interactiveCharts, setInteractiveCharts] = useState(true);
 
@@ -266,8 +270,17 @@ export default function ReserveStudyPage() {
             </div>
             
             <p className="text-body text-ink-600 text-center mt-4">
-              About ${reserveData.memberDues.monthlyReserveAmount} per month from each home goes into long-term reserves to protect the community from large special assessments.
+              About $53.53 per month from each home goes into long-term reserves to protect the community from large special assessments.
             </p>
+            <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg mt-3">
+              <div className="flex items-center gap-2">
+                <AlertTriangle size={14} className="text-amber-600" />
+                <span className="text-caption font-medium text-amber-800">2025 Budget Alert</span>
+              </div>
+              <p className="text-caption text-amber-700 mt-1">
+                The 2025 budget shows $0 allocated to reserves - this needs board attention.
+              </p>
+            </div>
           </div>
 
           {/* 3. Upcoming Projects */}
@@ -441,9 +454,18 @@ export default function ReserveStudyPage() {
                 <p className="text-body text-ink-600">per month to reserves</p>
               </div>
               <div>
-                <p className="text-body text-ink-600">
-                  About ${reserveData.memberDues.monthlyReserveAmount} per month from each home goes into long-term reserves to protect the community from large special assessments.
+                <p className="text-body text-ink-600 mb-3">
+                  About $53.53 per month from each home goes into long-term reserves to protect the community from large special assessments.
                 </p>
+                <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                  <div className="flex items-center gap-2">
+                    <AlertTriangle size={14} className="text-amber-600" />
+                    <span className="text-caption font-medium text-amber-800">2025 Budget Alert</span>
+                  </div>
+                  <p className="text-caption text-amber-700 mt-1">
+                    The 2025 budget shows $0 allocated to reserves - this needs board attention.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
