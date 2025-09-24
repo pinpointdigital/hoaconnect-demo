@@ -427,7 +427,7 @@ function DashboardTab({ communityData, saveData, canEdit, onImageUpload }) {
         {/* HOA Header Image */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-h2 font-semibold text-ink-900">Community Header Image</h2>
+            <h2 className="text-2xl font-semibold text-ink-900">Community Header Image</h2>
             {canEdit && (
               <Button
                 variant="outline"
@@ -456,7 +456,7 @@ function DashboardTab({ communityData, saveData, canEdit, onImageUpload }) {
         {/* HOA Information */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-h2 font-semibold text-ink-900">HOA Information</h2>
+            <h2 className="text-2xl font-semibold text-ink-900">HOA Information</h2>
             {canEdit && !editingHOA && (
               <Button
                 variant="outline"
@@ -660,7 +660,7 @@ function SchoolsTab({ schools, saveData, canEdit }) {
   return (
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-h2 font-semibold text-ink-900">Schools</h2>
+        <h2 className="text-2xl font-semibold text-ink-900">Schools</h2>
         {canEdit && (
           <Button
             variant="primary"
@@ -732,7 +732,7 @@ function MunicipalitiesTab({ municipalities, saveData, canEdit }) {
   return (
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-h2 font-semibold text-ink-900">Municipalities</h2>
+        <h2 className="text-2xl font-semibold text-ink-900">Municipalities</h2>
         {canEdit && (
           <Button
             variant="primary"
@@ -807,7 +807,7 @@ function UtilitiesTab({ utilities, saveData, canEdit }) {
   return (
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-h2 font-semibold text-ink-900">Local Utilities</h2>
+        <h2 className="text-2xl font-semibold text-ink-900">Local Utilities</h2>
         {canEdit && (
           <Button
             variant="primary"
