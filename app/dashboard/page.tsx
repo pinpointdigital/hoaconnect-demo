@@ -554,11 +554,7 @@ export default function DashboardPage() {
                   {/* Dark overlay */}
                   <div className="absolute inset-0 bg-black/40"></div>
                   
-                  <div className="relative z-10 text-center text-white">
-                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Bot className="text-white" size={32} />
-                    </div>
-                    <h4 className="text-h4 font-medium text-white mb-4">HOA Connect Assistant</h4>
+                  <div className="relative z-10 text-center">
                     <Button 
                       variant="primary"
                       onClick={() => {
