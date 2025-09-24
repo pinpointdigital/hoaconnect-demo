@@ -637,12 +637,6 @@ export default function ResidentsPage() {
                         </div>
                       </div>
 
-                      {/* Archive Actions */}
-                      <div className="flex flex-col gap-2">
-                        <span className="text-caption text-ink-500 text-center">
-                          Auto-archived after<br />60 days
-                        </span>
-                      </div>
                     </div>
                   </div>
                 ))}
