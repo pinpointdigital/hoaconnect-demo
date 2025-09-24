@@ -475,7 +475,7 @@ export default function DashboardPage() {
                         href="https://maps.google.com/maps?q=1423+Oceanview+Dr+San+Juan+Capistrano+CA&z=18"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1 text-body text-ink-600 hover:text-primary transition-colors mb-2 w-fit"
+                        className="flex items-center gap-1 text-body text-primary hover:text-primary-700 transition-colors mb-2 w-fit"
                       >
                         <MapPin size={14} className="flex-shrink-0" />
                         1423 Oceanview Dr
@@ -506,7 +506,7 @@ export default function DashboardPage() {
                         href="https://maps.google.com/maps?q=1427+Oceanview+Dr+San+Juan+Capistrano+CA&z=18"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1 text-body text-ink-600 hover:text-primary transition-colors mb-2 w-fit"
+                        className="flex items-center gap-1 text-body text-primary hover:text-primary-700 transition-colors mb-2 w-fit"
                       >
                         <MapPin size={14} className="flex-shrink-0" />
                         1427 Oceanview Dr
@@ -537,7 +537,7 @@ export default function DashboardPage() {
                         href="https://maps.google.com/maps?q=1429+Oceanview+Dr+San+Juan+Capistrano+CA&z=18"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1 text-body text-ink-600 hover:text-primary transition-colors mb-2 w-fit"
+                        className="flex items-center gap-1 text-body text-primary hover:text-primary-700 transition-colors mb-2 w-fit"
                       >
                         <MapPin size={14} className="flex-shrink-0" />
                         1429 Oceanview Dr
