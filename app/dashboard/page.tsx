@@ -472,13 +472,13 @@ export default function DashboardPage() {
                         Robert Chen
                       </p>
                       <a 
-                        href="https://maps.google.com/maps?q=1429+Oceanview+Dr+San+Juan+Capistrano+CA&z=18"
+                        href="https://maps.google.com/maps?q=31462+Paseo+Campeon+San+Juan+Capistrano+CA+92675&z=18"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-1 text-body text-primary hover:text-primary-700 transition-colors mb-2 w-fit"
                       >
                         <MapPin size={14} className="flex-shrink-0" />
-                        1429 Oceanview Dr
+                        31462 Paseo Campeon
                       </a>
                       <p className="text-sm font-medium" style={{ color: '#434343' }}>
                         Today, 2:30 PM
@@ -503,13 +503,13 @@ export default function DashboardPage() {
                         David Martinez
                       </p>
                       <a 
-                        href="https://maps.google.com/maps?q=1423+Oceanview+Dr+San+Juan+Capistrano+CA&z=18"
+                        href="https://maps.google.com/maps?q=27381+Via+Priorato+San+Juan+Capistrano+CA+92675&z=18"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-1 text-body text-primary hover:text-primary-700 transition-colors mb-2 w-fit"
                       >
                         <MapPin size={14} className="flex-shrink-0" />
-                        1423 Oceanview Dr
+                        27381 Via Priorato
                       </a>
                       <p className="text-sm font-medium" style={{ color: '#434343' }}>
                         5 days overdue
@@ -534,13 +534,13 @@ export default function DashboardPage() {
                         Sarah Johnson
                       </p>
                       <a 
-                        href="https://maps.google.com/maps?q=1427+Oceanview+Dr+San+Juan+Capistrano+CA&z=18"
+                        href="https://maps.google.com/maps?q=31472+Paseo+Caliz+San+Juan+Capistrano+CA+92675&z=18"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-1 text-body text-primary hover:text-primary-700 transition-colors mb-2 w-fit"
                       >
                         <MapPin size={14} className="flex-shrink-0" />
-                        1427 Oceanview Dr
+                        31472 Paseo Caliz
                       </a>
                       <p className="text-sm font-medium" style={{ color: '#434343' }}>
                         Today, 11:45 AM
