@@ -435,8 +435,7 @@ export default function ReserveStudyPage() {
                         <span className="text-body text-ink-700">{item.category}</span>
                       </div>
                       <div className="text-right">
-                        <div className="text-body font-medium text-ink-900">${item.amount}</div>
-                        <div className="text-caption text-ink-600">{item.percentage}%</div>
+                        <div className="text-body font-medium text-ink-900">${item.amount} ({item.percentage}%)</div>
                       </div>
                     </div>
                   );
