@@ -141,6 +141,7 @@ export default function RequestDetailPage({ params }: RequestDetailPageProps) {
       const timer = setTimeout(() => setAnimateVoteCount(false), 600);
       return () => clearTimeout(timer);
     }
+    return undefined;
   }, [activeTab]);
 
   // Sample board members and voting data
@@ -706,11 +707,55 @@ export default function RequestDetailPage({ params }: RequestDetailPageProps) {
         </Link>
       </div>
 
-      {/* Header */}
-      <div className="bg-white rounded-card border border-ink-900/8 p-6">
-        <h1 className="text-h1 font-bold text-ink-900 mb-2">{request.title}</h1>
-        <p className="text-body text-ink-600">{request.description}</p>
+      {/* Request Header */}
+      <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6">
+        <div className="flex items-start justify-between">
+          <div className="flex-1">
+            {/* Owner Name - 3x size */}
+            <h1 className="text-5xl font-bold text-ink-900 mb-2">{request.submittedBy.name}</h1>
+            
+            {/* Address Link */}
+            <div className="mb-4">
+              <a 
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(request.submittedBy.address)}&zoom=20`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:text-primary-700 transition-colors text-body font-medium"
+              >
+                📍 {request.submittedBy.address}
+              </a>
+            </div>
+            
+            {/* Request Title - 2x size */}
+            <h2 className="text-4xl font-semibold text-ink-900 mb-3">{request.title}</h2>
+            
+            {/* Request Description */}
+            <p className="text-body text-ink-700 leading-relaxed">{request.description}</p>
+          </div>
+          
+          {/* Status Badge */}
+          <div className="ml-6 flex-shrink-0">
+            <span className={`px-4 py-2 rounded-full text-sm font-medium ${
+              request.status === 'submitted' ? 'bg-blue-100 text-blue-700' :
+              request.status === 'under-review' ? 'bg-yellow-100 text-yellow-700' :
+              request.status === 'board-voting' ? 'bg-purple-100 text-purple-700' :
+              request.status === 'approved' ? 'bg-green-100 text-green-700' :
+              request.status === 'denied' ? 'bg-red-100 text-red-700' :
+              request.status === 'completed' ? 'bg-emerald-100 text-emerald-700' :
+              'bg-neutral-100 text-neutral-700'
+            }`}>
+              {request.status === 'submitted' ? 'Submitted' :
+               request.status === 'under-review' ? 'Under Review' :
+               request.status === 'board-voting' ? 'Board Voting' :
+               request.status === 'approved' ? 'Approved' :
+               request.status === 'denied' ? 'Denied' :
+               request.status === 'completed' ? 'Completed' :
+               'In Progress'}
+            </span>
+          </div>
+        </div>
       </div>
+
 
       {/* Tabs */}
       <div className="bg-white rounded-card border border-ink-900/8">
@@ -1440,7 +1485,7 @@ export default function RequestDetailPage({ params }: RequestDetailPageProps) {
                                     
                                     // Toggle this position
                                     const newPositions = isRequired 
-                                      ? currentPositions.filter(p => p !== position.key)  // Remove if currently required
+                                      ? currentPositions.filter((p: string) => p !== position.key)  // Remove if currently required
                                       : [...currentPositions, position.key];             // Add if not currently required
                                     
                                     updateNeighborPositions(newPositions);
