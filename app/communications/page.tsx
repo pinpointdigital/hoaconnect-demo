@@ -20,9 +20,7 @@ import {
   Bell,
   X,
   Send,
-  Upload,
   LayoutDashboard,
-  FileText,
   Car,
   CreditCard,
   Key
