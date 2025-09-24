@@ -549,8 +549,7 @@ export default function DashboardPage() {
                     <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                       <Bot className="text-primary" size={32} />
                     </div>
-                    <h4 className="text-h4 font-medium text-ink-900 mb-2">HOA Connect Assistant</h4>
-                    <p className="text-body text-ink-600 mb-4">Ready to help with HOA management tasks</p>
+                    <h4 className="text-h4 font-medium text-ink-900 mb-4">HOA Connect Assistant</h4>
                     <Button 
                       variant="primary"
                       onClick={() => {
