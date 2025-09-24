@@ -165,11 +165,11 @@ export default function ReserveStudyPage() {
             {viewMode === 'dashboard' ? 'Card View' : 'Dashboard View'}
           </button>
           <button
-            onClick={() => setInteractiveCharts(!interactiveCharts)}
+            onClick={() => window.open('/community-documents/reserve-study/2024-002 Full Report OCR.pdf', '_blank')}
             className="flex items-center gap-2 text-primary hover:text-primary-700 transition-colors text-body font-medium"
           >
-            <Settings size={16} />
-            {interactiveCharts ? 'Static Charts' : 'Interactive Charts'}
+            <FileText size={16} />
+            View Full Report
           </button>
         </div>
       </div>
@@ -230,9 +230,14 @@ export default function ReserveStudyPage() {
               </div>
             </div>
             
-            <p className="text-body text-ink-600 text-center">
+            <p className="text-body text-ink-600 text-center mb-3">
               {reserveData.reserveHealth.description}
             </p>
+            <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+              <p className="text-caption text-blue-700">
+                <strong>What this means:</strong> Think of reserves like a savings account for big repairs. We have about half of what experts recommend, so we may need special assessments for major projects.
+              </p>
+            </div>
           </div>
 
           {/* 2. Member Dues Allocation */}
@@ -313,9 +318,14 @@ export default function ReserveStudyPage() {
               ))}
             </div>
             
-            <p className="text-body text-ink-600 text-center">
+            <p className="text-body text-ink-600 text-center mb-3">
               Top priorities include street repairs, community painting, and fencing/wall replacements.
             </p>
+            <div className="p-3 bg-purple-50 border border-purple-200 rounded-lg">
+              <p className="text-caption text-purple-700">
+                <strong>What this means:</strong> These are major expenses coming up that your reserves help pay for. Without adequate reserves, these could become special assessments.
+              </p>
+            </div>
           </div>
 
           {/* 4. Risk Areas */}
@@ -341,16 +351,21 @@ export default function ReserveStudyPage() {
                         area.risk === 'medium' ? 'bg-yellow-500' :
                         'bg-green-500'
                       }`}
-                      style={{ width: `${area.fundingLevel}%` }}
+                      style={{ width: `${Math.min(area.fundingLevel, 100)}%` }}
                     />
                   </div>
                 </div>
               ))}
             </div>
             
-            <p className="text-body text-ink-600 text-center">
+            <p className="text-body text-ink-600 text-center mb-3">
               Multiple components are critically underfunded: Mailboxes (0%), Tot Lot (5%), and Fencing (8%). These may require special assessments.
             </p>
+            <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-caption text-red-700">
+                <strong>What this means:</strong> Red and yellow items don't have enough money saved for future repairs. When they need fixing, you might get a special bill.
+              </p>
+            </div>
           </div>
 
           {/* 5. Budget Snapshot */}
@@ -421,9 +436,14 @@ export default function ReserveStudyPage() {
               </div>
             </div>
             
-            <p className="text-body text-ink-600 text-center mt-4">
+            <p className="text-body text-ink-600 text-center mt-4 mb-3">
               Your $346/month dues primarily fund landscaping (21%), water/sewer (11%), and insurance (9%). Note: 2025 shows $0 for reserves.
             </p>
+            <div className="p-3 bg-indigo-50 border border-indigo-200 rounded-lg">
+              <p className="text-caption text-indigo-700">
+                <strong>What this means:</strong> This shows where your monthly HOA dues go. Most pays for day-to-day operations like maintaining the landscape and paying insurance.
+              </p>
+            </div>
           </div>
         </div>
       ) : (
