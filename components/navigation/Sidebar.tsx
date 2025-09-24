@@ -13,8 +13,7 @@ import {
   UserPlus,
   CreditCard,
   User,
-  ClipboardCheck,
-  Workflow
+  ClipboardCheck
 } from 'lucide-react';
 
 interface NavItem {
@@ -33,8 +32,7 @@ const getNavigation = (userRole: import('@/lib/auth/types').UserRole): NavItem[]
   ...(userRole === 'homeowner' 
     ? [{ name: 'My ARC Requests', href: '/dashboard/arc', icon: <FileText size={20} />, hasNotification: true }]
     : [
-        { name: 'ARC Management', href: '/dashboard/arc-management', icon: <ClipboardCheck size={20} />, permission: 'canReviewARCRequests' as const },
-        { name: 'ARC Flow', href: '/dashboard/arc-flow', icon: <Workflow size={20} />, permission: 'canReviewARCRequests' as const }
+        { name: 'ARC Management', href: '/dashboard/arc-management', icon: <ClipboardCheck size={20} />, permission: 'canReviewARCRequests' as const }
       ]
   ),
   
