@@ -1110,7 +1110,7 @@ function MunicipalitiesTab({ municipalities, saveData, canEdit }) {
               <h3 className="text-h3 font-semibold text-ink-900 border-b border-ink-900/8 pb-2">
                 {category}
               </h3>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div className="space-y-4">
                 {categoryItems.map((item) => (
                   <div key={item.id} className="p-4 border border-ink-900/8 rounded-lg">
                     <div className="flex items-start gap-4">
