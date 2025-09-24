@@ -473,7 +473,7 @@ function DashboardTab({ communityData, saveData, canEdit, onImageUpload, updateH
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-black/20" />
             <div className="absolute bottom-4 left-4 text-white">
-              <p className="text-body font-medium">Used across all HOA dashboards</p>
+              <p className="text-body font-medium">Used across all HOA Connect dashboards</p>
             </div>
           </div>
         </div>
