@@ -40,7 +40,7 @@ const DEFAULT_COMMUNITY_DATA = {
       id: 'school-1',
       name: 'Capistrano Unified School District',
       address: '33122 Valle Rd, San Juan Capistrano, CA 92675',
-      phone: '949.234.9200',
+      phone: '(949) 234-9200',
       website: 'www.capousd.org',
       type: 'public',
       grades: 'K-12'
@@ -49,8 +49,8 @@ const DEFAULT_COMMUNITY_DATA = {
       id: 'school-2',
       name: 'San Juan Hills High School',
       address: '29211 Stallion Rd, San Juan Capistrano CA 92675',
-      phone: '949.234.5900',
-      website: '',
+      phone: '(949) 234-5900',
+      website: 'sjhhs.capousd.org',
       type: 'public',
       grades: '9-12'
     },
@@ -58,8 +58,8 @@ const DEFAULT_COMMUNITY_DATA = {
       id: 'school-3',
       name: 'Marco Forster Middle School',
       address: '25601 Camino del Avion, San Juan Capistrano, CA 92675',
-      phone: '949.234.5907',
-      website: '',
+      phone: '(949) 234-5907',
+      website: 'mfms.capousd.org',
       type: 'public',
       grades: '6-8'
     },
@@ -67,8 +67,8 @@ const DEFAULT_COMMUNITY_DATA = {
       id: 'school-4',
       name: 'San Juan Elementary School',
       address: '31642 El Camino Real, San Juan Capistrano, CA 92675',
-      phone: '949.493.4533',
-      website: '',
+      phone: '(949) 493-4533',
+      website: 'sjes.capousd.org',
       type: 'public',
       grades: 'K-5'
     },
@@ -76,8 +76,8 @@ const DEFAULT_COMMUNITY_DATA = {
       id: 'school-5',
       name: 'St Margaret\'s Episcopal School',
       address: '31641 La Novia Ave, San Juan Capistrano, CA 92675',
-      phone: '949.661.0108',
-      website: '',
+      phone: '(949) 661-0108',
+      website: 'www.smes.org',
       type: 'private',
       grades: 'K-12'
     },
@@ -85,8 +85,8 @@ const DEFAULT_COMMUNITY_DATA = {
       id: 'school-6',
       name: 'JSerra Catholic High School',
       address: '26351 Junipero Serra Rd, San Juan Capistrano, 92675',
-      phone: '949.493.9307',
-      website: '',
+      phone: '(949) 493-9307',
+      website: 'www.jserra.org',
       type: 'private',
       grades: '9-12'
     },
@@ -94,8 +94,8 @@ const DEFAULT_COMMUNITY_DATA = {
       id: 'school-7',
       name: 'Capistrano Valley Christian School',
       address: '32032 Del Obispo St, San Juan Capistrano, CA 92675',
-      phone: '949.493.5683',
-      website: '',
+      phone: '(949) 493-5683',
+      website: 'www.cvcs.org',
       type: 'private',
       grades: 'K-12'
     },
@@ -103,8 +103,8 @@ const DEFAULT_COMMUNITY_DATA = {
       id: 'school-8',
       name: 'Fairmont Schools',
       address: '26333 Oso Rd, San Juan Capistrano, CA 92675',
-      phone: '714.234.2784',
-      website: '',
+      phone: '(714) 234-2784',
+      website: 'www.fairmontschools.com',
       type: 'private',
       grades: 'K-12'
     },
@@ -112,8 +112,8 @@ const DEFAULT_COMMUNITY_DATA = {
       id: 'school-9',
       name: 'Stoneybrooke Christian School',
       address: '26300 Via Escolar, San Juan Capistrano, CA 92692',
-      phone: '949.364.4407',
-      website: '',
+      phone: '(949) 364-4407',
+      website: 'www.stoneybrookechristian.org',
       type: 'private',
       grades: 'K-12'
     }
@@ -700,8 +700,22 @@ function SchoolsTab({ schools, saveData, canEdit }) {
       <div className="space-y-4">
         {schools.map((school) => (
           <div key={school.id} className="p-4 border border-ink-900/8 rounded-lg">
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
+            <div className="flex items-start gap-4">
+              {/* Website Thumbnail */}
+              <div className="w-16 h-16 bg-neutral-100 rounded-lg border border-neutral-200 flex items-center justify-center flex-shrink-0">
+                {school.website ? (
+                  <iframe
+                    src={`https://${school.website}`}
+                    className="w-full h-full rounded-lg pointer-events-none"
+                    style={{ transform: 'scale(0.25)', transformOrigin: 'top left', width: '400%', height: '400%' }}
+                    title={`${school.name} website`}
+                  />
+                ) : (
+                  <GraduationCap size={20} className="text-neutral-400" />
+                )}
+              </div>
+
+              <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-3 mb-2">
                   <h3 className="text-h3 font-semibold text-ink-900">{school.name}</h3>
                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${
@@ -734,14 +748,14 @@ function SchoolsTab({ schools, saveData, canEdit }) {
                   )}
                 </div>
               </div>
+
               {canEdit && (
-                <Button
-                  variant="outline"
-                  size="sm"
+                <button
                   onClick={() => setEditingSchool(school)}
+                  className="flex items-center gap-2 text-primary hover:text-primary-700 transition-colors text-body font-medium"
                 >
                   <Edit3 size={14} />
-                </Button>
+                </button>
               )}
             </div>
           </div>
