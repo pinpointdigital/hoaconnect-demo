@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '@/lib/auth/context';
 import { UserRole } from '@/lib/auth/types';
 import { Button } from '@/components/ui/Button';
-import { Play, Users, FileText, Wrench, MessageSquare, Home as HomeIcon, AlertTriangle, Clock, CheckCircle, Bot, Send, User, ArrowRight, X, MapPin } from 'lucide-react';
+import { Play, Users, FileText, Wrench, MessageSquare, Home as HomeIcon, AlertTriangle, Clock, CheckCircle, Bot, Send, User, ArrowRight, X, MapPin, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 
 // Bot response database
@@ -486,7 +486,7 @@ export default function DashboardPage() {
                     </div>
                     <Link href="/dashboard/arc-management/arc-001">
                       <Button variant="primary" size="sm" className="ml-6">
-                        Review Now
+                        View
                       </Button>
                     </Link>
                   </div>
@@ -517,7 +517,7 @@ export default function DashboardPage() {
                     </div>
                     <Link href="/dashboard/arc-management/arc-002">
                       <Button variant="primary" size="sm" className="ml-6">
-                        Send Reminders
+                        View
                       </Button>
                     </Link>
                   </div>
@@ -527,7 +527,8 @@ export default function DashboardPage() {
                 <div className="p-6 border border-neutral-200 rounded-lg hover:border-blue-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
                   <div className="flex items-start justify-between">
                     <div className="flex-1 min-w-0">
-                      <h4 className="text-base font-semibold text-ink-900 mb-2">
+                      <h4 className="text-base font-semibold text-ink-900 mb-2 flex items-center gap-2">
+                        <Sparkles size={16} className="text-blue-600" />
                         New request submitted
                       </h4>
                       <p className="text-body font-medium text-ink-600 mb-1">
