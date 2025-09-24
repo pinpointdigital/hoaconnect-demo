@@ -490,8 +490,11 @@ export default function DashboardPage() {
                   <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
                     <Bot className="text-primary" size={20} />
                   </div>
-                  <div>
-                    <h3 className="text-h3 font-semibold text-ink-900">AI HOA Connect Assistant</h3>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-h3 font-semibold text-ink-900">HOA Connect Assistant</h3>
+                    <span className="px-2 py-1 bg-primary/10 text-primary text-caption font-medium rounded">
+                      AI-Powered (Beta)
+                    </span>
                   </div>
                 </div>
                 
@@ -503,7 +506,7 @@ export default function DashboardPage() {
                     <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                       <Bot className="text-primary" size={32} />
                     </div>
-                    <h4 className="text-h4 font-medium text-ink-900 mb-2">AI HOA Connect Assistant</h4>
+                    <h4 className="text-h4 font-medium text-ink-900 mb-2">HOA Connect Assistant</h4>
                     <p className="text-body text-ink-600 mb-4">Ready to help with HOA management tasks</p>
                     <Button 
                       variant="primary"
