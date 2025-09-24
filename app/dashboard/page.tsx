@@ -472,7 +472,7 @@ export default function DashboardPage() {
                         Robert Chen
                       </p>
                       <a 
-                        href="https://maps.google.com/maps?q=31462+Paseo+Campeon+San+Juan+Capistrano+CA+92675&z=18"
+                        href="https://www.google.com/maps/search/?api=1&query=31462+Paseo+Campeon,+San+Juan+Capistrano,+CA+92675&zoom=20"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-1 text-body text-primary hover:text-primary-700 transition-colors mb-2 w-fit"
@@ -503,7 +503,7 @@ export default function DashboardPage() {
                         David Martinez
                       </p>
                       <a 
-                        href="https://maps.google.com/maps?q=27381+Via+Priorato+San+Juan+Capistrano+CA+92675&z=18"
+                        href="https://www.google.com/maps/search/?api=1&query=27381+Via+Priorato,+San+Juan+Capistrano,+CA+92675&zoom=20"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-1 text-body text-primary hover:text-primary-700 transition-colors mb-2 w-fit"
@@ -534,7 +534,7 @@ export default function DashboardPage() {
                         Sarah Johnson
                       </p>
                       <a 
-                        href="https://maps.google.com/maps?q=31472+Paseo+Caliz+San+Juan+Capistrano+CA+92675&z=18"
+                        href="https://www.google.com/maps/search/?api=1&query=31472+Paseo+Caliz,+San+Juan+Capistrano,+CA+92675&zoom=20"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-1 text-body text-primary hover:text-primary-700 transition-colors mb-2 w-fit"
