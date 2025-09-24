@@ -50,7 +50,7 @@ interface ReserveData {
   }>;
 }
 
-const ACTUAL_RESERVE_DATA: ReserveData = {
+const RANCHO_MADRINA_DATA: ReserveData = {
   reserveHealth: {
     percentage: 57.24,
     status: 'fair',
@@ -58,37 +58,37 @@ const ACTUAL_RESERVE_DATA: ReserveData = {
   },
   memberDues: {
     monthlyReserveAmount: 53.53,
-    totalMonthlyDues: 415, // Calculated from $498k annual budget / 120 homes / 12 months
-    reservePercentage: 12.9
+    totalMonthlyDues: 346.05, // Actual 2025 dues per unit per month
+    reservePercentage: 15.47 // Reserves share if 2024 contribution continued
   },
   upcomingProjects: [
+    { name: 'Community Painting', year: 2025, estimatedCost: 50119, priority: 'high' },
     { name: 'Street Repairs', year: 2025, estimatedCost: 659315, priority: 'high' },
-    { name: 'Community Painting', year: 2024, estimatedCost: 50119, priority: 'high' },
-    { name: 'Fencing & Wall Replacement', year: 2026, estimatedCost: 1161288, priority: 'high' },
-    { name: 'Tot Lot Improvements', year: 2029, estimatedCost: 118000, priority: 'medium' },
-    { name: 'Lighting System Upgrades', year: 2027, estimatedCost: 84200, priority: 'medium' }
+    { name: 'Access Equipment & Fencing', year: 2026, estimatedCost: 1161288, priority: 'high' },
+    { name: 'Lighting System Upgrades', year: 2027, estimatedCost: 84200, priority: 'medium' },
+    { name: 'Tot Lot Improvements', year: 2029, estimatedCost: 118000, priority: 'medium' }
   ],
   riskAreas: [
-    { component: 'Fencing & Walls', fundingLevel: 8.3, risk: 'high' }, // $96k / $1.16M
-    { component: 'Mailboxes/Monuments', fundingLevel: 0, risk: 'high' }, // $0 / $80k
-    { component: 'Tot Lot', fundingLevel: 5.3, risk: 'high' }, // $6k / $118k
-    { component: 'Lighting Systems', fundingLevel: 21.3, risk: 'medium' }, // $18k / $84k
-    { component: 'Streets', fundingLevel: 56.6, risk: 'medium' }, // $373k / $659k
-    { component: 'Landscape', fundingLevel: 314.5, risk: 'low' } // $348k / $110k (overfunded)
+    { component: 'Mailboxes & Monuments', fundingLevel: 0, risk: 'high' },
+    { component: 'Tot Lot', fundingLevel: 5.3, risk: 'high' },
+    { component: 'Access Equipment & Fencing', fundingLevel: 8.3, risk: 'high' },
+    { component: 'Lighting Systems', fundingLevel: 21.3, risk: 'medium' },
+    { component: 'Streets', fundingLevel: 56.6, risk: 'medium' },
+    { component: 'Landscape', fundingLevel: 314.5, risk: 'low' }
   ],
   budgetBreakdown: [
-    { category: 'Landscaping', amount: 107, percentage: 21.5 }, // $107k / $498k
-    { category: 'Water & Sewer', amount: 55, percentage: 11.0 },
-    { category: 'Insurance', amount: 46, percentage: 9.2 },
-    { category: 'Management Services', amount: 23, percentage: 4.7 },
-    { category: 'Reserves', amount: 77, percentage: 15.5 }, // 2024 allocation
-    { category: 'Other Operations', amount: 190, percentage: 38.1 } // Utilities, patrol, maintenance, etc.
+    { category: 'Landscaping', amount: 107, percentage: 21.48 },
+    { category: 'Water & Sewer', amount: 55, percentage: 11.04 },
+    { category: 'Insurance', amount: 46, percentage: 9.27 },
+    { category: 'Management Services', amount: 23, percentage: 4.67 },
+    { category: 'Electricity', amount: 13, percentage: 2.53 },
+    { category: 'Other Operations', amount: 254, percentage: 50.99 } // Patrol, legal, street sweeping, etc.
   ]
 };
 
 export default function ReserveStudyPage() {
   const { hasPermission } = useAuth();
-  const [reserveData] = useState<ReserveData>(ACTUAL_RESERVE_DATA);
+  const [reserveData] = useState<ReserveData>(RANCHO_MADRINA_DATA);
   const [viewMode, setViewMode] = useState<'dashboard' | 'cards'>('dashboard');
   const [interactiveCharts, setInteractiveCharts] = useState(true);
 
@@ -270,15 +270,15 @@ export default function ReserveStudyPage() {
             </div>
             
             <p className="text-body text-ink-600 text-center mt-4">
-              About $53.53 per month from each home goes into long-term reserves to protect the community from large special assessments.
+              In 2024, about $53.53 per month from each home went into long-term reserves to protect the community from large special assessments.
             </p>
-            <div className="p-3 bg-amber-50 border border-amber-200 rounded-lg mt-3">
+            <div className="p-3 bg-red-50 border border-red-200 rounded-lg mt-3">
               <div className="flex items-center gap-2">
-                <AlertTriangle size={14} className="text-amber-600" />
-                <span className="text-caption font-medium text-amber-800">2025 Budget Alert</span>
+                <AlertTriangle size={14} className="text-red-600" />
+                <span className="text-caption font-medium text-red-800">Critical: 2025 Budget Issue</span>
               </div>
-              <p className="text-caption text-amber-700 mt-1">
-                The 2025 budget shows $0 allocated to reserves - this needs board attention.
+              <p className="text-caption text-red-700 mt-1">
+                The 2025 budget shows $0 allocated to reserves while we need $77k annually. This could worsen our funding deficit.
               </p>
             </div>
           </div>
@@ -349,7 +349,7 @@ export default function ReserveStudyPage() {
             </div>
             
             <p className="text-body text-ink-600 text-center">
-              Fencing and mailboxes are currently underfunded, meaning future repairs may require additional funding.
+              Multiple components are critically underfunded: Mailboxes (0%), Tot Lot (5%), and Fencing (8%). These may require special assessments.
             </p>
           </div>
 
@@ -422,7 +422,7 @@ export default function ReserveStudyPage() {
             </div>
             
             <p className="text-body text-ink-600 text-center mt-4">
-              Most of your dues go to landscaping, insurance, and utilities. A smaller portion is set aside for reserves.
+              Your $346/month dues primarily fund landscaping (21%), water/sewer (11%), and insurance (9%). Note: 2025 shows $0 for reserves.
             </p>
           </div>
         </div>
