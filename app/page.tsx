@@ -587,7 +587,7 @@ export default function Home() {
                 <Link href="/dashboard?role=homeowner">
                   <Button 
                     variant="secondary" 
-                    className="w-full flex items-center justify-center gap-2 py-3 font-medium"
+                    className="w-full flex items-center justify-center gap-2 py-3 font-medium whitespace-nowrap"
                   >
                     <User size={16} />
                     Homeowner Portal
@@ -597,7 +597,7 @@ export default function Home() {
                 <Link href="/dashboard?role=captain">
                   <Button 
                     variant="secondary" 
-                    className="w-full flex items-center justify-center gap-2 py-3 font-medium"
+                    className="w-full flex items-center justify-center gap-2 py-3 font-medium whitespace-nowrap"
                   >
                     <Building size={16} />
                     HOA Login
