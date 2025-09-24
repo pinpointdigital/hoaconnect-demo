@@ -77,7 +77,7 @@ export function Sidebar() {
   );
 
   return (
-    <nav className="w-64 bg-white border-r border-ink-900/8 h-full">
+    <nav className="w-72 bg-white border-r border-ink-900/8 h-full">
       <div className="p-6">
         <div className="space-y-1">
           {visibleNavigation.map((item) => (

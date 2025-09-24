@@ -418,13 +418,18 @@ function DashboardTab({ communityData, saveData, canEdit, onImageUpload, updateH
     const newData = { ...communityData, hoa: hoaForm };
     saveData(newData);
     
+    // Parse address string for global context
+    const addressParts = hoaForm.address.split(',').map(part => part.trim());
+    const city = addressParts.length > 1 ? addressParts[addressParts.length - 2] : addressParts[0];
+    const state = addressParts.length > 1 ? addressParts[addressParts.length - 1] : 'CA';
+    
     // Update global HOA info for header/footer
     updateHOAInfo({
       name: hoaForm.name,
       address: {
-        street: '',
-        city: hoaForm.address.split(',')[0] || hoaForm.address,
-        state: hoaForm.address.split(',')[1]?.trim() || 'CA',
+        street: addressParts.length > 2 ? addressParts.slice(0, -2).join(', ') : '',
+        city: city,
+        state: state,
         zip: '92675'
       },
       admin: {
