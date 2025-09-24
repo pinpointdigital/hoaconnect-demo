@@ -283,18 +283,17 @@ export default function CommunityInfoPage() {
 
   return (
     <div className="space-y-6">
-      {/* Page Header */}
-      <div className="flex items-center gap-3">
-        <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-          <Building2 className="text-primary" size={24} />
-        </div>
-        <div>
-          <h1 className="text-h1 font-bold text-ink-900">Community Info</h1>
-          <p className="text-body text-ink-600">Manage HOA information, schools, municipalities, and local utilities</p>
+      {/* Page Header - Consistent with ARC Management */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+            <Building2 className="text-primary" size={24} />
+          </div>
+          <h1 className="text-h1 font-bold text-ink-900">Community Info Dashboard</h1>
         </div>
       </div>
 
-      {/* Tab Navigation */}
+      {/* Tab Navigation - Consistent with ARC Management */}
       <div className="border-b border-ink-900/8">
         <nav className="flex space-x-8">
           {tabs.map((tab) => (
