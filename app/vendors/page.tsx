@@ -12,7 +12,8 @@ import {
   Phone,
   Mail,
   Globe,
-  FileText
+  FileText,
+  Search
 } from 'lucide-react';
 
 // Default vendors data
@@ -97,6 +98,7 @@ export default function VendorsPage() {
   const [vendorsData, setVendorsData] = useState(DEFAULT_VENDORS_DATA);
   const [editingVendor, setEditingVendor] = useState<any>(null);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
   const [newVendor, setNewVendor] = useState({
     name: '',
     address: '',
@@ -177,6 +179,15 @@ export default function VendorsPage() {
   // Check permissions
   const canEdit = hasPermission('canManageVendors') || hasPermission('canReviewARCRequests');
 
+  // Filter vendors based on search term
+  const filteredVendors = vendorsData.vendors.filter(vendor => 
+    vendor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    vendor.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    vendor.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    vendor.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    vendor.notes.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="space-y-6">
       {/* Page Header - Consistent with other pages */}
@@ -211,6 +222,33 @@ export default function VendorsPage() {
         )}
       </div>
 
+      {/* Search Bar */}
+      <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-4">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-ink-500" size={20} />
+          <input
+            type="text"
+            placeholder="Search vendors by name, category, address, or notes..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-body"
+          />
+          {searchTerm && (
+            <button
+              onClick={() => setSearchTerm('')}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-ink-500 hover:text-ink-700"
+            >
+              ×
+            </button>
+          )}
+        </div>
+        {searchTerm && (
+          <p className="text-caption text-ink-600 mt-2">
+            {filteredVendors.length} vendor{filteredVendors.length !== 1 ? 's' : ''} found
+          </p>
+        )}
+      </div>
+
       {/* Vendors Content */}
       <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1">
         <div className="p-6">
@@ -229,7 +267,7 @@ export default function VendorsPage() {
               'Security & Parking Enforcement',
               'Tree Trimming'
             ].map(category => {
-              const categoryVendors = vendorsData.vendors
+              const categoryVendors = filteredVendors
                 .filter(vendor => vendor.category === category)
                 .sort((a, b) => a.name.localeCompare(b.name));
               if (categoryVendors.length === 0) return null;
