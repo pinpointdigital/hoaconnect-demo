@@ -25,9 +25,9 @@ export function Button({
         
         // Size variants
         {
-          'h-9 px-4 text-[15px] rounded-ctl': size === 'sm',
-          'h-10 px-5 text-[15px] rounded-ctl': size === 'md',
-          'h-12 px-6 text-[15px] rounded-ctl': size === 'lg',
+          'h-9 px-4 text-body rounded-ctl': size === 'sm',
+          'h-10 px-5 text-body rounded-ctl': size === 'md',
+          'h-12 px-6 text-body rounded-ctl': size === 'lg',
         },
         
         // Color variants with visible hover effects

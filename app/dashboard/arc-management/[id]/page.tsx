@@ -1458,12 +1458,12 @@ export default function RequestDetailPage({ params }: RequestDetailPageProps) {
                                   {position.label}
                                   {hasNoNeighbor && isRequired && (
                                     <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center">
-                                      <span className="text-white text-xs">×</span>
+                                      <span className="text-white text-caption">×</span>
                                     </div>
                                   )}
                                   {assignedNeighbor && isRequired && !hasNoNeighbor && (
                                     <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
-                                      <span className="text-white text-xs">✓</span>
+                                      <span className="text-white text-caption">✓</span>
                                     </div>
                                   )}
                                 </button>
@@ -1989,7 +1989,7 @@ export default function RequestDetailPage({ params }: RequestDetailPageProps) {
                                 />
                               ) : (
                                 <div className="w-full h-32 bg-neutral-100 rounded-lg border border-ink-200 flex items-center justify-center">
-                                  <span className="text-neutral-500 text-xs">Invalid photo</span>
+                                  <span className="text-neutral-500 text-caption">Invalid photo</span>
                                 </div>
                               )}
                               <button
