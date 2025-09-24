@@ -177,9 +177,11 @@ export default function ReserveStudyPage() {
 
       {/* Dashboard View */}
       {viewMode === 'dashboard' ? (
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-          {/* 1. Reserve Health */}
-          <div className="lg:col-span-1 bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6">
+        <div className="space-y-6">
+          {/* Row 1: Reserve Health and Your Monthly Dues */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Reserve Health */}
+            <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
                 <Activity className="text-blue-600" size={16} />
@@ -239,10 +241,10 @@ export default function ReserveStudyPage() {
                 <strong>What this means:</strong> Think of reserves like a savings account for big repairs. We have about half of what experts recommend, so we may need special assessments for major projects.
               </p>
             </div>
-          </div>
+            </div>
 
-          {/* 2. Member Dues Allocation */}
-          <div className="lg:col-span-1 bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6">
+            {/* Your Monthly Dues */}
+            <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
                 <DollarSign className="text-green-600" size={16} />
@@ -289,8 +291,10 @@ export default function ReserveStudyPage() {
             </div>
           </div>
 
-          {/* 3. Upcoming Projects */}
-          <div className="lg:col-span-2 xl:col-span-1 bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6">
+          {/* Row 2: Next 5 Years and Risk Areas */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Next 5 Years */}
+            <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
                 <Calendar className="text-purple-600" size={16} />
@@ -327,10 +331,10 @@ export default function ReserveStudyPage() {
                 <strong>What this means:</strong> These are major expenses coming up that your reserves help pay for. Without adequate reserves, these could become special assessments.
               </p>
             </div>
-          </div>
+            </div>
 
-          {/* 4. Risk Areas */}
-          <div className="lg:col-span-1 bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6">
+            {/* Risk Areas */}
+            <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
                 <AlertTriangle className="text-red-600" size={16} />
@@ -367,10 +371,11 @@ export default function ReserveStudyPage() {
                 <strong>What this means:</strong> Red and yellow items don't have enough money saved for future repairs. When they need fixing, you might get a special bill.
               </p>
             </div>
+            </div>
           </div>
 
-          {/* 5. Budget Snapshot */}
-          <div className="lg:col-span-2 xl:col-span-2 bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6">
+          {/* Row 3: Monthly Dues Breakdown (Full Width) */}
+          <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
                 <PieChart className="text-indigo-600" size={16} />
@@ -378,10 +383,10 @@ export default function ReserveStudyPage() {
               <h3 className="text-h3 font-semibold text-ink-900">Monthly Dues Breakdown</h3>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Donut Chart */}
-              <div className="flex items-center justify-center">
-                <div className="relative w-48 h-48">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* Enlarged Donut Chart */}
+              <div className="md:col-span-2 flex items-center justify-center">
+                <div className="relative w-80 h-80">
                   <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
                     {reserveData.budgetBreakdown.map((item, index) => {
                       const colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'];
@@ -418,7 +423,7 @@ export default function ReserveStudyPage() {
               </div>
               
               {/* Legend */}
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {reserveData.budgetBreakdown.map((item, index) => {
                   const colors = ['bg-blue-500', 'bg-green-500', 'bg-yellow-500', 'bg-red-500', 'bg-purple-500'];
                   return (

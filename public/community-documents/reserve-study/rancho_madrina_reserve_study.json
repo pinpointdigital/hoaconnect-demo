@@ -1,0 +1,180 @@
+{
+  "community": {
+    "name": "Rancho Madrina HOA",
+    "units": 120
+  },
+  "assessment_details": {
+    "dues_per_unit_month_2025": 346.05,
+    "reserves_portion_per_unit_month_2024": 53.53,
+    "reserves_share_pct_of_2025_dues_if_held_flat": 15.47,
+    "notes": "2025 budget currently shows $0 reserve allocation; 2024 reserve contribution was ~$53.53/home/month."
+  },
+  "funding_ratios_2024": {
+    "anticipated_reserve_balance": 887050,
+    "fully_funded_balance": 1549695,
+    "percent_funded": 57.24,
+    "deficit_per_unit": 5522
+  },
+  "reserve_contributions_2024": {
+    "member_total": 77086,
+    "per_unit_annual": 642,
+    "per_unit_monthly": 53.53,
+    "interest": 17995,
+    "total": 95081,
+    "monthly_total_all_members": 7923
+  },
+  "reserve_components": [
+    {
+      "name": "Streets",
+      "current_cost": 659315,
+      "assigned_reserves": 373209,
+      "remaining_life": "1-7 years"
+    },
+    {
+      "name": "Painting",
+      "current_cost": 50119,
+      "assigned_reserves": 36474,
+      "remaining_life": "0-2 years"
+    },
+    {
+      "name": "Access Equip, Fencing & Walls",
+      "current_cost": 1161288,
+      "assigned_reserves": 96518,
+      "remaining_life": "2-21 years"
+    },
+    {
+      "name": "Lighting",
+      "current_cost": 84200,
+      "assigned_reserves": 17955,
+      "remaining_life": "3-26 years"
+    },
+    {
+      "name": "Landscape",
+      "current_cost": 110600,
+      "assigned_reserves": 347850,
+      "remaining_life": "0-9 years"
+    },
+    {
+      "name": "Tot Lot",
+      "current_cost": 118000,
+      "assigned_reserves": 6261,
+      "remaining_life": "5-11 years"
+    },
+    {
+      "name": "Mailboxes & Monuments",
+      "current_cost": 80750,
+      "assigned_reserves": 0,
+      "remaining_life": "21 years"
+    },
+    {
+      "name": "Contingency",
+      "current_cost": null,
+      "assigned_reserves": 8783
+    }
+  ],
+  "timeline_projections_next_5_years": [
+    {
+      "component": "Painting",
+      "window": "2025\u20132026",
+      "est_cost_current_dollars": 50119,
+      "basis": "0\u20132 yrs remaining life"
+    },
+    {
+      "component": "Streets",
+      "window": "2025\u20132029",
+      "est_cost_current_dollars": 659315,
+      "basis": "1\u20137 yrs remaining life"
+    },
+    {
+      "component": "Access Equip, Fencing & Walls",
+      "window": "2026\u20132029",
+      "est_cost_current_dollars": 1161288,
+      "basis": "2\u201321 yrs remaining life"
+    },
+    {
+      "component": "Lighting",
+      "window": "2027\u20132029",
+      "est_cost_current_dollars": 84200,
+      "basis": "3\u201326 yrs remaining life"
+    },
+    {
+      "component": "Landscape (recurring)",
+      "window": "annual 2025\u20132029",
+      "est_cost_current_dollars": 110600,
+      "basis": "0\u20139 yrs remaining life"
+    },
+    {
+      "component": "Tot Lot",
+      "window": "2029",
+      "est_cost_current_dollars": 118000,
+      "basis": "5\u201311 yrs remaining life"
+    }
+  ],
+  "budget_2025": {
+    "income": {
+      "regular_assessments": 482112,
+      "total_income": 498312
+    },
+    "budget_line_items": [
+      {
+        "category": "Landscape (all-in)",
+        "amount": 107052,
+        "percentage_of_total": 21.48
+      },
+      {
+        "category": "Water & Sewer",
+        "amount": 55000,
+        "percentage_of_total": 11.04
+      },
+      {
+        "category": "Insurance - Master Policy",
+        "amount": 46200,
+        "percentage_of_total": 9.27
+      },
+      {
+        "category": "Management Services",
+        "amount": 23266,
+        "percentage_of_total": 4.67
+      },
+      {
+        "category": "Electricity",
+        "amount": 12602,
+        "percentage_of_total": 2.53
+      },
+      {
+        "category": "Patrol Services",
+        "amount": 8700,
+        "percentage_of_total": 1.75
+      },
+      {
+        "category": "Legal (Attorney/Collections/Voting est.)",
+        "amount": 7300,
+        "percentage_of_total": 1.46
+      },
+      {
+        "category": "Street Sweeping",
+        "amount": 4500,
+        "percentage_of_total": 0.9
+      },
+      {
+        "category": "Lighting Maintenance",
+        "amount": 3000,
+        "percentage_of_total": 0.6
+      },
+      {
+        "category": "Pest Control",
+        "amount": 3000,
+        "percentage_of_total": 0.6
+      },
+      {
+        "category": "Other / Misc. Ops (taxes, telecom, internet, contingency, etc.)",
+        "amount": 212692,
+        "percentage_of_total": 42.68
+      }
+    ],
+    "reserve_allocation": {
+      "budgeted_2024": 77086,
+      "budgeted_2025": 0
+    }
+  }
+}
