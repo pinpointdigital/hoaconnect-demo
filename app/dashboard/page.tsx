@@ -511,7 +511,7 @@ export default function DashboardPage() {
                         <MapPin size={14} className="flex-shrink-0" />
                         1427 Oceanview Dr
                       </a>
-                      <p className="text-sm font-medium" style={{ color: 'var(--warning)' }}>
+                      <p className="text-sm font-medium" style={{ color: '#434343' }}>
                         2 neighbors pending
                       </p>
                     </div>
@@ -542,7 +542,7 @@ export default function DashboardPage() {
                         <MapPin size={14} className="flex-shrink-0" />
                         1429 Oceanview Dr
                       </a>
-                      <p className="text-sm font-medium" style={{ color: 'var(--info)' }}>
+                      <p className="text-sm font-medium" style={{ color: '#434343' }}>
                         Today, 2:30 PM
                       </p>
                     </div>
