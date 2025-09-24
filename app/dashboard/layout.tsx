@@ -62,9 +62,14 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     if (file) {
       setSelectedImage(file);
       if (file instanceof File) {
-        const previewUrl = URL.createObjectURL(file);
-        setImagePreview(previewUrl);
-        setEditingProfile(prev => ({ ...prev, profilePhoto: previewUrl }));
+        // Convert to base64 for better persistence
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const base64Url = e.target?.result as string;
+          setImagePreview(base64Url);
+          setEditingProfile(prev => ({ ...prev, profilePhoto: base64Url }));
+        };
+        reader.readAsDataURL(file);
       }
     }
   };
@@ -86,9 +91,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const cancelEdit = () => {
     setShowProfileModal(false);
     setSelectedImage(null);
-    if (imagePreview) {
-      URL.revokeObjectURL(imagePreview);
-    }
     setImagePreview(null);
   };
   
