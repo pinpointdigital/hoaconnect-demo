@@ -448,9 +448,13 @@ export default function Home() {
                   if (videoRef.current) {
                     try {
                       const video = videoRef.current;
+                      
+                      console.log('🍎 Safari play attempt - video source:', video.currentSrc);
+                      console.log('🍎 Safari play attempt - ready state:', video.readyState);
+                      console.log('🍎 Safari play attempt - can play WebM:', video.canPlayType('video/webm'));
+                      
                       video.muted = true;
                       video.volume = 0;
-                      video.defaultMuted = true;
                       video.setAttribute('muted', 'true');
                       video.setAttribute('playsinline', 'true');
                       video.setAttribute('webkit-playsinline', 'true');
@@ -462,6 +466,7 @@ export default function Home() {
                       console.log('✅ Safari video started manually');
                     } catch (e) {
                       console.log('❌ Safari manual play failed:', e);
+                      console.log('❌ Error details:', e.name, e.message);
                     }
                   }
                 }}
