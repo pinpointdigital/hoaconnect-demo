@@ -115,8 +115,13 @@ export default function DashboardPage() {
     if (file) {
       setSelectedImage(file);
       if (file instanceof File) {
-        const previewUrl = URL.createObjectURL(file);
-        setImagePreview(previewUrl);
+        // Convert to base64 for better localStorage persistence
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const base64Url = e.target?.result as string;
+          setImagePreview(base64Url);
+        };
+        reader.readAsDataURL(file);
       }
     }
   };
@@ -135,9 +140,6 @@ export default function DashboardPage() {
   const cancelImageUpload = () => {
     setShowImageUploadModal(false);
     setSelectedImage(null);
-    if (imagePreview) {
-      URL.revokeObjectURL(imagePreview);
-    }
     setImagePreview(null);
   };
 
