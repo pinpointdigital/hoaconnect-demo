@@ -13,7 +13,9 @@ import {
   UserPlus,
   CreditCard,
   User,
-  ClipboardCheck
+  ClipboardCheck,
+  Bot,
+  BookOpen
 } from 'lucide-react';
 
 interface NavItem {
@@ -28,27 +30,14 @@ interface NavItem {
 const getNavigation = (userRole: import('@/lib/auth/types').UserRole): NavItem[] => [
   { name: 'Dashboard', href: '/dashboard', icon: <LayoutDashboard size={20} /> },
   
-  // ARC Requests - Different access levels
-  ...(userRole === 'homeowner' 
-    ? [{ name: 'My ARC Requests', href: '/dashboard/arc', icon: <FileText size={20} />, hasNotification: true }]
-    : [
-        { name: 'ARC Management', href: '/dashboard/arc-management', icon: <ClipboardCheck size={20} />, permission: 'canReviewARCRequests' as const }
-      ]
-  ),
-  
-  // Onboarding & Welcome - Admin/Board only
+  // HOA Community Info - Admin/Management/Board only
   ...(userRole !== 'homeowner' ? [
-    { name: 'New Residents', href: '/dashboard/new-residents', icon: <UserPlus size={20} />, permission: 'canViewOnboardingProgress' as const },
+    { name: 'HOA Community Info', href: '/community', icon: <HomeIcon size={20} /> },
   ] : []),
   
   // Residents - Admin/Management only
   ...(userRole === 'captain' || userRole === 'management-company' ? [
     { name: 'Residents', href: '/residents', icon: <Users size={20} />, permission: 'canManageResidents' as const },
-  ] : []),
-  
-  // Vendors - Admin/Management/Board
-  ...(userRole !== 'homeowner' ? [
-    { name: 'Vendors', href: '/vendors', icon: <Wrench size={20} />, permission: 'canViewVendorPerformance' as const },
   ] : []),
   
   // Communications - Role-specific access
@@ -60,11 +49,31 @@ const getNavigation = (userRole: import('@/lib/auth/types').UserRole): NavItem[]
     : [{ name: 'Communications', href: '/communications', icon: <MessageSquare size={20} />, permission: 'canViewAllCommunications' as const }]
   ),
   
-  // My Account - Homeowner only, Community Info for others
-  ...(userRole === 'homeowner'
-    ? [{ name: 'My Account', href: '/dashboard/account', icon: <User size={20} /> }]
-    : [{ name: 'HOA Community Info', href: '/community', icon: <HomeIcon size={20} /> }]
+  // Vendors - Admin/Management/Board
+  ...(userRole !== 'homeowner' ? [
+    { name: 'Vendors', href: '/vendors', icon: <Wrench size={20} />, permission: 'canViewVendorPerformance' as const },
+  ] : []),
+  
+  // CC&R & Bylaws - All users
+  { name: 'CC&R & Bylaws', href: '/ccr-bylaws', icon: (
+    <div className="flex items-center gap-1">
+      <BookOpen size={16} />
+      <Bot size={12} className="text-blue-600" />
+    </div>
+  ) },
+  
+  // ARC Requests - Different access levels
+  ...(userRole === 'homeowner' 
+    ? [{ name: 'My ARC Requests', href: '/dashboard/arc', icon: <FileText size={20} />, hasNotification: true }]
+    : [
+        { name: 'ARC Management', href: '/dashboard/arc-management', icon: <ClipboardCheck size={20} />, permission: 'canReviewARCRequests' as const }
+      ]
   ),
+  
+  // My Account - Homeowner only
+  ...(userRole === 'homeowner' ? [
+    { name: 'My Account', href: '/dashboard/account', icon: <User size={20} /> }
+  ] : []),
 ];
 
 export function Sidebar() {
