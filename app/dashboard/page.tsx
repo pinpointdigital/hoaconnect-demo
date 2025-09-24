@@ -464,100 +464,171 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Role-Specific Quick Actions Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* ARC Management Alerts & Messages */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             
-            {/* ARC Requests - Role-specific content */}
-            {(hasPermission('canViewAllARCRequests') || (currentRole as UserRole) === 'homeowner') && (
-              <div className="rounded-card border border-ink-900/8 bg-white shadow-elev1 p-6 hover:shadow-lg hover:-translate-y-1 transition-all duration-150 cursor-pointer">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-11 h-11 bg-primary/10 rounded-ctl flex items-center justify-center">
-                    <FileText size={20} className="text-primary" />
-                  </div>
-                  <h3 className="text-h4 font-medium text-ink-900">
-                    {(currentRole as UserRole) === 'homeowner' ? 'My ARC Requests' : 'ARC Requests'}
-                  </h3>
-                </div>
-                <p className="text-body text-ink-800 mb-4">
-                  {(currentRole as UserRole) === 'homeowner' 
-                    ? 'Submit and track your architectural review requests.'
-                    : 'Manage architectural review requests and approvals.'
-                  }
-                </p>
-                <Button variant="ghost" size="sm">
-                  {(currentRole as UserRole) === 'homeowner' ? 'My Requests' : 'View All'}
-                </Button>
-              </div>
-            )}
-
-            {/* Residents - Admin/Management only */}
-            {hasPermission('canManageResidents') && (
-              <div className="rounded-card border border-ink-900/8 bg-white shadow-elev1 p-6 hover:shadow-lg hover:-translate-y-1 transition-all duration-150 cursor-pointer">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-11 h-11 bg-accent/20 rounded-ctl flex items-center justify-center">
-                    <Users size={20} className="text-ink-900" />
-                  </div>
-                  <h3 className="text-h4 font-medium text-ink-900">Residents</h3>
-                </div>
-                <p className="text-body text-ink-800 mb-4">
-                  Onboarding, welcome committee, and resident management.
-                </p>
-                <Button variant="ghost" size="sm">Manage</Button>
-              </div>
-            )}
-
-            {/* Vendors - Admin/Management/Board */}
-            {hasPermission('canViewVendorPerformance') && (
-              <div className="rounded-card border border-ink-900/8 bg-white shadow-elev1 p-6 hover:shadow-lg hover:-translate-y-1 transition-all duration-150 cursor-pointer">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-11 h-11 bg-primary/10 rounded-ctl flex items-center justify-center">
-                    <Wrench size={20} className="text-primary" />
-                  </div>
-                  <h3 className="text-h4 font-medium text-ink-900">Vendors</h3>
-                </div>
-                <p className="text-body text-ink-800 mb-4">
-                  {userProfile.role === 'board-member' 
-                    ? 'Review vendor performance and contracts.'
-                    : 'Vendor directory, scheduling, and performance tracking.'
-                  }
-                </p>
-                <Button variant="ghost" size="sm">Directory</Button>
-              </div>
-            )}
-
-            {/* Communications - Role-specific */}
-            <div className="rounded-card border border-ink-900/8 bg-white shadow-elev1 p-6 hover:shadow-lg hover:-translate-y-1 transition-all duration-150">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-11 h-11 bg-accent/20 rounded-ctl flex items-center justify-center">
-                  <MessageSquare size={20} className="text-ink-900" />
-                </div>
-                <h3 className="text-h4 font-medium text-ink-900">
-                  {(currentRole as UserRole) === 'homeowner' ? 'Community News' : 'Communications'}
+            {/* ARC Request Alerts */}
+            <div className="rounded-card border border-ink-900/8 bg-white shadow-elev1 p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-h3 font-semibold text-ink-900 flex items-center gap-2">
+                  <AlertTriangle className="text-yellow-600" size={20} />
+                  ARC Request Alerts
                 </h3>
+                <Link href="/dashboard/arc-management">
+                  <Button variant="ghost" size="sm">
+                    View All
+                  </Button>
+                </Link>
               </div>
-              <p className="text-body text-ink-800 mb-4">
-                {(currentRole as UserRole) === 'homeowner'
-                  ? 'Stay updated with community announcements and news.'
-                  : 'Notices, forms, and community communication center.'
-                }
-              </p>
-              <Button variant="ghost" size="sm">
-                {(currentRole as UserRole) === 'homeowner' ? 'View News' : 'Center'}
-              </Button>
+              
+              <div className="space-y-3">
+                {/* High Priority Alert */}
+                <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+                  <div className="flex items-start gap-3">
+                    <AlertTriangle className="text-red-600 flex-shrink-0 mt-0.5" size={16} />
+                    <div className="flex-1">
+                      <p className="text-sm font-medium text-red-900 mb-1">
+                        Overdue Board Review
+                      </p>
+                      <p className="text-xs text-red-700 mb-2">
+                        Solar Panel Installation (1423 Oceanview Dr) - 5 days overdue
+                      </p>
+                      <Link href="/dashboard/arc-management/arc-001">
+                        <Button variant="ghost" size="sm" className="text-xs h-7">
+                          Review Now
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Medium Priority Alert */}
+                <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                  <div className="flex items-start gap-3">
+                    <Clock className="text-yellow-600 flex-shrink-0 mt-0.5" size={16} />
+                    <div className="flex-1">
+                      <p className="text-sm font-medium text-yellow-900 mb-1">
+                        Neighbor Sign-offs Pending
+                      </p>
+                      <p className="text-xs text-yellow-700 mb-2">
+                        Backyard Deck Addition (1427 Oceanview Dr) - 2 neighbors pending
+                      </p>
+                      <Link href="/dashboard/arc-management/arc-002">
+                        <Button variant="ghost" size="sm" className="text-xs h-7">
+                          Send Reminders
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Info Alert */}
+                <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                  <div className="flex items-start gap-3">
+                    <CheckCircle className="text-blue-600 flex-shrink-0 mt-0.5" size={16} />
+                    <div className="flex-1">
+                      <p className="text-sm font-medium text-blue-900 mb-1">
+                        New Request Submitted
+                      </p>
+                      <p className="text-xs text-blue-700 mb-2">
+                        Garage Door Replacement (1429 Oceanview Dr) - Ready for review
+                      </p>
+                      <Link href="/dashboard/arc-management/arc-003">
+                        <Button variant="ghost" size="sm" className="text-xs h-7">
+                          Start Review
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Community Info - Always visible */}
-            <div className="rounded-card border border-ink-900/8 bg-white shadow-elev1 p-6 hover:shadow-lg hover:-translate-y-1 transition-all duration-150">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-11 h-11 bg-primary/10 rounded-ctl flex items-center justify-center">
-                  <HomeIcon size={20} className="text-primary" />
-                </div>
-                <h3 className="text-h4 font-medium text-ink-900">Community Info</h3>
+            {/* Messages & Inquiries */}
+            <div className="rounded-card border border-ink-900/8 bg-white shadow-elev1 p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-h3 font-semibold text-ink-900 flex items-center gap-2">
+                  <MessageSquare className="text-blue-600" size={20} />
+                  Recent Messages
+                </h3>
+                <Button variant="ghost" size="sm">
+                  View All
+                </Button>
               </div>
-              <p className="text-body text-ink-800 mb-4">
-                Rules, bylaws, and community information hub.
-              </p>
-              <Button variant="ghost" size="sm">Browse</Button>
+              
+              <div className="space-y-3">
+                {/* Urgent Message */}
+                <div className="p-4 bg-orange-50 border border-orange-200 rounded-lg">
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
+                      <User className="text-orange-600" size={14} />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-1">
+                        <p className="text-sm font-medium text-orange-900">David Martinez</p>
+                        <span className="text-xs text-orange-600 bg-orange-100 px-2 py-0.5 rounded">Urgent</span>
+                      </div>
+                      <p className="text-xs text-orange-700 mb-2">
+                        "Can you clarify the permit requirements for my garage door replacement?"
+                      </p>
+                      <div className="flex items-center gap-2">
+                        <Button variant="ghost" size="sm" className="text-xs h-7">
+                          Reply
+                        </Button>
+                        <span className="text-xs text-orange-600">2 hours ago</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Standard Message */}
+                <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-lg">
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 bg-neutral-100 rounded-full flex items-center justify-center flex-shrink-0">
+                      <User className="text-neutral-600" size={14} />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-1">
+                        <p className="text-sm font-medium text-ink-900">Sarah Johnson</p>
+                        <span className="text-xs text-neutral-600">New</span>
+                      </div>
+                      <p className="text-xs text-neutral-700 mb-2">
+                        "Thank you for the quick approval on my patio project!"
+                      </p>
+                      <div className="flex items-center gap-2">
+                        <Button variant="ghost" size="sm" className="text-xs h-7">
+                          Reply
+                        </Button>
+                        <span className="text-xs text-neutral-600">1 day ago</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Board Inquiry */}
+                <div className="p-4 bg-purple-50 border border-purple-200 rounded-lg">
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                      <User className="text-purple-600" size={14} />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-1">
+                        <p className="text-sm font-medium text-purple-900">Board Member - Lisa Chen</p>
+                        <span className="text-xs text-purple-600 bg-purple-100 px-2 py-0.5 rounded">Board</span>
+                      </div>
+                      <p className="text-xs text-purple-700 mb-2">
+                        "Need your input on the new CC&R amendments before next meeting."
+                      </p>
+                      <div className="flex items-center gap-2">
+                        <Button variant="ghost" size="sm" className="text-xs h-7">
+                          Reply
+                        </Button>
+                        <span className="text-xs text-purple-600">3 hours ago</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
           </div>
