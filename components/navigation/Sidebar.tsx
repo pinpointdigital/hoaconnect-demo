@@ -14,7 +14,6 @@ import {
   CreditCard,
   User,
   ClipboardCheck,
-  Bot,
   BookOpen
 } from 'lucide-react';
 
@@ -55,12 +54,7 @@ const getNavigation = (userRole: import('@/lib/auth/types').UserRole): NavItem[]
   ] : []),
   
   // CC&R & Bylaws - All users
-  { name: 'CC&R & Bylaws', href: '/ccr-bylaws', icon: (
-    <div className="flex items-center gap-1">
-      <BookOpen size={16} />
-      <Bot size={12} className="text-blue-600" />
-    </div>
-  ) },
+  { name: 'CC&R & Bylaws', href: '/ccr-bylaws', icon: <BookOpen size={20} /> },
   
   // ARC Requests - Different access levels
   ...(userRole === 'homeowner' 
