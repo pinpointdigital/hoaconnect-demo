@@ -483,62 +483,77 @@ export default function DashboardPage() {
               
               <div className="space-y-3">
                 {/* High Priority Alert */}
-                <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-                  <div className="flex items-start gap-3">
-                    <AlertTriangle className="text-red-600 flex-shrink-0 mt-0.5" size={16} />
+                <div className="p-4 border border-neutral-200 rounded-lg hover:border-red-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group">
+                  <div className="flex items-center justify-between">
                     <div className="flex-1">
-                      <p className="text-sm font-medium text-red-900 mb-1">
-                        Overdue Board Review
+                      <div className="flex items-center gap-2 mb-1">
+                        <AlertTriangle className="text-red-600" size={16} />
+                        <p className="text-sm font-medium text-ink-900">
+                          Board review overdue - Solar Panel Installation
+                        </p>
+                      </div>
+                      <p className="text-xs text-ink-600 mb-1">
+                        David Martinez • 1423 Oceanview Dr
                       </p>
-                      <p className="text-xs text-red-700 mb-2">
-                        Solar Panel Installation (1423 Oceanview Dr) - 5 days overdue
+                      <p className="text-xs text-red-600">
+                        5 days overdue
                       </p>
-                      <Link href="/dashboard/arc-management/arc-001">
-                        <Button variant="ghost" size="sm" className="text-xs h-7">
-                          Review Now
-                        </Button>
-                      </Link>
                     </div>
+                    <Link href="/dashboard/arc-management/arc-001">
+                      <Button variant="primary" size="sm" className="ml-4">
+                        Review Now
+                      </Button>
+                    </Link>
                   </div>
                 </div>
 
                 {/* Medium Priority Alert */}
-                <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                  <div className="flex items-start gap-3">
-                    <Clock className="text-yellow-600 flex-shrink-0 mt-0.5" size={16} />
+                <div className="p-4 border border-neutral-200 rounded-lg hover:border-yellow-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group">
+                  <div className="flex items-center justify-between">
                     <div className="flex-1">
-                      <p className="text-sm font-medium text-yellow-900 mb-1">
-                        Neighbor Sign-offs Pending
+                      <div className="flex items-center gap-2 mb-1">
+                        <Clock className="text-yellow-600" size={16} />
+                        <p className="text-sm font-medium text-ink-900">
+                          Neighbor sign-offs pending
+                        </p>
+                      </div>
+                      <p className="text-xs text-ink-600 mb-1">
+                        Sarah Johnson • 1427 Oceanview Dr
                       </p>
-                      <p className="text-xs text-yellow-700 mb-2">
-                        Backyard Deck Addition (1427 Oceanview Dr) - 2 neighbors pending
+                      <p className="text-xs text-yellow-600">
+                        2 neighbors pending
                       </p>
-                      <Link href="/dashboard/arc-management/arc-002">
-                        <Button variant="ghost" size="sm" className="text-xs h-7">
-                          Send Reminders
-                        </Button>
-                      </Link>
                     </div>
+                    <Link href="/dashboard/arc-management/arc-002">
+                      <Button variant="primary" size="sm" className="ml-4">
+                        Send Reminders
+                      </Button>
+                    </Link>
                   </div>
                 </div>
 
                 {/* Info Alert */}
-                <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                  <div className="flex items-start gap-3">
-                    <CheckCircle className="text-blue-600 flex-shrink-0 mt-0.5" size={16} />
+                <div className="p-4 border border-neutral-200 rounded-lg hover:border-blue-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group">
+                  <div className="flex items-center justify-between">
                     <div className="flex-1">
-                      <p className="text-sm font-medium text-blue-900 mb-1">
-                        New Request Submitted
+                      <div className="flex items-center gap-2 mb-1">
+                        <CheckCircle className="text-blue-600" size={16} />
+                        <p className="text-sm font-medium text-ink-900">
+                          New request submitted
+                        </p>
+                      </div>
+                      <p className="text-xs text-ink-600 mb-1">
+                        Robert Chen • 1429 Oceanview Dr
                       </p>
-                      <p className="text-xs text-blue-700 mb-2">
-                        Garage Door Replacement (1429 Oceanview Dr) - Ready for review
+                      <p className="text-xs text-blue-600">
+                        Today, 2:30 PM
                       </p>
-                      <Link href="/dashboard/arc-management/arc-003">
-                        <Button variant="ghost" size="sm" className="text-xs h-7">
-                          Start Review
-                        </Button>
-                      </Link>
                     </div>
+                    <Link href="/dashboard/arc-management/arc-003">
+                      <Button variant="primary" size="sm" className="ml-4">
+                        Start Review
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -558,74 +573,71 @@ export default function DashboardPage() {
               
               <div className="space-y-3">
                 {/* Urgent Message */}
-                <div className="p-4 bg-orange-50 border border-orange-200 rounded-lg">
-                  <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <User className="text-orange-600" size={14} />
-                    </div>
+                <div className="p-4 border border-neutral-200 rounded-lg hover:border-orange-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group">
+                  <div className="flex items-center justify-between">
                     <div className="flex-1">
-                      <div className="flex items-center justify-between mb-1">
-                        <p className="text-sm font-medium text-orange-900">David Martinez</p>
-                        <span className="text-xs text-orange-600 bg-orange-100 px-2 py-0.5 rounded">Urgent</span>
+                      <div className="flex items-center gap-2 mb-1">
+                        <MessageSquare className="text-orange-600" size={16} />
+                        <p className="text-sm font-medium text-ink-900">
+                          Permit requirements clarification needed
+                        </p>
                       </div>
-                      <p className="text-xs text-orange-700 mb-2">
-                        "Can you clarify the permit requirements for my garage door replacement?"
+                      <p className="text-xs text-ink-600 mb-1">
+                        David Martinez • 1423 Oceanview Dr
                       </p>
-                      <div className="flex items-center gap-2">
-                        <Button variant="ghost" size="sm" className="text-xs h-7">
-                          Reply
-                        </Button>
-                        <span className="text-xs text-orange-600">2 hours ago</span>
-                      </div>
+                      <p className="text-xs text-orange-600">
+                        2 hours ago
+                      </p>
                     </div>
+                    <Button variant="primary" size="sm" className="ml-4">
+                      Reply
+                    </Button>
                   </div>
                 </div>
 
                 {/* Standard Message */}
-                <div className="p-4 bg-neutral-50 border border-neutral-200 rounded-lg">
-                  <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 bg-neutral-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <User className="text-neutral-600" size={14} />
-                    </div>
+                <div className="p-4 border border-neutral-200 rounded-lg hover:border-green-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group">
+                  <div className="flex items-center justify-between">
                     <div className="flex-1">
-                      <div className="flex items-center justify-between mb-1">
-                        <p className="text-sm font-medium text-ink-900">Sarah Johnson</p>
-                        <span className="text-xs text-neutral-600">New</span>
+                      <div className="flex items-center gap-2 mb-1">
+                        <MessageSquare className="text-green-600" size={16} />
+                        <p className="text-sm font-medium text-ink-900">
+                          Thank you message for approval
+                        </p>
                       </div>
-                      <p className="text-xs text-neutral-700 mb-2">
-                        "Thank you for the quick approval on my patio project!"
+                      <p className="text-xs text-ink-600 mb-1">
+                        Sarah Johnson • 1425 Oceanview Dr
                       </p>
-                      <div className="flex items-center gap-2">
-                        <Button variant="ghost" size="sm" className="text-xs h-7">
-                          Reply
-                        </Button>
-                        <span className="text-xs text-neutral-600">1 day ago</span>
-                      </div>
+                      <p className="text-xs text-green-600">
+                        1 day ago
+                      </p>
                     </div>
+                    <Button variant="primary" size="sm" className="ml-4">
+                      Reply
+                    </Button>
                   </div>
                 </div>
 
                 {/* Board Inquiry */}
-                <div className="p-4 bg-purple-50 border border-purple-200 rounded-lg">
-                  <div className="flex items-start gap-3">
-                    <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
-                      <User className="text-purple-600" size={14} />
-                    </div>
+                <div className="p-4 border border-neutral-200 rounded-lg hover:border-purple-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group">
+                  <div className="flex items-center justify-between">
                     <div className="flex-1">
-                      <div className="flex items-center justify-between mb-1">
-                        <p className="text-sm font-medium text-purple-900">Board Member - Lisa Chen</p>
-                        <span className="text-xs text-purple-600 bg-purple-100 px-2 py-0.5 rounded">Board</span>
+                      <div className="flex items-center gap-2 mb-1">
+                        <MessageSquare className="text-purple-600" size={16} />
+                        <p className="text-sm font-medium text-ink-900">
+                          CC&R amendments input needed
+                        </p>
                       </div>
-                      <p className="text-xs text-purple-700 mb-2">
-                        "Need your input on the new CC&R amendments before next meeting."
+                      <p className="text-xs text-ink-600 mb-1">
+                        Lisa Chen • Board Member
                       </p>
-                      <div className="flex items-center gap-2">
-                        <Button variant="ghost" size="sm" className="text-xs h-7">
-                          Reply
-                        </Button>
-                        <span className="text-xs text-purple-600">3 hours ago</span>
-                      </div>
+                      <p className="text-xs text-purple-600">
+                        3 hours ago
+                      </p>
                     </div>
+                    <Button variant="primary" size="sm" className="ml-4">
+                      Reply
+                    </Button>
                   </div>
                 </div>
               </div>
