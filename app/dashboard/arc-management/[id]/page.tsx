@@ -1463,11 +1463,11 @@ export default function RequestDetailPage({ params }: RequestDetailPageProps) {
                           
                           {/* Position Buttons */}
                           {[
-                            { key: 'left', label: 'Left', style: 'absolute left-8 top-1/2 transform -translate-y-1/2' },
-                            { key: 'right', label: 'Right', style: 'absolute right-8 top-1/2 transform -translate-y-1/2' },
-                            { key: 'front-left', label: 'Front L', style: 'absolute top-8 left-1/2 transform -translate-x-full -translate-x-2' },
-                            { key: 'front-right', label: 'Front R', style: 'absolute top-8 left-1/2 transform translate-x-2' },
-                            { key: 'back', label: 'Back', style: 'absolute bottom-8 left-1/2 transform -translate-x-1/2' }
+                            { key: 'left', label: 'Left', style: 'absolute left-4 top-1/2 transform -translate-y-1/2' },
+                            { key: 'right', label: 'Right', style: 'absolute right-4 top-1/2 transform -translate-y-1/2' },
+                            { key: 'front-left', label: 'Front L', style: 'absolute top-4 left-1/2 transform -translate-x-full -translate-x-4' },
+                            { key: 'front-right', label: 'Front R', style: 'absolute top-4 left-1/2 transform translate-x-4' },
+                            { key: 'back', label: 'Back', style: 'absolute bottom-4 left-1/2 transform -translate-x-1/2' }
                           ].map((position) => {
                             const positionData = request.neighborPositions?.find((p: any) => p.position === position.key);
                             const isRequired = positionData?.required || false;
