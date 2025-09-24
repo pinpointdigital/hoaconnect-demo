@@ -590,7 +590,14 @@ export default function CommunicationsPage() {
               
               return (
                 <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6">
-                  <div className="flex items-center justify-between mb-6">
+                  <div className="mb-6">
+                    <button
+                      onClick={() => setSelectedForm(null)}
+                      className="flex items-center gap-2 text-primary hover:text-primary-700 transition-colors text-body font-medium mb-4"
+                    >
+                      <X size={16} />
+                      Back to Forms
+                    </button>
                     <div className="flex items-center gap-3">
                       <div className="w-12 h-12 bg-neutral-100 rounded-lg flex items-center justify-center">
                         {form.icon}
@@ -600,14 +607,6 @@ export default function CommunicationsPage() {
                         <p className="text-body text-ink-600">{form.description}</p>
                       </div>
                     </div>
-                    <Button 
-                      variant="outline" 
-                      onClick={() => setSelectedForm(null)}
-                      className="flex items-center gap-2"
-                    >
-                      <X size={16} />
-                      Back to Forms
-                    </Button>
                   </div>
                   
                   <form className="space-y-4">
