@@ -699,6 +699,56 @@ function DashboardTab({ communityData, saveData, canEdit, onImageUpload, updateH
 function SchoolsTab({ schools, saveData, canEdit }) {
   const [editingSchool, setEditingSchool] = useState<any>(null);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [newSchool, setNewSchool] = useState({
+    name: '',
+    address: '',
+    phone: '',
+    website: '',
+    type: 'public',
+    grades: 'K-12'
+  });
+
+  const saveSchool = () => {
+    if (editingSchool) {
+      // Edit existing school
+      const updatedSchools = schools.map(school => 
+        school.id === editingSchool.id ? editingSchool : school
+      );
+      saveData(prev => ({ ...prev, schools: updatedSchools }));
+      setEditingSchool(null);
+    }
+  };
+
+  const addSchool = () => {
+    const newSchoolData = {
+      ...newSchool,
+      id: `school-${Date.now()}`
+    };
+    const updatedSchools = [...schools, newSchoolData];
+    saveData(prev => ({ ...prev, schools: updatedSchools }));
+    setShowAddModal(false);
+    setNewSchool({
+      name: '',
+      address: '',
+      phone: '',
+      website: '',
+      type: 'public',
+      grades: 'K-12'
+    });
+  };
+
+  const cancelEdit = () => {
+    setEditingSchool(null);
+    setShowAddModal(false);
+    setNewSchool({
+      name: '',
+      address: '',
+      phone: '',
+      website: '',
+      type: 'public',
+      grades: 'K-12'
+    });
+  };
 
   return (
     <div className="p-6">
@@ -716,8 +766,21 @@ function SchoolsTab({ schools, saveData, canEdit }) {
         )}
       </div>
 
-      <div className="space-y-4">
-        {schools.map((school) => (
+      <div className="space-y-6">
+        {/* Group by school type */}
+        {['Public', 'Private', 'Charter'].map(category => {
+          const categorySchools = schools.filter(school => 
+            school.type.toLowerCase() === category.toLowerCase()
+          );
+          if (categorySchools.length === 0) return null;
+
+          return (
+            <div key={category} className="space-y-3">
+              <h3 className="text-h3 font-semibold text-ink-900 border-b border-ink-900/8 pb-2">
+                {category} Schools
+              </h3>
+              <div className="space-y-4">
+                {categorySchools.map((school) => (
           <div key={school.id} className="p-4 border border-ink-900/8 rounded-lg">
             <div className="flex items-start gap-4">
               {/* Website Thumbnail */}
@@ -785,8 +848,188 @@ function SchoolsTab({ schools, saveData, canEdit }) {
               )}
             </div>
           </div>
-        ))}
+                ))}
+              </div>
+            </div>
+          );
+        })}
       </div>
+
+      {/* Edit School Modal */}
+      {editingSchool && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6 max-h-[90vh] overflow-y-auto">
+            <h3 className="text-h3 font-semibold text-ink-900 mb-4">Edit School</h3>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">School Name</label>
+                <input
+                  type="text"
+                  value={editingSchool.name}
+                  onChange={(e) => setEditingSchool(prev => ({ ...prev, name: e.target.value }))}
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Address</label>
+                <input
+                  type="text"
+                  value={editingSchool.address}
+                  onChange={(e) => setEditingSchool(prev => ({ ...prev, address: e.target.value }))}
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Phone</label>
+                <input
+                  type="tel"
+                  value={editingSchool.phone}
+                  onChange={(e) => setEditingSchool(prev => ({ ...prev, phone: e.target.value }))}
+                  placeholder="(949) 234-5900"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Website</label>
+                <input
+                  type="url"
+                  value={editingSchool.website}
+                  onChange={(e) => setEditingSchool(prev => ({ ...prev, website: e.target.value }))}
+                  placeholder="www.school.org"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-body font-medium text-ink-700 mb-2">Type</label>
+                  <select
+                    value={editingSchool.type}
+                    onChange={(e) => setEditingSchool(prev => ({ ...prev, type: e.target.value }))}
+                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                  >
+                    <option value="public">Public</option>
+                    <option value="private">Private</option>
+                    <option value="charter">Charter</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="block text-body font-medium text-ink-700 mb-2">Grades</label>
+                  <select
+                    value={editingSchool.grades}
+                    onChange={(e) => setEditingSchool(prev => ({ ...prev, grades: e.target.value }))}
+                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                  >
+                    <option value="K-5">K-5</option>
+                    <option value="6-8">6-8</option>
+                    <option value="9-12">9-12</option>
+                    <option value="K-8">K-8</option>
+                    <option value="K-12">K-12</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex justify-end gap-3 mt-6">
+              <Button variant="outline" onClick={cancelEdit}>Cancel</Button>
+              <Button variant="primary" onClick={saveSchool}>Save Changes</Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add School Modal */}
+      {showAddModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6 max-h-[90vh] overflow-y-auto">
+            <h3 className="text-h3 font-semibold text-ink-900 mb-4">Add New School</h3>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">School Name</label>
+                <input
+                  type="text"
+                  value={newSchool.name}
+                  onChange={(e) => setNewSchool(prev => ({ ...prev, name: e.target.value }))}
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Address</label>
+                <input
+                  type="text"
+                  value={newSchool.address}
+                  onChange={(e) => setNewSchool(prev => ({ ...prev, address: e.target.value }))}
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Phone</label>
+                <input
+                  type="tel"
+                  value={newSchool.phone}
+                  onChange={(e) => setNewSchool(prev => ({ ...prev, phone: e.target.value }))}
+                  placeholder="(949) 234-5900"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Website</label>
+                <input
+                  type="url"
+                  value={newSchool.website}
+                  onChange={(e) => setNewSchool(prev => ({ ...prev, website: e.target.value }))}
+                  placeholder="www.school.org"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-body font-medium text-ink-700 mb-2">Type</label>
+                  <select
+                    value={newSchool.type}
+                    onChange={(e) => setNewSchool(prev => ({ ...prev, type: e.target.value }))}
+                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                  >
+                    <option value="public">Public</option>
+                    <option value="private">Private</option>
+                    <option value="charter">Charter</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="block text-body font-medium text-ink-700 mb-2">Grades</label>
+                  <select
+                    value={newSchool.grades}
+                    onChange={(e) => setNewSchool(prev => ({ ...prev, grades: e.target.value }))}
+                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                  >
+                    <option value="K-5">K-5</option>
+                    <option value="6-8">6-8</option>
+                    <option value="9-12">9-12</option>
+                    <option value="K-8">K-8</option>
+                    <option value="K-12">K-12</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex justify-end gap-3 mt-6">
+              <Button variant="outline" onClick={cancelEdit}>Cancel</Button>
+              <Button variant="primary" onClick={addSchool} disabled={!newSchool.name}>Add School</Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
