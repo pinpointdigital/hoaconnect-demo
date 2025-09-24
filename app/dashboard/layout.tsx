@@ -126,13 +126,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 <p className="text-sm font-medium text-foreground">
                   {userProfile.name}
                 </p>
-                {userProfile.title && (
-                  <p className="text-xs text-muted-foreground">
-                    {userProfile.title}
-                  </p>
-                )}
                 <p className="text-xs text-muted-foreground">
-                  {userProfile.role.charAt(0).toUpperCase() + userProfile.role.slice(1).replace('-', ' ')}
+                  {userProfile.title || userProfile.role.charAt(0).toUpperCase() + userProfile.role.slice(1).replace('-', ' ')}
                 </p>
               </div>
               <Avatar 
