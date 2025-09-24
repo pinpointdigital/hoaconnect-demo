@@ -63,7 +63,7 @@ const getNavigation = (userRole: import('@/lib/auth/types').UserRole): NavItem[]
   // My Account - Homeowner only, Community Info for others
   ...(userRole === 'homeowner'
     ? [{ name: 'My Account', href: '/dashboard/account', icon: <User size={20} /> }]
-    : [{ name: 'Community Info', href: '/community', icon: <HomeIcon size={20} /> }]
+    : [{ name: 'HOA Community Info', href: '/community', icon: <HomeIcon size={20} /> }]
   ),
 ];
 

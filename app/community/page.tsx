@@ -292,7 +292,7 @@ export default function CommunityInfoPage() {
           <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
             <Building2 className="text-blue-600" size={24} />
           </div>
-          <h1 className="text-3xl font-bold text-ink-900">Community Info Dashboard</h1>
+          <h1 className="text-3xl font-bold text-ink-900">HOA Community Info</h1>
         </div>
       </div>
 
