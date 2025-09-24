@@ -97,6 +97,14 @@ export default function DashboardPage() {
   // Banner image management
   const [communityBannerImage, setCommunityBannerImage] = useState('/HOAConnect_Demo_BG.jpg');
 
+  // Load banner image from localStorage on component mount
+  useEffect(() => {
+    const savedBannerImage = localStorage.getItem('communityBannerImage');
+    if (savedBannerImage) {
+      setCommunityBannerImage(savedBannerImage);
+    }
+  }, []);
+
   const hideAlert = (alertId: string) => {
     setHiddenAlerts(prev => new Set([...prev, alertId]));
   };
@@ -116,6 +124,8 @@ export default function DashboardPage() {
   const uploadBannerImage = () => {
     if (selectedImage && imagePreview) {
       setCommunityBannerImage(imagePreview);
+      // Save to localStorage for persistence
+      localStorage.setItem('communityBannerImage', imagePreview);
       setShowImageUploadModal(false);
       setSelectedImage(null);
       setImagePreview(null);
