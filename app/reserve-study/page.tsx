@@ -373,6 +373,7 @@ export default function ReserveStudyPage() {
               </div>
             </div>
           </div>
+          </div>
 
           {/* Row 3: Monthly Dues Breakdown (Full Width) */}
           <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6">
