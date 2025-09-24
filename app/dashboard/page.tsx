@@ -481,26 +481,26 @@ export default function DashboardPage() {
                 </Link>
               </div>
               
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {/* High Priority Alert */}
-                <div className="p-4 border border-neutral-200 rounded-lg hover:border-red-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group">
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <AlertTriangle className="text-red-600" size={16} />
-                        <p className="text-sm font-medium text-ink-900">
-                          Board review overdue - Solar Panel Installation
-                        </p>
-                      </div>
-                      <p className="text-xs text-ink-600 mb-1">
-                        David Martinez • 1423 Oceanview Dr
+                <div className="p-6 border border-neutral-200 rounded-lg hover:border-red-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-base font-semibold text-ink-900 mb-2">
+                        Board review overdue - Solar Panel Installation
+                      </h4>
+                      <p className="text-sm text-ink-600 mb-1">
+                        David Martinez
                       </p>
-                      <p className="text-xs text-red-600">
+                      <p className="text-sm text-ink-600 mb-2">
+                        1423 Oceanview Dr
+                      </p>
+                      <p className="text-sm text-red-600 font-medium">
                         5 days overdue
                       </p>
                     </div>
                     <Link href="/dashboard/arc-management/arc-001">
-                      <Button variant="primary" size="sm" className="ml-4">
+                      <Button variant="primary" size="sm" className="ml-6">
                         Review Now
                       </Button>
                     </Link>
@@ -508,24 +508,24 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Medium Priority Alert */}
-                <div className="p-4 border border-neutral-200 rounded-lg hover:border-yellow-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group">
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <Clock className="text-yellow-600" size={16} />
-                        <p className="text-sm font-medium text-ink-900">
-                          Neighbor sign-offs pending
-                        </p>
-                      </div>
-                      <p className="text-xs text-ink-600 mb-1">
-                        Sarah Johnson • 1427 Oceanview Dr
+                <div className="p-6 border border-neutral-200 rounded-lg hover:border-yellow-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-base font-semibold text-ink-900 mb-2">
+                        Neighbor sign-offs pending
+                      </h4>
+                      <p className="text-sm text-ink-600 mb-1">
+                        Sarah Johnson
                       </p>
-                      <p className="text-xs text-yellow-600">
+                      <p className="text-sm text-ink-600 mb-2">
+                        1427 Oceanview Dr
+                      </p>
+                      <p className="text-sm text-yellow-600 font-medium">
                         2 neighbors pending
                       </p>
                     </div>
                     <Link href="/dashboard/arc-management/arc-002">
-                      <Button variant="primary" size="sm" className="ml-4">
+                      <Button variant="primary" size="sm" className="ml-6">
                         Send Reminders
                       </Button>
                     </Link>
@@ -533,24 +533,24 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Info Alert */}
-                <div className="p-4 border border-neutral-200 rounded-lg hover:border-blue-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group">
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <CheckCircle className="text-blue-600" size={16} />
-                        <p className="text-sm font-medium text-ink-900">
-                          New request submitted
-                        </p>
-                      </div>
-                      <p className="text-xs text-ink-600 mb-1">
-                        Robert Chen • 1429 Oceanview Dr
+                <div className="p-6 border border-neutral-200 rounded-lg hover:border-blue-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-base font-semibold text-ink-900 mb-2">
+                        New request submitted
+                      </h4>
+                      <p className="text-sm text-ink-600 mb-1">
+                        Robert Chen
                       </p>
-                      <p className="text-xs text-blue-600">
+                      <p className="text-sm text-ink-600 mb-2">
+                        1429 Oceanview Dr
+                      </p>
+                      <p className="text-sm text-blue-600 font-medium">
                         Today, 2:30 PM
                       </p>
                     </div>
                     <Link href="/dashboard/arc-management/arc-003">
-                      <Button variant="primary" size="sm" className="ml-4">
+                      <Button variant="primary" size="sm" className="ml-6">
                         Start Review
                       </Button>
                     </Link>
@@ -571,71 +571,71 @@ export default function DashboardPage() {
                 </Button>
               </div>
               
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {/* Urgent Message */}
-                <div className="p-4 border border-neutral-200 rounded-lg hover:border-orange-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group">
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <MessageSquare className="text-orange-600" size={16} />
-                        <p className="text-sm font-medium text-ink-900">
-                          Permit requirements clarification needed
-                        </p>
-                      </div>
-                      <p className="text-xs text-ink-600 mb-1">
-                        David Martinez • 1423 Oceanview Dr
+                <div className="p-6 border border-neutral-200 rounded-lg hover:border-orange-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-base font-semibold text-ink-900 mb-2">
+                        Permit requirements clarification needed
+                      </h4>
+                      <p className="text-sm text-ink-600 mb-1">
+                        David Martinez
                       </p>
-                      <p className="text-xs text-orange-600">
+                      <p className="text-sm text-ink-600 mb-2">
+                        1423 Oceanview Dr
+                      </p>
+                      <p className="text-sm text-orange-600 font-medium">
                         2 hours ago
                       </p>
                     </div>
-                    <Button variant="primary" size="sm" className="ml-4">
+                    <Button variant="primary" size="sm" className="ml-6">
                       Reply
                     </Button>
                   </div>
                 </div>
 
                 {/* Standard Message */}
-                <div className="p-4 border border-neutral-200 rounded-lg hover:border-green-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group">
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <MessageSquare className="text-green-600" size={16} />
-                        <p className="text-sm font-medium text-ink-900">
-                          Thank you message for approval
-                        </p>
-                      </div>
-                      <p className="text-xs text-ink-600 mb-1">
-                        Sarah Johnson • 1425 Oceanview Dr
+                <div className="p-6 border border-neutral-200 rounded-lg hover:border-green-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-base font-semibold text-ink-900 mb-2">
+                        Thank you message for approval
+                      </h4>
+                      <p className="text-sm text-ink-600 mb-1">
+                        Sarah Johnson
                       </p>
-                      <p className="text-xs text-green-600">
+                      <p className="text-sm text-ink-600 mb-2">
+                        1425 Oceanview Dr
+                      </p>
+                      <p className="text-sm text-green-600 font-medium">
                         1 day ago
                       </p>
                     </div>
-                    <Button variant="primary" size="sm" className="ml-4">
+                    <Button variant="primary" size="sm" className="ml-6">
                       Reply
                     </Button>
                   </div>
                 </div>
 
                 {/* Board Inquiry */}
-                <div className="p-4 border border-neutral-200 rounded-lg hover:border-purple-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group">
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <MessageSquare className="text-purple-600" size={16} />
-                        <p className="text-sm font-medium text-ink-900">
-                          CC&R amendments input needed
-                        </p>
-                      </div>
-                      <p className="text-xs text-ink-600 mb-1">
-                        Lisa Chen • Board Member
+                <div className="p-6 border border-neutral-200 rounded-lg hover:border-purple-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-base font-semibold text-ink-900 mb-2">
+                        CC&R amendments input needed
+                      </h4>
+                      <p className="text-sm text-ink-600 mb-1">
+                        Lisa Chen
                       </p>
-                      <p className="text-xs text-purple-600">
+                      <p className="text-sm text-ink-600 mb-2">
+                        Board Member
+                      </p>
+                      <p className="text-sm text-purple-600 font-medium">
                         3 hours ago
                       </p>
                     </div>
-                    <Button variant="primary" size="sm" className="ml-4">
+                    <Button variant="primary" size="sm" className="ml-6">
                       Reply
                     </Button>
                   </div>
