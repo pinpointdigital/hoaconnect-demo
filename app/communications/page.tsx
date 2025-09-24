@@ -150,6 +150,8 @@ export default function CommunicationsPage() {
   const [showNewRequestModal, setShowNewRequestModal] = useState(false);
   const [showItemDetail, setShowItemDetail] = useState<CommunicationItem | null>(null);
   const [showCreatePollModal, setShowCreatePollModal] = useState(false);
+  const [showEditPollModal, setShowEditPollModal] = useState(false);
+  const [editingPoll, setEditingPoll] = useState<Poll | null>(null);
   
   // Form states
   const [newRequest, setNewRequest] = useState({
@@ -235,23 +237,17 @@ export default function CommunicationsPage() {
 
   // Auto-save polls to localStorage when polls change
   useEffect(() => {
-    if (polls.length > 0) {
-      localStorage.setItem('community-polls', JSON.stringify(polls));
-    }
+    localStorage.setItem('community-polls', JSON.stringify(polls));
   }, [polls]);
 
   // Auto-save items to localStorage when items change
   useEffect(() => {
-    if (items.length > 0) {
-      localStorage.setItem('communication-items', JSON.stringify(items));
-    }
+    localStorage.setItem('communication-items', JSON.stringify(items));
   }, [items]);
 
   // Auto-save updates to localStorage when updates change
   useEffect(() => {
-    if (updates.length > 0) {
-      localStorage.setItem('community-updates', JSON.stringify(updates));
-    }
+    localStorage.setItem('community-updates', JSON.stringify(updates));
   }, [updates]);
 
   // Save data to localStorage (legacy function for manual saves)
@@ -369,6 +365,46 @@ export default function CommunicationsPage() {
     } else {
       setPollsFilter('Active');
     }
+  };
+
+  // Edit poll
+  const updatePoll = () => {
+    if (editingPoll) {
+      const now = new Date();
+      const openDate = new Date(editingPoll.openDate);
+      const closeDate = new Date(editingPoll.closeDate);
+      
+      // Determine poll status
+      let status: Poll['status'] = 'Active';
+      if (openDate > now) {
+        status = 'Scheduled';
+      } else if (closeDate < now) {
+        status = 'Closed';
+      } else {
+        status = 'Active';
+      }
+
+      const updatedPoll = {
+        ...editingPoll,
+        status: status
+      };
+
+      setPolls(prev => prev.map(poll => poll.id === editingPoll.id ? updatedPoll : poll));
+      emitEvent('poll:updated', updatedPoll);
+      
+      setEditingPoll(null);
+      setShowEditPollModal(false);
+      setPollAttachments([]);
+    }
+  };
+
+  // Delete poll
+  const deletePoll = (pollId: string) => {
+    setPolls(prev => prev.filter(poll => poll.id !== pollId));
+    emitEvent('poll:deleted', { pollId });
+    setEditingPoll(null);
+    setShowEditPollModal(false);
+    setPollAttachments([]);
   };
 
   // Filter functions
@@ -561,17 +597,39 @@ export default function CommunicationsPage() {
           ) : (
             <div className="space-y-4">
               {filteredPolls.map((poll) => (
-                <div key={poll.id} className="p-4 border border-ink-900/8 rounded-lg">
-                  <div className="flex items-start justify-between mb-2">
-                    <h3 className="text-h4 font-semibold text-ink-900">{poll.title}</h3>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      poll.status === 'Active' ? 'bg-green-100 text-green-700' :
-                      poll.status === 'Scheduled' ? 'bg-blue-100 text-blue-700' :
-                      'bg-neutral-100 text-neutral-700'
-                    }`}>
-                      {poll.status}
-                    </span>
-                  </div>
+                  <div key={poll.id} className="p-4 border border-ink-900/8 rounded-lg">
+                    <div className="flex items-start justify-between mb-2">
+                      <h3 className="text-h4 font-semibold text-ink-900">{poll.title}</h3>
+                      <div className="flex items-center gap-2">
+                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          poll.status === 'Active' ? 'bg-green-100 text-green-700' :
+                          poll.status === 'Scheduled' ? 'bg-blue-100 text-blue-700' :
+                          'bg-neutral-100 text-neutral-700'
+                        }`}>
+                          {poll.status}
+                        </span>
+                        {canManage && (
+                          <div className="flex items-center gap-1">
+                            <button
+                              onClick={() => {
+                                setEditingPoll(poll);
+                                setPollAttachments([]);
+                                setShowEditPollModal(true);
+                              }}
+                              className="text-primary hover:text-primary-700 transition-colors"
+                            >
+                              <Eye size={14} />
+                            </button>
+                            <button
+                              onClick={() => deletePoll(poll.id)}
+                              className="text-red-600 hover:text-red-700 transition-colors ml-1"
+                            >
+                              <X size={14} />
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   <div className="flex items-center gap-4 text-caption text-ink-600 mb-3">
                     <span>{poll.audience} Poll</span>
                     <span>Closes: {poll.closeDate.toLocaleDateString()}</span>
@@ -1050,6 +1108,217 @@ export default function CommunicationsPage() {
               >
                 Create Poll
               </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Poll Modal */}
+      {showEditPollModal && editingPoll && canManage && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-h3 font-semibold text-ink-900">Edit Poll</h3>
+              <button onClick={() => {
+                setShowEditPollModal(false);
+                setEditingPoll(null);
+                setPollAttachments([]);
+              }}>
+                <X size={20} className="text-ink-500" />
+              </button>
+            </div>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Title</label>
+                <input
+                  type="text"
+                  value={editingPoll.title}
+                  onChange={(e) => setEditingPoll(prev => prev ? { ...prev, title: e.target.value } : null)}
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-body font-medium text-ink-700 mb-2">Audience</label>
+                  <select
+                    value={editingPoll.audience}
+                    onChange={(e) => setEditingPoll(prev => prev ? { ...prev, audience: e.target.value as any } : null)}
+                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                  >
+                    <option value="Community">Community</option>
+                    <option value="Board">Board</option>
+                    <option value="All">All</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="block text-body font-medium text-ink-700 mb-2">Question Type</label>
+                  <select
+                    value={editingPoll.questionType}
+                    onChange={(e) => setEditingPoll(prev => prev ? { ...prev, questionType: e.target.value as any } : null)}
+                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                  >
+                    <option value="single">Single Choice</option>
+                    <option value="multiple">Multiple Choice</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Options</label>
+                {editingPoll.options.map((option, index) => (
+                  <div key={index} className="flex gap-2 mb-2">
+                    <input
+                      type="text"
+                      value={option}
+                      onChange={(e) => {
+                        const newOptions = [...editingPoll.options];
+                        newOptions[index] = e.target.value;
+                        setEditingPoll(prev => prev ? { ...prev, options: newOptions } : null);
+                      }}
+                      className="flex-1 px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                      placeholder={`Option ${index + 1}`}
+                    />
+                    {editingPoll.options.length > 2 && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const newOptions = editingPoll.options.filter((_, i) => i !== index);
+                          setEditingPoll(prev => prev ? { ...prev, options: newOptions } : null);
+                        }}
+                        className="px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                      >
+                        <X size={16} />
+                      </button>
+                    )}
+                  </div>
+                ))}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setEditingPoll(prev => prev ? { ...prev, options: [...prev.options, ''] } : null)}
+                  className="mr-2"
+                >
+                  Add Option
+                </Button>
+              </div>
+              
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Attachments (Optional)</label>
+                <input
+                  ref={pollFileInputRef}
+                  type="file"
+                  multiple
+                  onChange={handlePollFileUpload}
+                  className="hidden"
+                />
+                <Button
+                  variant="outline"
+                  onClick={() => pollFileInputRef.current?.click()}
+                  className="flex items-center gap-2"
+                >
+                  <Upload size={16} />
+                  Upload Files
+                </Button>
+                {(editingPoll.attachments && editingPoll.attachments.length > 0) || pollAttachments.length > 0 && (
+                  <div className="mt-2">
+                    <p className="text-caption text-ink-600">
+                      {(editingPoll.attachments?.length || 0) + pollAttachments.length} file(s)
+                    </p>
+                    <div className="flex flex-wrap gap-2 mt-1">
+                      {editingPoll.attachments?.map((fileName, index) => (
+                        <div key={`existing-${index}`} className="flex items-center gap-1 px-2 py-1 bg-blue-100 rounded text-xs">
+                          <span className="truncate max-w-[100px]">{fileName}</span>
+                          <span className="text-blue-600">(existing)</span>
+                        </div>
+                      ))}
+                      {pollAttachments.map((file, index) => (
+                        <div key={`new-${index}`} className="flex items-center gap-1 px-2 py-1 bg-neutral-100 rounded text-xs">
+                          <span className="truncate max-w-[100px]">{file.name}</span>
+                          <button
+                            onClick={() => setPollAttachments(prev => prev.filter((_, i) => i !== index))}
+                            className="text-red-600 hover:text-red-800"
+                          >
+                            <X size={12} />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-body font-medium text-ink-700 mb-2">Open Date</label>
+                  <input
+                    type="datetime-local"
+                    value={editingPoll.openDate.toISOString().slice(0, 16)}
+                    onChange={(e) => setEditingPoll(prev => prev ? { ...prev, openDate: new Date(e.target.value) } : null)}
+                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-body font-medium text-ink-700 mb-2">Close Date</label>
+                  <input
+                    type="datetime-local"
+                    value={editingPoll.closeDate.toISOString().slice(0, 16)}
+                    onChange={(e) => setEditingPoll(prev => prev ? { ...prev, closeDate: new Date(e.target.value) } : null)}
+                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                  />
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-4">
+                <label className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={editingPoll.anonymous}
+                    onChange={(e) => setEditingPoll(prev => prev ? { ...prev, anonymous: e.target.checked } : null)}
+                    className="rounded border-neutral-300"
+                  />
+                  <span className="text-body text-ink-700">Anonymous voting</span>
+                </label>
+                
+                <div className="flex items-center gap-2">
+                  <label className="text-body text-ink-700">Require quorum:</label>
+                  <input
+                    type="number"
+                    value={editingPoll.requireQuorum || ''}
+                    onChange={(e) => setEditingPoll(prev => prev ? { ...prev, requireQuorum: e.target.value ? parseInt(e.target.value) : undefined } : null)}
+                    className="w-20 px-2 py-1 border border-neutral-300 rounded text-body"
+                    placeholder="%"
+                  />
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex justify-between mt-6">
+              <Button 
+                variant="outline"
+                onClick={() => deletePoll(editingPoll.id)}
+                className="text-red-600 hover:text-red-700 border-red-300 hover:border-red-400"
+              >
+                Delete Poll
+              </Button>
+              <div className="flex gap-3">
+                <Button variant="outline" onClick={() => {
+                  setShowEditPollModal(false);
+                  setEditingPoll(null);
+                  setPollAttachments([]);
+                }}>
+                  Cancel
+                </Button>
+                <Button 
+                  onClick={updatePoll}
+                  disabled={!editingPoll.title || editingPoll.options.filter(opt => opt.trim()).length < 2}
+                >
+                  Update Poll
+                </Button>
+              </div>
             </div>
           </div>
         </div>
