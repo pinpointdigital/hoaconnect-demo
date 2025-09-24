@@ -18,7 +18,8 @@ import {
   Settings,
   LayoutDashboard,
   Grid3X3,
-  List
+  List,
+  FileText
 } from 'lucide-react';
 
 interface ReserveData {
