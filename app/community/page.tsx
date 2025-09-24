@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '@/lib/auth/context';
+import { useHOAInfo, useBrandingAssets, useBranding } from '@/lib/branding/context';
 import { Button } from '@/components/ui/Button';
 import { 
   LayoutDashboard, 
@@ -205,6 +206,8 @@ const DEFAULT_COMMUNITY_DATA = {
 
 export default function CommunityInfoPage() {
   const { hasPermission } = useAuth();
+  const hoaInfo = useHOAInfo();
+  const { updateHOAInfo, updateAssets } = useBranding();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [communityData, setCommunityData] = useState(DEFAULT_COMMUNITY_DATA);
   const [editingItem, setEditingItem] = useState<any>(null);
@@ -321,6 +324,7 @@ export default function CommunityInfoPage() {
             saveData={saveData}
             canEdit={canEdit}
             onImageUpload={() => setShowImageUploadModal(true)}
+            updateHOAInfo={updateHOAInfo}
           />
         )}
         
@@ -406,13 +410,31 @@ export default function CommunityInfoPage() {
 }
 
 // Dashboard Tab Component
-function DashboardTab({ communityData, saveData, canEdit, onImageUpload }) {
+function DashboardTab({ communityData, saveData, canEdit, onImageUpload, updateHOAInfo }) {
   const [editingHOA, setEditingHOA] = useState(false);
   const [hoaForm, setHoaForm] = useState(communityData.hoa);
 
   const saveHOAInfo = () => {
     const newData = { ...communityData, hoa: hoaForm };
     saveData(newData);
+    
+    // Update global HOA info for header/footer
+    updateHOAInfo({
+      name: hoaForm.name,
+      address: {
+        street: '',
+        city: hoaForm.address.split(',')[0] || hoaForm.address,
+        state: hoaForm.address.split(',')[1]?.trim() || 'CA',
+        zip: '92675'
+      },
+      admin: {
+        name: hoaForm.president.name,
+        role: hoaForm.president.title,
+        email: hoaForm.president.email,
+        phone: hoaForm.president.phone
+      }
+    });
+    
     setEditingHOA(false);
   };
 
@@ -427,16 +449,15 @@ function DashboardTab({ communityData, saveData, canEdit, onImageUpload }) {
         {/* HOA Header Image */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-semibold text-ink-900">Community Header Image</h2>
+            <h2 className="text-2xl font-semibold text-ink-900">HOA Header Image</h2>
             {canEdit && (
-              <Button
-                variant="outline"
+              <button
                 onClick={onImageUpload}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 text-primary hover:text-primary-700 transition-colors text-body font-medium"
               >
                 <Camera size={16} />
                 Change Image
-              </Button>
+              </button>
             )}
           </div>
           <div className="relative h-48 rounded-lg overflow-hidden border border-ink-900/8">
@@ -447,7 +468,6 @@ function DashboardTab({ communityData, saveData, canEdit, onImageUpload }) {
             />
             <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-black/20" />
             <div className="absolute bottom-4 left-4 text-white">
-              <p className="text-caption opacity-90">Dashboard Header Image</p>
               <p className="text-body font-medium">Used across all HOA dashboards</p>
             </div>
           </div>
