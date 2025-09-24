@@ -132,7 +132,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               </div>
               <Avatar 
                 name={userProfile.name} 
-                size="md" 
+                size="lg" 
                 src={userProfile.profilePhoto}
               />
             </button>
