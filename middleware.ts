@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 // 🚧 MAINTENANCE MODE TOGGLE - Set to true to enable maintenance mode for live site
-// TESTING: Completely disable middleware to see what happens
+// PRODUCTION: Maintenance mode disabled - Platform is live!
 const MAINTENANCE_MODE = false;
 
 export function middleware(request: NextRequest) {

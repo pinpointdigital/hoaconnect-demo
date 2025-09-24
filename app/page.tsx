@@ -11,6 +11,7 @@ import { Home as HomeIcon, Play, FileText, Palette, User, Building, UserPlus, Ex
 import Link from 'next/link';
 
 // 🚧 MAINTENANCE MODE TOGGLE - Set to true to enable maintenance mode for live site
+// PRODUCTION: Maintenance mode disabled - Platform is live!
 const FORCE_MAINTENANCE_MODE = false;
 
 export default function Home() {
