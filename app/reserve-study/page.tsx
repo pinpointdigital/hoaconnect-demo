@@ -385,8 +385,8 @@ export default function ReserveStudyPage() {
               <h3 className="text-h3 font-semibold text-ink-900">Monthly Dues Breakdown</h3>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* Enlarged Donut Chart */}
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+              {/* Donut Chart */}
               <div className="md:col-span-2 flex items-center justify-center">
                 <div className="relative w-80 h-80">
                   <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
@@ -425,7 +425,7 @@ export default function ReserveStudyPage() {
               </div>
               
               {/* Legend */}
-              <div className="space-y-4">
+              <div className="md:col-span-3 space-y-4">
                 {reserveData.budgetBreakdown.map((item, index) => {
                   const colors = ['bg-blue-500', 'bg-green-500', 'bg-yellow-500', 'bg-red-500', 'bg-purple-500'];
                   return (
