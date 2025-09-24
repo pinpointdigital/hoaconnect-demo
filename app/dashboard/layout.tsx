@@ -257,70 +257,86 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 
                 {/* Twitter/X */}
                 <div className="mb-3">
-                  <label className="block text-caption font-medium text-ink-700 mb-1">
-                    X (Twitter)
-                  </label>
-                  <input
-                    type="url"
-                    value={editingProfile.socialMedia.twitter}
-                    onChange={(e) => setEditingProfile(prev => ({ 
-                      ...prev, 
-                      socialMedia: { ...prev.socialMedia, twitter: e.target.value }
-                    }))}
-                    placeholder="https://x.com/username"
-                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-                  />
+                  <div className="flex items-center gap-3">
+                    <img 
+                      src="/x.png" 
+                      alt="X (Twitter)" 
+                      className="w-5 h-5 flex-shrink-0"
+                    />
+                    <input
+                      type="url"
+                      value={editingProfile.socialMedia.twitter}
+                      onChange={(e) => setEditingProfile(prev => ({ 
+                        ...prev, 
+                        socialMedia: { ...prev.socialMedia, twitter: e.target.value }
+                      }))}
+                      placeholder="https://x.com/username"
+                      className="flex-1 px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                    />
+                  </div>
                 </div>
 
                 {/* Facebook */}
                 <div className="mb-3">
-                  <label className="block text-caption font-medium text-ink-700 mb-1">
-                    Facebook
-                  </label>
-                  <input
-                    type="url"
-                    value={editingProfile.socialMedia.facebook}
-                    onChange={(e) => setEditingProfile(prev => ({ 
-                      ...prev, 
-                      socialMedia: { ...prev.socialMedia, facebook: e.target.value }
-                    }))}
-                    placeholder="https://facebook.com/username"
-                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-                  />
+                  <div className="flex items-center gap-3">
+                    <img 
+                      src="/facebook.png" 
+                      alt="Facebook" 
+                      className="w-5 h-5 flex-shrink-0"
+                    />
+                    <input
+                      type="url"
+                      value={editingProfile.socialMedia.facebook}
+                      onChange={(e) => setEditingProfile(prev => ({ 
+                        ...prev, 
+                        socialMedia: { ...prev.socialMedia, facebook: e.target.value }
+                      }))}
+                      placeholder="https://facebook.com/username"
+                      className="flex-1 px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                    />
+                  </div>
                 </div>
 
                 {/* Instagram */}
                 <div className="mb-3">
-                  <label className="block text-caption font-medium text-ink-700 mb-1">
-                    Instagram
-                  </label>
-                  <input
-                    type="url"
-                    value={editingProfile.socialMedia.instagram}
-                    onChange={(e) => setEditingProfile(prev => ({ 
-                      ...prev, 
-                      socialMedia: { ...prev.socialMedia, instagram: e.target.value }
-                    }))}
-                    placeholder="https://instagram.com/username"
-                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-                  />
+                  <div className="flex items-center gap-3">
+                    <img 
+                      src="/instagram.png" 
+                      alt="Instagram" 
+                      className="w-5 h-5 flex-shrink-0"
+                    />
+                    <input
+                      type="url"
+                      value={editingProfile.socialMedia.instagram}
+                      onChange={(e) => setEditingProfile(prev => ({ 
+                        ...prev, 
+                        socialMedia: { ...prev.socialMedia, instagram: e.target.value }
+                      }))}
+                      placeholder="https://instagram.com/username"
+                      className="flex-1 px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                    />
+                  </div>
                 </div>
 
                 {/* LinkedIn */}
                 <div>
-                  <label className="block text-caption font-medium text-ink-700 mb-1">
-                    LinkedIn
-                  </label>
-                  <input
-                    type="url"
-                    value={editingProfile.socialMedia.linkedin}
-                    onChange={(e) => setEditingProfile(prev => ({ 
-                      ...prev, 
-                      socialMedia: { ...prev.socialMedia, linkedin: e.target.value }
-                    }))}
-                    placeholder="https://linkedin.com/in/username"
-                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-                  />
+                  <div className="flex items-center gap-3">
+                    <img 
+                      src="/linkedin.png" 
+                      alt="LinkedIn" 
+                      className="w-5 h-5 flex-shrink-0"
+                    />
+                    <input
+                      type="url"
+                      value={editingProfile.socialMedia.linkedin}
+                      onChange={(e) => setEditingProfile(prev => ({ 
+                        ...prev, 
+                        socialMedia: { ...prev.socialMedia, linkedin: e.target.value }
+                      }))}
+                      placeholder="https://linkedin.com/in/username"
+                      className="flex-1 px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
