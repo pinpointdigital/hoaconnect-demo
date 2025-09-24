@@ -273,37 +273,6 @@ export default function CommunityDocumentsPage() {
         )}
       </div>
 
-      {/* Search and Filter */}
-      <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-4">
-        <div className="flex gap-4">
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-ink-500" size={20} />
-            <input
-              type="text"
-              placeholder="Search documents by name, category, or content..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-body"
-            />
-          </div>
-          <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            className="px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-body min-w-[200px]"
-          >
-            <option value="all">All Categories</option>
-            {categories.map(category => (
-              <option key={category} value={category}>{category}</option>
-            ))}
-          </select>
-        </div>
-        {(searchTerm || selectedCategory !== 'all') && (
-          <p className="text-caption text-ink-600 mt-2">
-            {filteredDocuments.length} document{filteredDocuments.length !== 1 ? 's' : ''} found
-          </p>
-        )}
-      </div>
-
       {/* AI Assistant Demo Section */}
       <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-card border border-blue-200 shadow-elev1 p-6">
         <div className="flex items-center gap-3 mb-4">
@@ -365,6 +334,37 @@ export default function CommunityDocumentsPage() {
             </Button>
           </div>
         </div>
+      </div>
+
+      {/* Search and Filter */}
+      <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-4">
+        <div className="flex gap-4">
+          <div className="flex-1 relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-ink-500" size={20} />
+            <input
+              type="text"
+              placeholder="Search documents by name, category, or content..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-body"
+            />
+          </div>
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-body min-w-[200px]"
+          >
+            <option value="all">All Categories</option>
+            {categories.map(category => (
+              <option key={category} value={category}>{category}</option>
+            ))}
+          </select>
+        </div>
+        {(searchTerm || selectedCategory !== 'all') && (
+          <p className="text-caption text-ink-600 mt-2">
+            {filteredDocuments.length} document{filteredDocuments.length !== 1 ? 's' : ''} found
+          </p>
+        )}
       </div>
 
       {/* Documents List */}
