@@ -145,7 +145,6 @@ export default function CommunicationsPage() {
   // Modal states
   const [showNewRequestModal, setShowNewRequestModal] = useState(false);
   const [showItemDetail, setShowItemDetail] = useState<CommunicationItem | null>(null);
-  const [showNewNoticeModal, setShowNewNoticeModal] = useState(false);
   const [showCreatePollModal, setShowCreatePollModal] = useState(false);
   
   // Form states
@@ -154,11 +153,6 @@ export default function CommunicationsPage() {
     category: 'General' as CommunicationItem['category'],
     description: '',
     emailBoard: true
-  });
-  const [newNotice, setNewNotice] = useState({
-    title: '',
-    content: '',
-    type: 'notice' as CommunityUpdate['type']
   });
   const [newPoll, setNewPoll] = useState({
     title: '',
@@ -283,27 +277,6 @@ export default function CommunicationsPage() {
     saveData();
   };
 
-  // Submit new notice
-  const submitNewNotice = () => {
-    const newUpdate: CommunityUpdate = {
-      id: `update-${Date.now()}`,
-      title: newNotice.title,
-      type: newNotice.type,
-      content: newNotice.content,
-      author: {
-        name: user?.name || 'HOA Manager',
-        role: hasPermission('canReviewARCRequests') ? 'Board' : 'Manager'
-      },
-      postedAt: new Date()
-    };
-
-    setUpdates(prev => [newUpdate, ...prev]);
-    emitEvent('notice:posted', newUpdate);
-    
-    setNewNotice({ title: '', content: '', type: 'notice' });
-    setShowNewNoticeModal(false);
-    saveData();
-  };
 
   // Create poll
   const createPoll = () => {
@@ -362,34 +335,20 @@ export default function CommunicationsPage() {
           </div>
           <h1 className="text-3xl font-bold text-ink-900">Communications</h1>
         </div>
+        
+        {/* Action Button */}
+        <Button 
+          onClick={() => setShowNewRequestModal(true)}
+          className="flex items-center gap-2"
+        >
+          <Plus size={16} />
+          Post Announcement
+        </Button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main Content */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Quick Actions */}
-          <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6">
-            <h2 className="text-2xl font-semibold text-ink-900 mb-4">Quick Actions</h2>
-            <div className="flex flex-wrap gap-3">
-              <Button 
-                onClick={() => setShowNewRequestModal(true)}
-                className="flex items-center gap-2"
-              >
-                <Plus size={16} />
-                New Request/Complaint
-              </Button>
-              {canManage && (
-                <Button 
-                  variant="outline"
-                  onClick={() => setShowNewNoticeModal(true)}
-                  className="flex items-center gap-2"
-                >
-                  <Bell size={16} />
-                  Post Notice
-                </Button>
-              )}
-            </div>
-          </div>
 
           {/* My Items */}
           <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6">
@@ -551,7 +510,7 @@ export default function CommunicationsPage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-h3 font-semibold text-ink-900">New Request/Complaint</h3>
+              <h3 className="text-h3 font-semibold text-ink-900">Post Announcement</h3>
               <button onClick={() => setShowNewRequestModal(false)}>
                 <X size={20} className="text-ink-500" />
               </button>
@@ -707,65 +666,6 @@ export default function CommunicationsPage() {
         </div>
       )}
 
-      {/* New Notice Modal */}
-      {showNewNoticeModal && canManage && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-h3 font-semibold text-ink-900">Post Community Notice</h3>
-              <button onClick={() => setShowNewNoticeModal(false)}>
-                <X size={20} className="text-ink-500" />
-              </button>
-            </div>
-            
-            <div className="space-y-4">
-              <div>
-                <label className="block text-body font-medium text-ink-700 mb-2">Title</label>
-                <input
-                  type="text"
-                  value={newNotice.title}
-                  onChange={(e) => setNewNotice(prev => ({ ...prev, title: e.target.value }))}
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-body font-medium text-ink-700 mb-2">Type</label>
-                <select
-                  value={newNotice.type}
-                  onChange={(e) => setNewNotice(prev => ({ ...prev, type: e.target.value as any }))}
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-                >
-                  <option value="notice">Notice</option>
-                  <option value="resolution">Resolution</option>
-                </select>
-              </div>
-              
-              <div>
-                <label className="block text-body font-medium text-ink-700 mb-2">Content</label>
-                <textarea
-                  value={newNotice.content}
-                  onChange={(e) => setNewNotice(prev => ({ ...prev, content: e.target.value }))}
-                  rows={4}
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary resize-none"
-                />
-              </div>
-            </div>
-            
-            <div className="flex justify-end gap-3 mt-6">
-              <Button variant="outline" onClick={() => setShowNewNoticeModal(false)}>
-                Cancel
-              </Button>
-              <Button 
-                onClick={submitNewNotice}
-                disabled={!newNotice.title || !newNotice.content}
-              >
-                Post Notice
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Create Poll Modal */}
       {showCreatePollModal && canManage && (
