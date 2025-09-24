@@ -489,9 +489,10 @@ export default function DashboardPage() {
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
                     <h3 className="text-h3 font-semibold text-ink-900">HOA Connect Assistant</h3>
-                    <span className="px-2 py-0.5 bg-neutral-100 text-neutral-600 text-caption font-medium rounded-full border border-neutral-200">
-                      AI-Powered (Beta)
-                    </span>
+                    <div className="flex items-center gap-1 px-2 py-1 bg-gradient-to-r from-purple-100 to-blue-100 rounded-full border border-purple-200">
+                      <div className="w-2 h-2 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full animate-pulse"></div>
+                      <span className="text-xs font-medium text-purple-700">AI</span>
+                    </div>
                   </div>
                 </div>
                 
