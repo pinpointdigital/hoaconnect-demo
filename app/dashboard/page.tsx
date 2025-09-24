@@ -100,6 +100,7 @@ export default function DashboardPage() {
   // Load banner image from localStorage on component mount
   useEffect(() => {
     const savedBannerImage = localStorage.getItem('communityBannerImage');
+    console.log('🖼️ Loading banner from localStorage:', savedBannerImage);
     if (savedBannerImage) {
       setCommunityBannerImage(savedBannerImage);
     }
@@ -123,9 +124,11 @@ export default function DashboardPage() {
 
   const uploadBannerImage = () => {
     if (selectedImage && imagePreview) {
+      console.log('📤 Uploading banner image:', imagePreview);
       setCommunityBannerImage(imagePreview);
       // Save to localStorage for persistence
       localStorage.setItem('communityBannerImage', imagePreview);
+      console.log('💾 Saved to localStorage:', imagePreview);
       setShowImageUploadModal(false);
       setSelectedImage(null);
       setImagePreview(null);
@@ -405,6 +408,7 @@ export default function DashboardPage() {
                 onError={(e) => {
                   // Fallback to gradient if image fails to load
                   const target = e.target as HTMLImageElement;
+                  console.log('❌ Banner image failed to load:', target.src);
                   target.style.display = 'none';
                   const parent = target.parentElement;
                   if (parent) {
