@@ -1454,7 +1454,7 @@ export default function RequestDetailPage({ params }: RequestDetailPageProps) {
                       </div>
 
                       <div className="flex justify-center">
-                        <div className="relative">
+                        <div className="relative w-80 h-80 flex items-center justify-center">
                           {/* Center House */}
                           <div className="w-24 h-24 bg-blue-50 border-2 border-blue-200 rounded-lg flex flex-col items-center justify-center">
                             <Home className="text-blue-600 mb-1" size={24} />
@@ -1463,11 +1463,11 @@ export default function RequestDetailPage({ params }: RequestDetailPageProps) {
                           
                           {/* Position Buttons */}
                           {[
-                            { key: 'left', label: 'Left', style: 'absolute -left-20 top-1/2 transform -translate-y-1/2' },
-                            { key: 'right', label: 'Right', style: 'absolute -right-20 top-1/2 transform -translate-y-1/2' },
-                            { key: 'front-left', label: 'Front L', style: 'absolute -top-20 left-0' },
-                            { key: 'front-right', label: 'Front R', style: 'absolute -top-20 right-0' },
-                            { key: 'back', label: 'Back', style: 'absolute -bottom-20 left-1/2 transform -translate-x-1/2' }
+                            { key: 'left', label: 'Left', style: 'absolute left-8 top-1/2 transform -translate-y-1/2' },
+                            { key: 'right', label: 'Right', style: 'absolute right-8 top-1/2 transform -translate-y-1/2' },
+                            { key: 'front-left', label: 'Front L', style: 'absolute top-8 left-1/2 transform -translate-x-1/2 -translate-x-12' },
+                            { key: 'front-right', label: 'Front R', style: 'absolute top-8 left-1/2 transform -translate-x-1/2 translate-x-12' },
+                            { key: 'back', label: 'Back', style: 'absolute bottom-8 left-1/2 transform -translate-x-1/2' }
                           ].map((position) => {
                             const positionData = request.neighborPositions?.find((p: any) => p.position === position.key);
                             const isRequired = positionData?.required || false;
