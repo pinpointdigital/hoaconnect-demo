@@ -444,10 +444,10 @@ export default function DashboardPage() {
           </div>
 
           {/* ARC Management Alerts & Messages */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
             {/* ARC Request Alerts */}
-            <div className="rounded-card border border-ink-900/8 bg-white shadow-elev1 p-6">
+            <div className="lg:col-span-2 rounded-card border border-ink-900/8 bg-white shadow-elev1 p-6">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-h3 font-semibold text-ink-900">
                   ARC Request Alerts
@@ -540,7 +540,7 @@ export default function DashboardPage() {
 
             {/* AI Video Assistant */}
             {(currentRole === 'management-company' || currentRole === 'captain') && (
-              <div className="rounded-card border border-ink-900/8 bg-white shadow-elev1 p-6">
+              <div className="lg:col-span-1 rounded-card border border-ink-900/8 bg-white shadow-elev1 p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
                     <h3 className="text-h3 font-semibold text-ink-900">HOA Connect Assistant</h3>
