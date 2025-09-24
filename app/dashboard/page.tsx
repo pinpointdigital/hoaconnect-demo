@@ -461,6 +461,37 @@ export default function DashboardPage() {
               </div>
               
               <div className="space-y-4">
+                {/* New Request - Top Priority */}
+                <div className="p-6 border border-blue-200 rounded-lg bg-blue-50/30 hover:border-blue-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1 min-w-0">
+                      <h4 className="text-base font-semibold text-ink-900 mb-2">
+                        New request submitted
+                      </h4>
+                      <p className="text-body font-medium text-ink-600 mb-1">
+                        Robert Chen
+                      </p>
+                      <a 
+                        href="https://maps.google.com/maps?q=1429+Oceanview+Dr+San+Juan+Capistrano+CA&z=18"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1 text-body text-primary hover:text-primary-700 transition-colors mb-2 w-fit"
+                      >
+                        <MapPin size={14} className="flex-shrink-0" />
+                        1429 Oceanview Dr
+                      </a>
+                      <p className="text-sm font-medium" style={{ color: '#434343' }}>
+                        Today, 2:30 PM
+                      </p>
+                    </div>
+                    <Link href="/dashboard/arc-management/arc-003">
+                      <Button variant="primary" size="sm" className="ml-6">
+                        Start Review
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+
                 {/* High Priority Alert */}
                 <div className="p-6 border border-neutral-200 rounded-lg hover:border-red-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
                   <div className="flex items-start justify-between">
@@ -518,38 +549,6 @@ export default function DashboardPage() {
                     <Link href="/dashboard/arc-management/arc-002">
                       <Button variant="primary" size="sm" className="ml-6">
                         View
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-
-                {/* Info Alert */}
-                <div className="p-6 border border-neutral-200 rounded-lg hover:border-blue-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1 min-w-0">
-                      <h4 className="text-base font-semibold text-ink-900 mb-2 flex items-center gap-2">
-                        <Plus size={16} className="text-blue-600" />
-                        New request submitted
-                      </h4>
-                      <p className="text-body font-medium text-ink-600 mb-1">
-                        Robert Chen
-                      </p>
-                      <a 
-                        href="https://maps.google.com/maps?q=1429+Oceanview+Dr+San+Juan+Capistrano+CA&z=18"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-1 text-body text-primary hover:text-primary-700 transition-colors mb-2 w-fit"
-                      >
-                        <MapPin size={14} className="flex-shrink-0" />
-                        1429 Oceanview Dr
-                      </a>
-                      <p className="text-sm font-medium" style={{ color: '#434343' }}>
-                        Today, 2:30 PM
-                      </p>
-                    </div>
-                    <Link href="/dashboard/arc-management/arc-003">
-                      <Button variant="primary" size="sm" className="ml-6">
-                        Start Review
                       </Button>
                     </Link>
                   </div>
