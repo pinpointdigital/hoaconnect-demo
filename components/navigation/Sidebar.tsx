@@ -53,8 +53,8 @@ const getNavigation = (userRole: import('@/lib/auth/types').UserRole): NavItem[]
     { name: 'Vendors', href: '/vendors', icon: <Wrench size={20} />, permission: 'canViewVendorPerformance' as const },
   ] : []),
   
-  // CC&R & Bylaws - All users
-  { name: 'CC&R & Bylaws', href: '/ccr-bylaws', icon: <BookOpen size={20} /> },
+  // Community Documents - All users
+  { name: 'Community Documents', href: '/community-documents', icon: <BookOpen size={20} /> },
   
   // ARC Requests - Different access levels
   ...(userRole === 'homeowner' 
