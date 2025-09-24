@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/lib/auth/context';
 import { Button } from '@/components/ui/Button';
-import { ArrowLeft, MessageSquare, FileText, Users, Vote, Eye, Scale, CheckSquare, Save, Bot, ThumbsUp, Clock, CheckCircle, XCircle, FileSearch, Trash2, AlertTriangle, GraduationCap } from 'lucide-react';
+import { ArrowLeft, MessageSquare, FileText, Users, Vote, Eye, Scale, CheckSquare, Save, Bot, ThumbsUp, Clock, CheckCircle, XCircle, FileSearch, Trash2, AlertTriangle, GraduationCap, Home } from 'lucide-react';
 import Link from 'next/link';
 
 interface RequestDetailPageProps {
@@ -1456,24 +1456,18 @@ export default function RequestDetailPage({ params }: RequestDetailPageProps) {
                       <div className="flex justify-center">
                         <div className="relative">
                           {/* Center House */}
-                          <button
-                            onClick={() => {
-                              const currentPositions = request.neighborPositions?.filter((pos: any) => pos.required).map((pos: any) => pos.position) || [];
-                              const allSelected = currentPositions.length === 5;
-                              updateNeighborPositions(allSelected ? [] : ['left', 'right', 'front-left', 'front-right', 'back']);
-                            }}
-                            className="w-20 h-20 bg-blue-100 border-2 border-blue-300 rounded-lg flex items-center justify-center hover:bg-blue-200 transition-colors"
-                          >
-                            <span className="text-xs font-medium text-blue-700">House</span>
-                          </button>
+                          <div className="w-24 h-24 bg-blue-50 border-2 border-blue-200 rounded-lg flex flex-col items-center justify-center">
+                            <Home className="text-blue-600 mb-1" size={24} />
+                            <span className="text-xs font-medium text-blue-700">Your House</span>
+                          </div>
                           
                           {/* Position Buttons */}
                           {[
-                            { key: 'left', label: 'Left', style: 'absolute -left-16 top-1/2 transform -translate-y-1/2' },
-                            { key: 'right', label: 'Right', style: 'absolute -right-16 top-1/2 transform -translate-y-1/2' },
-                            { key: 'front-left', label: 'Front L', style: 'absolute -top-16 left-0' },
-                            { key: 'front-right', label: 'Front R', style: 'absolute -top-16 right-0' },
-                            { key: 'back', label: 'Back', style: 'absolute -bottom-16 left-1/2 transform -translate-x-1/2' }
+                            { key: 'left', label: 'Left', style: 'absolute -left-20 top-1/2 transform -translate-y-1/2' },
+                            { key: 'right', label: 'Right', style: 'absolute -right-20 top-1/2 transform -translate-y-1/2' },
+                            { key: 'front-left', label: 'Front L', style: 'absolute -top-20 left-0' },
+                            { key: 'front-right', label: 'Front R', style: 'absolute -top-20 right-0' },
+                            { key: 'back', label: 'Back', style: 'absolute -bottom-20 left-1/2 transform -translate-x-1/2' }
                           ].map((position) => {
                             const positionData = request.neighborPositions?.find((p: any) => p.position === position.key);
                             const isRequired = positionData?.required || false;
@@ -1494,17 +1488,29 @@ export default function RequestDetailPage({ params }: RequestDetailPageProps) {
                                     
                                     updateNeighborPositions(newPositions);
                                   }}
-                                  className={`w-12 h-12 border rounded-lg text-xs font-medium transition-colors relative ${
+                                  className={`w-16 h-16 border-2 rounded-lg text-xs font-medium transition-all duration-200 relative flex flex-col items-center justify-center gap-1 ${
                                     isRequired
                                       ? hasNoNeighbor
-                                        ? 'bg-red-100 border-red-300 text-red-700 hover:bg-red-200'
+                                        ? 'bg-red-100 border-red-400 text-red-700 hover:bg-red-200 shadow-md scale-105'
                                         : assignedNeighbor
-                                        ? 'bg-blue-100 border-blue-300 text-blue-700 hover:bg-blue-200'
-                                        : 'bg-green-100 border-green-300 text-green-700 hover:bg-green-200'
-                                      : 'bg-neutral-100 border-neutral-300 text-neutral-600 hover:bg-neutral-200'
+                                        ? 'bg-blue-100 border-blue-400 text-blue-700 hover:bg-blue-200 shadow-md scale-105'
+                                        : 'bg-green-100 border-green-400 text-green-700 hover:bg-green-200 shadow-md scale-105'
+                                      : 'bg-white border-neutral-300 text-neutral-600 hover:bg-neutral-50 hover:border-neutral-400 hover:shadow-sm'
                                   }`}
                                 >
-                                  {position.label}
+                                  <Home 
+                                    size={16} 
+                                    className={`${
+                                      isRequired 
+                                        ? hasNoNeighbor 
+                                          ? 'text-red-600' 
+                                          : assignedNeighbor 
+                                          ? 'text-blue-600' 
+                                          : 'text-green-600'
+                                        : 'text-neutral-500'
+                                    }`} 
+                                  />
+                                  <span className="leading-none">{position.label}</span>
                                   {hasNoNeighbor && isRequired && (
                                     <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center">
                                       <span className="text-white text-caption">×</span>
