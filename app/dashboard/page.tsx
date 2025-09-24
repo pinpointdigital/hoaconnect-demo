@@ -103,18 +103,23 @@ export default function DashboardPage() {
 
   // Image upload functions
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('📁 File input changed');
     const file = event.target.files?.[0];
     if (file) {
+      console.log('📷 File selected:', file.name, file.type);
       setSelectedImage(file);
       if (file instanceof File) {
         const previewUrl = URL.createObjectURL(file);
+        console.log('🔗 Preview URL created:', previewUrl);
         setImagePreview(previewUrl);
       }
     }
   };
 
   const uploadBannerImage = () => {
+    console.log('⬆️ Upload banner clicked', { selectedImage, imagePreview });
     if (selectedImage && imagePreview) {
+      console.log('✅ Setting new banner image:', imagePreview);
       setCommunityBannerImage(imagePreview);
       setShowImageUploadModal(false);
       setSelectedImage(null);
@@ -407,7 +412,10 @@ export default function DashboardPage() {
               
               {/* Upload button */}
               <button
-                onClick={() => setShowImageUploadModal(true)}
+                onClick={() => {
+                  console.log('🖼️ Upload button clicked');
+                  setShowImageUploadModal(true);
+                }}
                 className="absolute top-4 right-4 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full p-2 transition-colors duration-200 text-white"
                 title="Change banner image"
               >
