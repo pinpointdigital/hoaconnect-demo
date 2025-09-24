@@ -492,7 +492,7 @@ export default function DashboardPage() {
                   </div>
                   <div className="flex items-center gap-2">
                     <h3 className="text-h3 font-semibold text-ink-900">HOA Connect Assistant</h3>
-                    <span className="px-2 py-1 bg-primary/10 text-primary text-caption font-medium rounded">
+                    <span className="px-2 py-0.5 bg-neutral-100 text-neutral-600 text-caption font-medium rounded-full border border-neutral-200">
                       AI-Powered (Beta)
                     </span>
                   </div>
