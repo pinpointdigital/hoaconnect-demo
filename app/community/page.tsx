@@ -286,10 +286,10 @@ export default function CommunityInfoPage() {
       {/* Page Header - Consistent with ARC Management */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-            <Building2 className="text-primary" size={24} />
+          <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+            <Building2 className="text-blue-600" size={24} />
           </div>
-          <h1 className="text-h1 font-bold text-ink-900">Community Info Dashboard</h1>
+          <h1 className="text-3xl font-bold text-ink-900">Community Info Dashboard</h1>
         </div>
       </div>
 
