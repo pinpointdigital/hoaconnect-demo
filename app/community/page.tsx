@@ -705,7 +705,7 @@ function SchoolsTab({ schools, saveData, canEdit }) {
     phone: '',
     website: '',
     type: 'public',
-    grades: 'K-12'
+    grades: 'Elementary'
   });
 
   const saveSchool = () => {
@@ -733,7 +733,7 @@ function SchoolsTab({ schools, saveData, canEdit }) {
       phone: '',
       website: '',
       type: 'public',
-      grades: 'K-12'
+      grades: 'Elementary'
     });
   };
 
@@ -746,7 +746,7 @@ function SchoolsTab({ schools, saveData, canEdit }) {
       phone: '',
       website: '',
       type: 'public',
-      grades: 'K-12'
+      grades: 'Elementary'
     });
   };
 
@@ -808,9 +808,9 @@ function SchoolsTab({ schools, saveData, canEdit }) {
                 <div className="flex items-center gap-3 mb-2">
                   <h3 className="text-h3 font-semibold text-ink-900">{school.name}</h3>
                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    school.type === 'public' ? 'bg-blue-100 text-blue-700' :
-                    school.type === 'private' ? 'bg-purple-100 text-purple-700' :
-                    'bg-green-100 text-green-700'
+                    school.type === 'public' ? 'bg-emerald-100 text-emerald-700' :
+                    school.type === 'private' ? 'bg-amber-100 text-amber-700' :
+                    'bg-violet-100 text-violet-700'
                   }`}>
                     {school.type.charAt(0).toUpperCase() + school.type.slice(1)}
                   </span>
@@ -925,10 +925,9 @@ function SchoolsTab({ schools, saveData, canEdit }) {
                     onChange={(e) => setEditingSchool(prev => ({ ...prev, grades: e.target.value }))}
                     className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                   >
-                    <option value="K-5">K-5</option>
-                    <option value="6-8">6-8</option>
-                    <option value="9-12">9-12</option>
-                    <option value="K-8">K-8</option>
+                    <option value="Elementary">Elementary</option>
+                    <option value="Middle School">Middle School</option>
+                    <option value="High School">High School</option>
                     <option value="K-12">K-12</option>
                   </select>
                 </div>
@@ -1013,10 +1012,9 @@ function SchoolsTab({ schools, saveData, canEdit }) {
                     onChange={(e) => setNewSchool(prev => ({ ...prev, grades: e.target.value }))}
                     className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                   >
-                    <option value="K-5">K-5</option>
-                    <option value="6-8">6-8</option>
-                    <option value="9-12">9-12</option>
-                    <option value="K-8">K-8</option>
+                    <option value="Elementary">Elementary</option>
+                    <option value="Middle School">Middle School</option>
+                    <option value="High School">High School</option>
                     <option value="K-12">K-12</option>
                   </select>
                 </div>
