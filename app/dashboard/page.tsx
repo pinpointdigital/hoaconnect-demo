@@ -543,7 +543,7 @@ export default function DashboardPage() {
                         1427 Oceanview Dr
                       </a>
                       <p className="text-sm font-medium" style={{ color: '#434343' }}>
-                        Reply requested
+                        Today, 11:45 AM
                       </p>
                     </div>
                     <Link href="/dashboard/arc-management/arc-002">
