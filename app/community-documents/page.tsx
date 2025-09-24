@@ -97,6 +97,7 @@ export default function CommunityDocumentsPage() {
   const [showAIDemo, setShowAIDemo] = useState(false);
   const [aiAnalysisProgress, setAIAnalysisProgress] = useState(0);
   const [showAIResults, setShowAIResults] = useState(false);
+  const [editingDocument, setEditingDocument] = useState<Document | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Load documents from localStorage
@@ -159,6 +160,28 @@ export default function CommunityDocumentsPage() {
       startAIDemo();
     }
   }, [showAIDemo]);
+
+  // Document editing functions
+  const saveDocument = () => {
+    if (editingDocument) {
+      const updatedDocuments = documents.map(doc => 
+        doc.id === editingDocument.id ? { ...editingDocument, lastUpdated: new Date().toISOString().split('T')[0] } : doc
+      );
+      saveDocuments(updatedDocuments);
+      setEditingDocument(null);
+    }
+  };
+
+  const deleteDocument = (docId: string) => {
+    if (confirm('Are you sure you want to delete this document?')) {
+      const updatedDocuments = documents.filter(doc => doc.id !== docId);
+      saveDocuments(updatedDocuments);
+    }
+  };
+
+  const cancelEdit = () => {
+    setEditingDocument(null);
+  };
 
   const categories = ['CC&R', 'Bylaws', 'Community Rules', 'Forms', 'Management Reports', 'Policies'];
   const canEdit = hasPermission('canConfigureBranding') || hasPermission('canReviewARCRequests');
@@ -311,7 +334,7 @@ export default function CommunityDocumentsPage() {
                             )}
                             
                             <div className="flex items-center gap-4 text-caption" style={{ color: '#434343' }}>
-                              <span>📅 {doc.version || `Uploaded ${new Date(doc.uploadDate).toLocaleDateString()}`}</span>
+                              <span>Version: {doc.version || `Uploaded ${new Date(doc.uploadDate).toLocaleDateString()}`}</span>
                               <span>📁 {doc.size}</span>
                             </div>
                           </div>
@@ -339,6 +362,7 @@ export default function CommunityDocumentsPage() {
                               </button>
                               {canEdit && (
                                 <button
+                                  onClick={() => setEditingDocument(doc)}
                                   className="flex items-center gap-1 text-primary hover:text-primary-700 transition-colors text-body font-medium"
                                 >
                                   <Edit3 size={14} />
@@ -588,6 +612,80 @@ export default function CommunityDocumentsPage() {
                 <Upload size={16} />
                 Upload Document
               </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Document Modal */}
+      {editingDocument && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 max-h-[90vh] overflow-y-auto">
+            <h3 className="text-h3 font-semibold text-ink-900 mb-4">Edit Document</h3>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Document Name</label>
+                <input
+                  type="text"
+                  value={editingDocument.name}
+                  onChange={(e) => setEditingDocument(prev => prev ? { ...prev, name: e.target.value } : null)}
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Description</label>
+                <textarea
+                  value={editingDocument.aiSummary || ''}
+                  onChange={(e) => setEditingDocument(prev => prev ? { ...prev, aiSummary: e.target.value } : null)}
+                  rows={3}
+                  placeholder="Document description or summary..."
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary resize-none"
+                />
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-body font-medium text-ink-700 mb-2">Version</label>
+                  <input
+                    type="text"
+                    value={editingDocument.version}
+                    onChange={(e) => setEditingDocument(prev => prev ? { ...prev, version: e.target.value } : null)}
+                    placeholder="e.g., 2024.1, 1.0"
+                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-body font-medium text-ink-700 mb-2">Category</label>
+                  <select
+                    value={editingDocument.category}
+                    onChange={(e) => setEditingDocument(prev => prev ? { ...prev, category: e.target.value as Document['category'] } : null)}
+                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                  >
+                    {categories.map(category => (
+                      <option key={category} value={category}>{category}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex items-center justify-between mt-6">
+              <Button
+                variant="outline"
+                onClick={() => deleteDocument(editingDocument.id)}
+                className="flex items-center gap-2 text-red-600 hover:text-red-700 border-red-300 hover:border-red-400"
+              >
+                <Trash2 size={16} />
+                Delete
+              </Button>
+              
+              <div className="flex gap-3">
+                <Button variant="outline" onClick={cancelEdit}>Cancel</Button>
+                <Button variant="primary" onClick={saveDocument}>Save Changes</Button>
+              </div>
             </div>
           </div>
         </div>
