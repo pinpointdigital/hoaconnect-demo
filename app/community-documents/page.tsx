@@ -100,6 +100,7 @@ export default function CommunityDocumentsPage() {
   const [editingDocument, setEditingDocument] = useState<Document | null>(null);
   const [showUpdateVersionModal, setShowUpdateVersionModal] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [aiAnalysisActive, setAIAnalysisActive] = useState(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const versionFileInputRef = useRef<HTMLInputElement>(null);
 
@@ -155,6 +156,24 @@ export default function CommunityDocumentsPage() {
     // Wait a moment then show results
     await new Promise(resolve => setTimeout(resolve, 800));
     setShowAIResults(true);
+    
+    // Activate AI analysis for all documents
+    setAIAnalysisActive(true);
+  };
+
+  // Reset AI analysis
+  const resetAIAnalysis = () => {
+    setAIAnalysisActive(false);
+    setShowAIDemo(false);
+    setAIAnalysisProgress(0);
+    setShowAIResults(false);
+  };
+
+  // Activate AI document scan
+  const activateAIDocumentScan = () => {
+    setShowAIDemo(true);
+    setAIAnalysisProgress(0);
+    setShowAIResults(false);
   };
 
   // Auto-start animation when modal opens
@@ -243,27 +262,14 @@ export default function CommunityDocumentsPage() {
           <h1 className="text-3xl font-bold text-ink-900">Community Documents</h1>
         </div>
         {canEdit && (
-          <div className="flex gap-3">
-            <button
-              onClick={() => {
-                setShowAIDemo(true);
-                setAIAnalysisProgress(0);
-                setShowAIResults(false);
-              }}
-              className="flex items-center gap-2 text-primary hover:text-primary-700 transition-colors text-body font-medium"
-            >
-              <Bot size={16} />
-              AI Assistant Demo
-            </button>
-            <Button
-              variant="primary"
-              onClick={() => setShowUploadModal(true)}
-              className="flex items-center gap-2"
-            >
-              <Upload size={16} />
-              Upload Document
-            </Button>
-          </div>
+          <Button
+            variant="primary"
+            onClick={() => setShowUploadModal(true)}
+            className="flex items-center gap-2"
+          >
+            <Upload size={16} />
+            Upload Document
+          </Button>
         )}
       </div>
 
@@ -340,6 +346,26 @@ export default function CommunityDocumentsPage() {
           </div>
         </div>
 
+        <div className="text-center">
+          <div className="flex gap-3 justify-center">
+            <Button
+              variant="outline"
+              onClick={resetAIAnalysis}
+              className="flex items-center gap-2"
+            >
+              <Bot size={16} />
+              Reset AI Demo
+            </Button>
+            <Button
+              variant="primary"
+              onClick={activateAIDocumentScan}
+              className="flex items-center gap-2"
+            >
+              <Sparkles size={16} />
+              Activate AI Document Scan
+            </Button>
+          </div>
+        </div>
       </div>
 
       {/* Documents List */}
@@ -368,9 +394,15 @@ export default function CommunityDocumentsPage() {
                             <div className="flex items-center gap-3 mb-2">
                               <h4 className="text-h4 font-semibold text-ink-900">{doc.name}</h4>
                               {doc.aiAnalyzed && (
-                                <div className="flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 rounded-full">
+                                <div className={`flex items-center gap-1 px-2 py-1 rounded-full ${
+                                  aiAnalysisActive 
+                                    ? 'bg-green-100 text-green-700' 
+                                    : 'bg-amber-100 text-amber-700'
+                                }`}>
                                   <Bot size={12} />
-                                  <span className="text-xs font-medium">AI Analyzed</span>
+                                  <span className="text-xs font-medium">
+                                    {aiAnalysisActive ? 'AI Analyzed' : 'AI Analysis Pending'}
+                                  </span>
                                 </div>
                               )}
                             </div>
