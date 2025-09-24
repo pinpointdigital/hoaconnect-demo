@@ -541,13 +541,11 @@ export default function DashboardPage() {
             {/* AI Video Assistant */}
             {(currentRole === 'management-company' || currentRole === 'captain') && (
               <div className="lg:col-span-1 rounded-card border border-ink-900/8 bg-white shadow-elev1 p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2">
-                    <h3 className="text-h3 font-semibold text-ink-900">HOA Connect Assistant</h3>
-                    <div className="flex items-center gap-1 px-2 py-1 bg-gradient-to-r from-emerald-100 to-green-100 rounded-full border border-emerald-200">
-                      <div className="w-2 h-2 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full animate-pulse"></div>
-                      <span className="text-xs font-medium text-emerald-700">AI Demo</span>
-                    </div>
+                <div className="mb-4">
+                  <h3 className="text-h3 font-semibold text-ink-900 mb-2">HOA Connect Assistant</h3>
+                  <div className="flex items-center gap-1 px-1.5 py-0.5 bg-gradient-to-r from-emerald-100 to-green-100 rounded-full border border-emerald-200 w-fit">
+                    <div className="w-1.5 h-1.5 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full animate-pulse"></div>
+                    <span className="text-xs font-medium text-emerald-700">AI Demo</span>
                   </div>
                 </div>
                 
