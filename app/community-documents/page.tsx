@@ -18,7 +18,6 @@ import {
   AlertCircle,
   Zap,
   MessageSquare,
-  Brain,
   FileCheck,
   Plus,
   Edit3,
@@ -32,6 +31,7 @@ interface Document {
   category: 'CC&R' | 'Bylaws' | 'Community Rules' | 'Forms' | 'Management Reports' | 'Policies';
   uploadDate: string;
   size: string;
+  version: string;
   aiAnalyzed: boolean;
   aiSummary?: string;
   lastUpdated: string;
@@ -45,6 +45,7 @@ const DEFAULT_DOCUMENTS: Document[] = [
     category: 'CC&R',
     uploadDate: '2024-01-15',
     size: '2.4 MB',
+    version: '2024.1',
     aiAnalyzed: true,
     aiSummary: 'Comprehensive governing documents including architectural guidelines, property use restrictions, and board governance procedures.',
     lastUpdated: '2024-01-15'
@@ -56,6 +57,7 @@ const DEFAULT_DOCUMENTS: Document[] = [
     category: 'Forms',
     uploadDate: '2024-02-01',
     size: '156 KB',
+    version: '1.0',
     aiAnalyzed: true,
     aiSummary: 'Required form for new residents containing contact information, emergency contacts, and property details.',
     lastUpdated: '2024-02-01'
@@ -67,6 +69,7 @@ const DEFAULT_DOCUMENTS: Document[] = [
     category: 'Community Rules',
     uploadDate: '2024-07-02',
     size: '892 KB',
+    version: '2024.2',
     aiAnalyzed: true,
     aiSummary: 'Updated parking regulations with redlined changes from 2020 rules, including guest parking and enforcement procedures.',
     lastUpdated: '2024-07-02'
@@ -78,6 +81,7 @@ const DEFAULT_DOCUMENTS: Document[] = [
     category: 'Management Reports',
     uploadDate: '2025-01-01',
     size: '1.2 MB',
+    version: '2025.1',
     aiAnalyzed: true,
     aiSummary: 'Annual disclosure statement from Seabreeze Management Company detailing services, fees, and management responsibilities.',
     lastUpdated: '2025-01-01'
@@ -213,7 +217,7 @@ export default function CommunityDocumentsPage() {
       <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-card border border-blue-200 shadow-elev1 p-6">
         <div className="flex items-center gap-3 mb-4">
           <div className="w-12 h-12 bg-gradient-to-r from-blue-100 to-purple-100 rounded-lg flex items-center justify-center">
-            <Brain className="text-blue-600" size={24} />
+            <Bot className="text-blue-600" size={24} />
           </div>
           <div>
             <h2 className="text-2xl font-semibold text-ink-900">AI Document Analysis</h2>
@@ -289,6 +293,9 @@ export default function CommunityDocumentsPage() {
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-3 mb-2">
                               <h4 className="text-h4 font-semibold text-ink-900">{doc.name}</h4>
+                              <span className="px-2 py-1 bg-neutral-100 text-neutral-700 rounded-full text-xs font-medium">
+                                v{doc.version}
+                              </span>
                               {doc.aiAnalyzed && (
                                 <div className="flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 rounded-full">
                                   <Bot size={12} />
@@ -301,42 +308,49 @@ export default function CommunityDocumentsPage() {
                               <p className="text-body text-ink-600 mb-2">{doc.aiSummary}</p>
                             )}
                             
-                            <div className="flex items-center gap-4 text-caption text-ink-500">
+                            <div className="flex items-center gap-4 text-caption" style={{ color: '#434343' }}>
                               <span>📅 {new Date(doc.uploadDate).toLocaleDateString()}</span>
                               <span>📁 {doc.size}</span>
                               <span>🔄 Updated {new Date(doc.lastUpdated).toLocaleDateString()}</span>
                             </div>
                           </div>
 
-                          <div className="flex gap-2">
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="flex items-center gap-1"
-                              onClick={() => window.open(`/community-documents/${doc.filename}`, '_blank')}
-                            >
-                              <Eye size={14} />
-                              View
-                            </Button>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="flex items-center gap-1"
-                              onClick={() => {
-                                const link = document.createElement('a');
-                                link.href = `/community-documents/${doc.filename}`;
-                                link.download = doc.filename;
-                                link.click();
-                              }}
-                            >
-                              <Download size={14} />
-                              Download
-                            </Button>
+                          <div className="flex flex-col gap-2">
+                            <div className="flex gap-4">
+                              <button
+                                onClick={() => window.open(`/community-documents/${doc.filename}`, '_blank')}
+                                className="flex items-center gap-1 text-primary hover:text-primary-700 transition-colors text-body font-medium"
+                              >
+                                <Eye size={14} />
+                                View
+                              </button>
+                              <button
+                                onClick={() => {
+                                  const link = document.createElement('a');
+                                  link.href = `/community-documents/${doc.filename}`;
+                                  link.download = doc.filename;
+                                  link.click();
+                                }}
+                                className="flex items-center gap-1 text-primary hover:text-primary-700 transition-colors text-body font-medium"
+                              >
+                                <Download size={14} />
+                                Download
+                              </button>
+                              {canEdit && (
+                                <button
+                                  className="flex items-center gap-1 text-primary hover:text-primary-700 transition-colors text-body font-medium"
+                                >
+                                  <Edit3 size={14} />
+                                  Edit
+                                </button>
+                              )}
+                            </div>
                             {canEdit && (
                               <button
                                 className="flex items-center gap-1 text-primary hover:text-primary-700 transition-colors text-body font-medium"
                               >
-                                <Edit3 size={14} />
+                                <Upload size={14} />
+                                Update Version
                               </button>
                             )}
                           </div>
@@ -396,7 +410,7 @@ export default function CommunityDocumentsPage() {
               <div className="space-y-6">
                 <div className="text-center">
                   <div className="w-16 h-16 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Brain className="text-blue-600" size={32} />
+                    <Bot className="text-blue-600" size={32} />
                   </div>
                   <h4 className="text-h4 font-semibold text-ink-900 mb-2">Analyzing Community Documents</h4>
                   <p className="text-body text-ink-600 mb-6">
