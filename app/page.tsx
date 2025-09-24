@@ -11,7 +11,7 @@ import { Home as HomeIcon, Play, FileText, Palette, User, Building, UserPlus, Ex
 import Link from 'next/link';
 
 // 🚧 MAINTENANCE MODE TOGGLE - Set to true to enable maintenance mode for live site
-const FORCE_MAINTENANCE_MODE = true;
+const FORCE_MAINTENANCE_MODE = false;
 
 export default function Home() {
   const hoaInfo = useHOAInfo();
