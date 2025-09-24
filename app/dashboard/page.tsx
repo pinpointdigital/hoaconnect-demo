@@ -567,8 +567,7 @@ export default function DashboardPage() {
                     <Bot className="text-white" size={20} />
                   </div>
                   <div>
-                    <h3 className="text-h3 font-semibold text-ink-900">AI Video Assistant</h3>
-                    <p className="text-caption text-ink-600">Powered by D-ID</p>
+                    <h3 className="text-h3 font-semibold text-ink-900">AI HOA Connect Assistant</h3>
                   </div>
                 </div>
                 
@@ -576,10 +575,23 @@ export default function DashboardPage() {
                   id="hoa-ai-assistant" 
                   className="w-full h-[400px] bg-neutral-50 rounded-lg border border-neutral-200 flex items-center justify-center"
                 >
-                  <div className="text-center text-neutral-500">
-                    <Bot size={48} className="mx-auto mb-4 opacity-50" />
-                    <p className="text-body">AI Video Assistant will load here</p>
-                    <p className="text-caption">Initializing...</p>
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Bot className="text-white" size={32} />
+                    </div>
+                    <h4 className="text-h4 font-medium text-ink-900 mb-2">AI HOA Connect Assistant</h4>
+                    <p className="text-body text-ink-600 mb-4">Ready to help with HOA management tasks</p>
+                    <Button 
+                      variant="primary"
+                      onClick={() => {
+                        // Trigger D-ID initialization
+                        console.log('🤖 Starting AI Assistant...');
+                        const event = new CustomEvent('did-agent-start');
+                        window.dispatchEvent(event);
+                      }}
+                    >
+                      Start Assistant
+                    </Button>
                   </div>
                 </div>
               </div>
