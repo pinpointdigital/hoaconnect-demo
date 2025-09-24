@@ -140,18 +140,25 @@ export default function CommunityDocumentsPage() {
     setShowAIResults(false);
     
     // Small delay to ensure modal is rendered
-    await new Promise(resolve => setTimeout(resolve, 100));
+    await new Promise(resolve => setTimeout(resolve, 200));
     
     // Simulate AI analysis progress
-    for (let i = 0; i <= 100; i += 10) {
-      await new Promise(resolve => setTimeout(resolve, 300));
+    for (let i = 10; i <= 100; i += 10) {
+      await new Promise(resolve => setTimeout(resolve, 400));
       setAIAnalysisProgress(i);
     }
     
     // Wait a moment then show results
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise(resolve => setTimeout(resolve, 800));
     setShowAIResults(true);
   };
+
+  // Auto-start animation when modal opens
+  useEffect(() => {
+    if (showAIDemo && !showAIResults && aiAnalysisProgress === 0) {
+      startAIDemo();
+    }
+  }, [showAIDemo]);
 
   const categories = ['CC&R', 'Bylaws', 'Community Rules', 'Forms', 'Management Reports', 'Policies'];
   const canEdit = hasPermission('canConfigureBranding') || hasPermission('canReviewARCRequests');
@@ -264,17 +271,6 @@ export default function CommunityDocumentsPage() {
           </div>
         </div>
 
-        <div className="text-center">
-          <Button
-            variant="primary"
-            onClick={startAIDemo}
-            className="flex items-center gap-2"
-            disabled={aiAnalysisProgress > 0 && aiAnalysisProgress < 100}
-          >
-            <Sparkles size={16} />
-            {aiAnalysisProgress > 0 && aiAnalysisProgress < 100 ? 'Demo Running...' : 'Start AI Analysis Demo'}
-          </Button>
-        </div>
       </div>
 
       {/* Documents List */}
