@@ -49,7 +49,7 @@ import {
   ClipboardCheck
 } from 'lucide-react';
 import Link from 'next/link';
-import { ArchivesTab, AnalyticsTab, SettingsTab } from './additional-tabs';
+import { ArchivesTab, SettingsTab } from './additional-tabs';
 
 const STATUS_COLORS = {
   'draft': 'bg-neutral-100 text-neutral-700',
@@ -292,7 +292,6 @@ export default function ARCManagementPage() {
   const tabs = [
     { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={16} />, badge: needsAttention.length > 0 ? needsAttention.length : null },
     { id: 'archives', label: 'Archives', icon: <FileText size={16} /> },
-    { id: 'analytics', label: 'Analytics', icon: <BarChart3 size={16} /> },
     { id: 'settings', label: 'Settings', icon: <Settings size={16} /> }
   ];
 
@@ -304,7 +303,7 @@ export default function ARCManagementPage() {
           <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
             <ClipboardCheck className="text-blue-600" size={24} />
           </div>
-          <h1 className="text-3xl font-bold text-ink-900">ARC Management Dashboard</h1>
+          <h1 className="text-3xl font-bold text-ink-900">ARC Management</h1>
         </div>
         <Button 
           onClick={() => setShowCreateModal(true)}
@@ -365,12 +364,6 @@ export default function ARCManagementPage() {
         ARC_STATUS_LABELS={ARC_STATUS_LABELS}
       />}
       
-      {activeTab === 'analytics' && <AnalyticsTab 
-        requests={requests}
-        STATUS_COLORS={STATUS_COLORS}
-        STATUS_ICONS={STATUS_ICONS}
-        ARC_STATUS_LABELS={ARC_STATUS_LABELS}
-      />}
       
       {activeTab === 'settings' && <SettingsTab />}
 

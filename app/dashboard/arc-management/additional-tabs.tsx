@@ -4,12 +4,7 @@ import { Button } from '@/components/ui/Button';
 import { 
   Search, 
   FileText, 
-  Eye, 
-  MoreVertical,
-  TrendingUp,
-  Clock,
-  Activity,
-  PieChart
+  Eye
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -121,111 +116,6 @@ export function ArchivesTab({ requests, filteredRequests, searchTerm, setSearchT
   );
 }
 
-// Analytics Tab Component
-export function AnalyticsTab({ requests, STATUS_COLORS, STATUS_ICONS, ARC_STATUS_LABELS }) {
-  const totalRequests = requests.length;
-  const completedRequests = requests.filter(r => r.status === 'completed').length;
-  const approvalRate = totalRequests > 0 ? Math.round((completedRequests / totalRequests) * 100) : 0;
-  
-  const statusCounts = requests.reduce((acc, request) => {
-    acc[request.status] = (acc[request.status] || 0) + 1;
-    return acc;
-  }, {});
-
-  // Calculate average processing time for completed requests
-  const completedWithTimes = requests.filter(r => r.status === 'completed' && r.submittedAt && r.updatedAt);
-  const avgProcessingTime = completedWithTimes.length > 0 
-    ? Math.round(completedWithTimes.reduce((acc, r) => {
-        const days = Math.ceil((r.updatedAt - r.submittedAt) / (1000 * 60 * 60 * 24));
-        return acc + days;
-      }, 0) / completedWithTimes.length)
-    : 0;
-
-  return (
-    <div className="space-y-6">
-      {/* Key Performance Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white rounded-card border border-ink-900/8 p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-caption text-ink-600">Total Requests</p>
-              <p className="text-2xl font-bold text-ink-900">{totalRequests}</p>
-            </div>
-            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-              <FileText className="text-blue-600" size={24} />
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-card border border-ink-900/8 p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-caption text-ink-600">Approval Rate</p>
-              <p className="text-2xl font-bold text-ink-900">{approvalRate}%</p>
-            </div>
-            <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-              <TrendingUp className="text-green-600" size={24} />
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-card border border-ink-900/8 p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-caption text-ink-600">Avg. Processing</p>
-              <p className="text-2xl font-bold text-ink-900">{avgProcessingTime} days</p>
-            </div>
-            <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
-              <Clock className="text-orange-600" size={24} />
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-card border border-ink-900/8 p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-caption text-ink-600">Active Now</p>
-              <p className="text-2xl font-bold text-ink-900">
-                {requests.filter(r => !['completed', 'denied'].includes(r.status)).length}
-              </p>
-            </div>
-            <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
-              <Activity className="text-yellow-600" size={24} />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Status Breakdown */}
-      <div className="bg-white rounded-card border border-ink-900/8 p-6">
-        <h3 className="text-h3 font-semibold text-ink-900 mb-4">Request Status Breakdown</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {Object.entries(statusCounts).map(([status, count]) => (
-            <div key={status} className="text-center p-4 rounded-lg bg-neutral-50">
-              <div className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium mb-2 ${STATUS_COLORS[status]}`}>
-                {STATUS_ICONS[status]}
-                {ARC_STATUS_LABELS[status]}
-              </div>
-              <p className="text-xl font-bold text-ink-900">{count}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Performance Trends - Placeholder */}
-      <div className="bg-white rounded-card border border-ink-900/8 p-6">
-        <h3 className="text-h3 font-semibold text-ink-900 mb-4">Performance Trends</h3>
-        <div className="h-64 flex items-center justify-center border-2 border-dashed border-neutral-200 rounded-lg">
-          <div className="text-center">
-            <PieChart className="mx-auto text-neutral-400 mb-2" size={48} />
-            <p className="text-body text-neutral-600">Chart visualization coming soon</p>
-            <p className="text-caption text-neutral-500">Historical trends and insights</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 // Settings Tab Component
 export function SettingsTab() {
