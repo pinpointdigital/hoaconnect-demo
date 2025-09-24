@@ -480,7 +480,7 @@ export default function DashboardPage() {
                         <MapPin size={14} className="flex-shrink-0" />
                         1423 Oceanview Dr
                       </a>
-                      <p className="text-sm font-medium" style={{ color: 'var(--error)' }}>
+                      <p className="text-sm font-medium" style={{ color: '#434343' }}>
                         5 days overdue
                       </p>
                     </div>
