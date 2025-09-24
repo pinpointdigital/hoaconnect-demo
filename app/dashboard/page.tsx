@@ -378,20 +378,36 @@ export default function DashboardPage() {
                   <h1 className="text-2xl md:text-3xl font-bold mb-2">
                     Welcome back, {userProfile.name.split(' ')[0]}
                   </h1>
-                  <p className="text-sm md:text-base opacity-90">
-                    Sample HOA Community • San Juan Capistrano, CA
-                  </p>
                 </div>
               </div>
 
-              {/* Admin Badge */}
-              <div className="absolute top-4 right-4">
-                <div className="bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-sm font-medium text-ink-900">
-                  {userProfile.role === 'captain' && '🛡️ Captain'}
-                  {userProfile.role === 'management-company' && '🏢 Manager'}
-                  {userProfile.role === 'board-member' && '👥 Board'}
+              {/* Image Edit Button - HOA Manager Only */}
+              {userProfile.role === 'management-company' && (
+                <div className="absolute bottom-4 right-4">
+                  <button
+                    onClick={() => {
+                      // For now, show a simple alert - in production this would open an image upload modal
+                      alert('Image upload feature would open here. In production, this would allow uploading a new community banner image.');
+                    }}
+                    className="bg-white/90 backdrop-blur-sm hover:bg-white transition-colors rounded-full p-2 shadow-lg group"
+                    title="Change community banner image"
+                  >
+                    <svg 
+                      className="w-4 h-4 text-ink-700 group-hover:text-ink-900" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round" 
+                        strokeWidth={2} 
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" 
+                      />
+                    </svg>
+                  </button>
                 </div>
-              </div>
+              )}
             </div>
           </div>
 
