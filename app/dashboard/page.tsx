@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '@/lib/auth/context';
 import { UserRole } from '@/lib/auth/types';
 import { Button } from '@/components/ui/Button';
-import { Play, Users, FileText, Wrench, MessageSquare, Home as HomeIcon, AlertTriangle, Clock, CheckCircle, Bot, Send, User, ArrowRight, X } from 'lucide-react';
+import { Play, Users, FileText, Wrench, MessageSquare, Home as HomeIcon, AlertTriangle, Clock, CheckCircle, Bot, Send, User, ArrowRight, X, MapPin } from 'lucide-react';
 import Link from 'next/link';
 
 // Bot response database
@@ -471,9 +471,15 @@ export default function DashboardPage() {
                       <p className="text-body font-medium text-ink-600 mb-1">
                         David Martinez
                       </p>
-                      <p className="text-body text-ink-600 mb-2">
+                      <a 
+                        href="https://maps.google.com/maps?q=1423+Oceanview+Dr+San+Juan+Capistrano+CA&z=18"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1 text-body text-ink-600 hover:text-primary transition-colors mb-2 w-fit"
+                      >
+                        <MapPin size={14} className="flex-shrink-0" />
                         1423 Oceanview Dr
-                      </p>
+                      </a>
                       <p className="text-sm text-red-600 font-medium">
                         5 days overdue
                       </p>
@@ -496,9 +502,15 @@ export default function DashboardPage() {
                       <p className="text-body font-medium text-ink-600 mb-1">
                         Sarah Johnson
                       </p>
-                      <p className="text-body text-ink-600 mb-2">
+                      <a 
+                        href="https://maps.google.com/maps?q=1427+Oceanview+Dr+San+Juan+Capistrano+CA&z=18"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1 text-body text-ink-600 hover:text-primary transition-colors mb-2 w-fit"
+                      >
+                        <MapPin size={14} className="flex-shrink-0" />
                         1427 Oceanview Dr
-                      </p>
+                      </a>
                       <p className="text-sm text-yellow-600 font-medium">
                         2 neighbors pending
                       </p>
@@ -521,9 +533,15 @@ export default function DashboardPage() {
                       <p className="text-body font-medium text-ink-600 mb-1">
                         Robert Chen
                       </p>
-                      <p className="text-body text-ink-600 mb-2">
+                      <a 
+                        href="https://maps.google.com/maps?q=1429+Oceanview+Dr+San+Juan+Capistrano+CA&z=18"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1 text-body text-ink-600 hover:text-primary transition-colors mb-2 w-fit"
+                      >
+                        <MapPin size={14} className="flex-shrink-0" />
                         1429 Oceanview Dr
-                      </p>
+                      </a>
                       <p className="text-sm text-blue-600 font-medium">
                         Today, 2:30 PM
                       </p>
