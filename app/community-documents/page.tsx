@@ -98,7 +98,10 @@ export default function CommunityDocumentsPage() {
   const [aiAnalysisProgress, setAIAnalysisProgress] = useState(0);
   const [showAIResults, setShowAIResults] = useState(false);
   const [editingDocument, setEditingDocument] = useState<Document | null>(null);
+  const [showUpdateVersionModal, setShowUpdateVersionModal] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const versionFileInputRef = useRef<HTMLInputElement>(null);
 
   // Load documents from localStorage
   useEffect(() => {
@@ -181,6 +184,49 @@ export default function CommunityDocumentsPage() {
 
   const cancelEdit = () => {
     setEditingDocument(null);
+    setShowUpdateVersionModal(false);
+    setSelectedFile(null);
+  };
+
+  // Handle version update
+  const handleVersionUpdate = () => {
+    if (editingDocument) {
+      setShowUpdateVersionModal(true);
+    }
+  };
+
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+    }
+  };
+
+  const updateDocumentVersion = () => {
+    if (editingDocument && selectedFile) {
+      // Increment version automatically
+      const currentVersion = editingDocument.version;
+      const versionParts = currentVersion.split('.');
+      const newMinorVersion = parseInt(versionParts[1] || '0') + 1;
+      const newVersion = `${versionParts[0]}.${newMinorVersion}`;
+      
+      const updatedDocument = {
+        ...editingDocument,
+        version: newVersion,
+        filename: selectedFile.name,
+        size: `${(selectedFile.size / 1024 / 1024).toFixed(1)} MB`,
+        lastUpdated: new Date().toISOString().split('T')[0]
+      };
+
+      const updatedDocuments = documents.map(doc => 
+        doc.id === editingDocument.id ? updatedDocument : doc
+      );
+      
+      saveDocuments(updatedDocuments);
+      setEditingDocument(null);
+      setShowUpdateVersionModal(false);
+      setSelectedFile(null);
+    }
   };
 
   const categories = ['CC&R', 'Bylaws', 'Community Rules', 'Forms', 'Management Reports', 'Policies'];
@@ -372,6 +418,7 @@ export default function CommunityDocumentsPage() {
                             </div>
                             {canEdit && (
                               <button
+                                onClick={() => handleVersionUpdate()}
                                 className="flex items-center gap-1 text-primary hover:text-primary-700 transition-colors text-body font-medium"
                               >
                                 <Upload size={14} />
@@ -686,6 +733,79 @@ export default function CommunityDocumentsPage() {
                 <Button variant="outline" onClick={cancelEdit}>Cancel</Button>
                 <Button variant="primary" onClick={saveDocument}>Save Changes</Button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Update Version Modal */}
+      {showUpdateVersionModal && editingDocument && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6">
+            <h3 className="text-h3 font-semibold text-ink-900 mb-4">Update Document Version</h3>
+            
+            <div className="space-y-4">
+              <div className="p-4 bg-neutral-50 rounded-lg border border-neutral-200">
+                <h4 className="text-h4 font-semibold text-ink-900 mb-1">{editingDocument.name}</h4>
+                <p className="text-caption text-ink-600">Current Version: {editingDocument.version}</p>
+              </div>
+              
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">
+                  Upload New Version
+                </label>
+                <input
+                  ref={versionFileInputRef}
+                  type="file"
+                  accept=".pdf,.doc,.docx"
+                  onChange={handleFileSelect}
+                  className="block w-full text-caption text-ink-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-caption file:font-medium file:bg-primary file:text-white hover:file:bg-primary/90"
+                />
+              </div>
+              
+              {selectedFile && (
+                <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
+                  <div className="flex items-center gap-2">
+                    <FileText size={16} className="text-blue-600" />
+                    <div>
+                      <p className="text-body font-medium text-blue-900">{selectedFile.name}</p>
+                      <p className="text-caption text-blue-700">
+                        {(selectedFile.size / 1024 / 1024).toFixed(1)} MB
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+              
+              <div className="p-3 bg-green-50 rounded-lg border border-green-200">
+                <p className="text-caption text-green-700">
+                  <strong>Auto-versioning:</strong> Version will automatically increment to{' '}
+                  <span className="font-medium">
+                    {editingDocument.version.split('.')[0]}.{parseInt(editingDocument.version.split('.')[1] || '0') + 1}
+                  </span>
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex justify-end gap-3 mt-6">
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setShowUpdateVersionModal(false);
+                  setSelectedFile(null);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="primary"
+                onClick={updateDocumentVersion}
+                disabled={!selectedFile}
+                className="flex items-center gap-2"
+              >
+                <Upload size={16} />
+                Update Version
+              </Button>
             </div>
           </div>
         </div>
