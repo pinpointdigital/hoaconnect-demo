@@ -145,7 +145,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* Profile Edit Modal */}
       {showProfileModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6">
+          <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-h3 font-semibold text-ink-900">Edit Profile</h3>
               <button
@@ -159,12 +159,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             <div className="space-y-4">
               {/* Profile Photo */}
               <div className="flex flex-col items-center mb-6">
-                <Avatar 
-                  name={editingProfile.name} 
-                  size="xl" 
-                  src={editingProfile.profilePhoto}
-                  className="mb-3"
-                />
+                <div className="w-20 h-20 mb-3 flex-shrink-0">
+                  <Avatar 
+                    name={editingProfile.name} 
+                    size="xl" 
+                    src={editingProfile.profilePhoto}
+                  />
+                </div>
                 <input
                   ref={fileInputRef}
                   type="file"
