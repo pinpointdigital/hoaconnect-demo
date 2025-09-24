@@ -165,32 +165,32 @@ const DEFAULT_COMMUNITY_DATA = {
       id: 'util-1',
       name: 'Cox Communications',
       address: '',
-      phone: '949.240.1212',
-      website: 'www.cox.com',
+      phone: '(949) 240-1212',
+      website: 'www.cox.com/local/residential/ca/san-juan-capistrano',
       category: 'Phone, Cable & Internet'
     },
     {
       id: 'util-2',
-      name: 'The Gas Company',
+      name: 'SoCal Gas',
       address: 'PO Box C, Monterey Park CA 91756',
-      phone: '(800) 427-2000',
-      website: '',
+      phone: '(877) 238-0092',
+      website: 'www.socalgas.com',
       category: 'Gas'
     },
     {
       id: 'util-3',
       name: 'San Diego Gas & Electric Company',
-      address: '8326 Century Park court, San Diego CA 92123',
-      phone: '(800) 411-7343',
-      website: '',
+      address: '662 Camino De Los Mares, San Clemente, CA 92673',
+      phone: '(626) 484-7167',
+      website: 'www.sdge.com',
       category: 'Electric'
     },
     {
       id: 'util-4',
-      name: 'CR&R Environmental Services',
-      address: '11292 Western Ave, Stanton CA',
-      phone: '(949) 646-4805',
-      website: '',
+      name: 'CR & R Environmental Services',
+      address: '11292 Western Ave, Stanton CA 90680',
+      phone: '(714) 890-6300',
+      website: 'www.crrwasteservices.com',
       category: 'Trash & Recycling'
     },
     {
@@ -198,7 +198,7 @@ const DEFAULT_COMMUNITY_DATA = {
       name: 'Rancho Santa Margarita Water District',
       address: '26111 Antonio Pkwy, Ranch Santa Margarita, CA 92688',
       phone: '(949) 459-6420',
-      website: 'SMWD.com',
+      website: 'smwd.com',
       category: 'Water'
     }
   ]
@@ -1327,6 +1327,55 @@ function MunicipalitiesTab({ municipalities, saveData, canEdit }) {
 
 // Utilities Tab Component
 function UtilitiesTab({ utilities, saveData, canEdit }) {
+  const [editingUtility, setEditingUtility] = useState<any>(null);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [newUtility, setNewUtility] = useState({
+    name: '',
+    address: '',
+    phone: '',
+    website: '',
+    category: 'Electric'
+  });
+
+  const saveUtility = () => {
+    if (editingUtility) {
+      const updatedUtilities = utilities.map(item => 
+        item.id === editingUtility.id ? editingUtility : item
+      );
+      saveData(prev => ({ ...prev, utilities: updatedUtilities }));
+      setEditingUtility(null);
+    }
+  };
+
+  const addUtility = () => {
+    const newUtilityData = {
+      ...newUtility,
+      id: `util-${Date.now()}`
+    };
+    const updatedUtilities = [...utilities, newUtilityData];
+    saveData(prev => ({ ...prev, utilities: updatedUtilities }));
+    setShowAddModal(false);
+    setNewUtility({
+      name: '',
+      address: '',
+      phone: '',
+      website: '',
+      category: 'Electric'
+    });
+  };
+
+  const cancelEdit = () => {
+    setEditingUtility(null);
+    setShowAddModal(false);
+    setNewUtility({
+      name: '',
+      address: '',
+      phone: '',
+      website: '',
+      category: 'Electric'
+    });
+  };
+
   return (
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
@@ -1334,6 +1383,7 @@ function UtilitiesTab({ utilities, saveData, canEdit }) {
         {canEdit && (
           <Button
             variant="primary"
+            onClick={() => setShowAddModal(true)}
             className="flex items-center gap-2"
           >
             <Plus size={16} />
@@ -1343,9 +1393,11 @@ function UtilitiesTab({ utilities, saveData, canEdit }) {
       </div>
 
       <div className="space-y-6">
-        {/* Group by category */}
-        {['Phone, Cable & Internet', 'Gas', 'Electric', 'Trash & Recycling', 'Water'].map(category => {
-          const categoryItems = utilities.filter(item => item.category === category);
+        {/* Group by category - Alphabetical order */}
+        {['Electric', 'Gas', 'Phone, Cable & Internet', 'Trash & Recycling', 'Water'].map(category => {
+          const categoryItems = utilities
+            .filter(item => item.category === category)
+            .sort((a, b) => a.name.localeCompare(b.name));
           if (categoryItems.length === 0) return null;
 
           return (
@@ -1353,11 +1405,32 @@ function UtilitiesTab({ utilities, saveData, canEdit }) {
               <h3 className="text-h3 font-semibold text-ink-900 border-b border-ink-900/8 pb-2">
                 {category}
               </h3>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div className="space-y-4">
                 {categoryItems.map((item) => (
                   <div key={item.id} className="p-4 border border-ink-900/8 rounded-lg">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
+                    <div className="flex items-start gap-4">
+                      {/* Website Favicon */}
+                      <div className="w-16 h-16 bg-neutral-100 rounded-lg border border-neutral-200 flex items-center justify-center flex-shrink-0">
+                        {item.website ? (
+                          <img
+                            src={`https://www.google.com/s2/favicons?domain=${item.website}&sz=64`}
+                            alt={`${item.name} website`}
+                            className="w-8 h-8 object-contain"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                              const parent = target.parentElement;
+                              if (parent) {
+                                parent.innerHTML = '<svg class="w-5 h-5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>';
+                              }
+                            }}
+                          />
+                        ) : (
+                          <Zap size={20} className="text-neutral-400" />
+                        )}
+                      </div>
+
+                      <div className="flex-1 min-w-0">
                         <h4 className="text-h4 font-semibold text-ink-900 mb-2">{item.name}</h4>
                         <div className="space-y-1">
                           {item.address && (
@@ -1380,13 +1453,14 @@ function UtilitiesTab({ utilities, saveData, canEdit }) {
                           )}
                         </div>
                       </div>
+
                       {canEdit && (
-                        <Button
-                          variant="outline"
-                          size="sm"
+                        <button
+                          onClick={() => setEditingUtility(item)}
+                          className="flex items-center gap-2 text-primary hover:text-primary-700 transition-colors text-body font-medium"
                         >
                           <Edit3 size={14} />
-                        </Button>
+                        </button>
                       )}
                     </div>
                   </div>
@@ -1396,6 +1470,152 @@ function UtilitiesTab({ utilities, saveData, canEdit }) {
           );
         })}
       </div>
+
+      {/* Edit Utility Modal */}
+      {editingUtility && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6 max-h-[90vh] overflow-y-auto">
+            <h3 className="text-h3 font-semibold text-ink-900 mb-4">Edit Utility</h3>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Company Name</label>
+                <input
+                  type="text"
+                  value={editingUtility.name}
+                  onChange={(e) => setEditingUtility(prev => ({ ...prev, name: e.target.value }))}
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Address</label>
+                <input
+                  type="text"
+                  value={editingUtility.address}
+                  onChange={(e) => setEditingUtility(prev => ({ ...prev, address: e.target.value }))}
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Phone</label>
+                <input
+                  type="tel"
+                  value={editingUtility.phone}
+                  onChange={(e) => setEditingUtility(prev => ({ ...prev, phone: e.target.value }))}
+                  placeholder="(949) 240-1212"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Website</label>
+                <input
+                  type="url"
+                  value={editingUtility.website}
+                  onChange={(e) => setEditingUtility(prev => ({ ...prev, website: e.target.value }))}
+                  placeholder="www.utility.com"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Category</label>
+                <select
+                  value={editingUtility.category}
+                  onChange={(e) => setEditingUtility(prev => ({ ...prev, category: e.target.value }))}
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                >
+                  <option value="Electric">Electric</option>
+                  <option value="Gas">Gas</option>
+                  <option value="Phone, Cable & Internet">Phone, Cable & Internet</option>
+                  <option value="Trash & Recycling">Trash & Recycling</option>
+                  <option value="Water">Water</option>
+                </select>
+              </div>
+            </div>
+            
+            <div className="flex justify-end gap-3 mt-6">
+              <Button variant="outline" onClick={cancelEdit}>Cancel</Button>
+              <Button variant="primary" onClick={saveUtility}>Save Changes</Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Utility Modal */}
+      {showAddModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6 max-h-[90vh] overflow-y-auto">
+            <h3 className="text-h3 font-semibold text-ink-900 mb-4">Add New Utility</h3>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Company Name</label>
+                <input
+                  type="text"
+                  value={newUtility.name}
+                  onChange={(e) => setNewUtility(prev => ({ ...prev, name: e.target.value }))}
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Address</label>
+                <input
+                  type="text"
+                  value={newUtility.address}
+                  onChange={(e) => setNewUtility(prev => ({ ...prev, address: e.target.value }))}
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Phone</label>
+                <input
+                  type="tel"
+                  value={newUtility.phone}
+                  onChange={(e) => setNewUtility(prev => ({ ...prev, phone: e.target.value }))}
+                  placeholder="(949) 240-1212"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Website</label>
+                <input
+                  type="url"
+                  value={newUtility.website}
+                  onChange={(e) => setNewUtility(prev => ({ ...prev, website: e.target.value }))}
+                  placeholder="www.utility.com"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Category</label>
+                <select
+                  value={newUtility.category}
+                  onChange={(e) => setNewUtility(prev => ({ ...prev, category: e.target.value }))}
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                >
+                  <option value="Electric">Electric</option>
+                  <option value="Gas">Gas</option>
+                  <option value="Phone, Cable & Internet">Phone, Cable & Internet</option>
+                  <option value="Trash & Recycling">Trash & Recycling</option>
+                  <option value="Water">Water</option>
+                </select>
+              </div>
+            </div>
+            
+            <div className="flex justify-end gap-3 mt-6">
+              <Button variant="outline" onClick={cancelEdit}>Cancel</Button>
+              <Button variant="primary" onClick={addUtility} disabled={!newUtility.name}>Add Utility</Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
