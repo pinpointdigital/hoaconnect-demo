@@ -594,17 +594,22 @@ export default function ResidentsPage() {
                             <span className="text-body text-ink-600">{resident.address}</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Mail size={14} className="text-ink-500" />
-                            <span className="text-body text-ink-600">{resident.email}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Phone size={14} className="text-ink-500" />
-                            <span className="text-body text-ink-600">{resident.phone}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
                             <Calendar size={14} className="text-ink-500" />
                             <span className="text-body text-ink-600">
-                              Lived here {new Date(resident.moveInDate).toLocaleDateString()} - {new Date(resident.moveOutDate!).toLocaleDateString()}
+                              Lived here {new Date(resident.moveInDate).toLocaleDateString()} - {new Date(resident.moveOutDate!).toLocaleDateString()} ({(() => {
+                                const moveIn = new Date(resident.moveInDate);
+                                const moveOut = new Date(resident.moveOutDate!);
+                                const years = moveOut.getFullYear() - moveIn.getFullYear();
+                                const months = moveOut.getMonth() - moveIn.getMonth() + (years * 12);
+                                
+                                if (months < 12) {
+                                  return `${months} month${months !== 1 ? 's' : ''}`;
+                                } else {
+                                  const displayYears = Math.floor(months / 12);
+                                  const displayMonths = months % 12;
+                                  return `${displayYears} year${displayYears !== 1 ? 's' : ''}${displayMonths > 0 ? ` and ${displayMonths} month${displayMonths !== 1 ? 's' : ''}` : ''}`;
+                                }
+                              })()})
                             </span>
                           </div>
                           <div className="flex items-center gap-2">
@@ -614,27 +619,20 @@ export default function ResidentsPage() {
                             </span>
                           </div>
                         </div>
+                      </div>
 
-                        {/* Tenure Info */}
-                        <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
-                          <p className="text-caption font-medium text-blue-700 mb-1">Residence Duration:</p>
-                          <p className="text-caption text-blue-600">
-                            {(() => {
-                              const moveIn = new Date(resident.moveInDate);
-                              const moveOut = new Date(resident.moveOutDate!);
-                              const years = moveOut.getFullYear() - moveIn.getFullYear();
-                              const months = moveOut.getMonth() - moveIn.getMonth() + (years * 12);
-                              
-                              if (months < 12) {
-                                return `${months} month${months !== 1 ? 's' : ''}`;
-                              } else {
-                                const displayYears = Math.floor(months / 12);
-                                const displayMonths = months % 12;
-                                return `${displayYears} year${displayYears !== 1 ? 's' : ''}${displayMonths > 0 ? ` and ${displayMonths} month${displayMonths !== 1 ? 's' : ''}` : ''}`;
-                              }
-                            })()}
-                          </p>
-                        </div>
+                      {/* Archive Actions */}
+                      <div className="flex flex-col gap-2">
+                        <button
+                          onClick={() => {
+                            setSelectedResident(resident);
+                            setEditingResident(resident);
+                            setImagePreview(resident.profilePhoto || null);
+                          }}
+                          className="flex items-center gap-1 text-primary hover:text-primary-700 transition-colors text-body font-medium"
+                        >
+                          View Profile
+                        </button>
                       </div>
 
                     </div>
