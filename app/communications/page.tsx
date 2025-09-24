@@ -233,7 +233,28 @@ export default function CommunicationsPage() {
     }
   }, []);
 
-  // Save data to localStorage
+  // Auto-save polls to localStorage when polls change
+  useEffect(() => {
+    if (polls.length > 0) {
+      localStorage.setItem('community-polls', JSON.stringify(polls));
+    }
+  }, [polls]);
+
+  // Auto-save items to localStorage when items change
+  useEffect(() => {
+    if (items.length > 0) {
+      localStorage.setItem('communication-items', JSON.stringify(items));
+    }
+  }, [items]);
+
+  // Auto-save updates to localStorage when updates change
+  useEffect(() => {
+    if (updates.length > 0) {
+      localStorage.setItem('community-updates', JSON.stringify(updates));
+    }
+  }, [updates]);
+
+  // Save data to localStorage (legacy function for manual saves)
   const saveData = () => {
     localStorage.setItem('communication-items', JSON.stringify(items));
     localStorage.setItem('community-updates', JSON.stringify(updates));
@@ -288,23 +309,36 @@ export default function CommunicationsPage() {
     setNewRequest({ title: '', category: 'General', description: '', emailBoard: true });
     setSelectedFiles([]);
     setShowNewRequestModal(false);
-    saveData();
   };
 
 
   // Create poll
   const createPoll = () => {
+    const now = new Date();
+    const openDate = new Date(newPoll.openDate);
+    const closeDate = new Date(newPoll.closeDate);
+    
+    // Determine poll status
+    let status: Poll['status'] = 'Active';
+    if (openDate > now) {
+      status = 'Scheduled';
+    } else if (closeDate < now) {
+      status = 'Closed';
+    } else {
+      status = 'Active';
+    }
+
     const poll: Poll = {
       id: `poll-${Date.now()}`,
       title: newPoll.title,
       audience: newPoll.audience,
       questionType: newPoll.questionType,
       options: newPoll.options.filter(opt => opt.trim()),
-      openDate: new Date(newPoll.openDate),
-      closeDate: new Date(newPoll.closeDate),
+      openDate: openDate,
+      closeDate: closeDate,
       anonymous: newPoll.anonymous,
       requireQuorum: newPoll.requireQuorum ? parseInt(newPoll.requireQuorum) : undefined,
-      status: new Date(newPoll.openDate) <= new Date() ? 'Active' : 'Scheduled',
+      status: status,
       votes: [],
       createdBy: user?.name || 'HOA Manager',
       attachments: pollAttachments.map(f => f.name)
@@ -313,6 +347,7 @@ export default function CommunicationsPage() {
     setPolls(prev => [poll, ...prev]);
     emitEvent('poll:created', poll);
     
+    // Reset form
     setNewPoll({
       title: '',
       audience: 'Community',
@@ -325,7 +360,15 @@ export default function CommunicationsPage() {
     });
     setPollAttachments([]);
     setShowCreatePollModal(false);
-    saveData();
+    
+    // Auto-switch to the appropriate filter to show the new poll
+    if (status === 'Scheduled') {
+      setPollsFilter('Scheduled');
+    } else if (status === 'Closed') {
+      setPollsFilter('Closed');
+    } else {
+      setPollsFilter('Active');
+    }
   };
 
   // Filter functions
