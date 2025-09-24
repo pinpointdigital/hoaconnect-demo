@@ -36,6 +36,8 @@ interface Resident {
     relationship: string;
   };
   status: 'active' | 'pending' | 'moved-out';
+  moveOutDate?: string;
+  archivedDate?: string;
 }
 
 const DEFAULT_RESIDENTS: Resident[] = [
@@ -107,9 +109,71 @@ const DEFAULT_RESIDENTS: Resident[] = [
   }
 ];
 
+const DEFAULT_ARCHIVED_RESIDENTS: Resident[] = [
+  {
+    id: 'arch-1',
+    name: 'Michael Thompson',
+    address: '31458 Paseo Campeon, San Juan Capistrano, CA 92675',
+    email: 'michael.thompson@email.com',
+    phone: '(949) 555-0140',
+    moveInDate: '2020-01-15',
+    moveOutDate: '2024-06-15',
+    archivedDate: '2024-08-14', // 60 days after move out
+    unitType: 'Single Family Home',
+    emergencyContact: {
+      name: 'Lisa Thompson',
+      phone: '(949) 555-0141',
+      relationship: 'Spouse'
+    },
+    status: 'moved-out'
+  },
+  {
+    id: 'arch-2',
+    name: 'Patricia Williams',
+    address: '27375 Via Priorato, San Juan Capistrano, CA 92675',
+    email: 'patricia.williams@email.com',
+    phone: '(949) 555-0142',
+    moveInDate: '2019-08-22',
+    moveOutDate: '2024-05-30',
+    archivedDate: '2024-07-29', // 60 days after move out
+    unitType: 'Single Family Home',
+    status: 'moved-out'
+  },
+  {
+    id: 'arch-3',
+    name: 'James Rodriguez',
+    address: '31468 Paseo Caliz, San Juan Capistrano, CA 92675',
+    email: 'james.rodriguez@email.com',
+    phone: '(949) 555-0143',
+    moveInDate: '2021-03-10',
+    moveOutDate: '2024-07-20',
+    archivedDate: '2024-09-18', // 60 days after move out
+    unitType: 'Single Family Home',
+    emergencyContact: {
+      name: 'Carmen Rodriguez',
+      phone: '(949) 555-0144',
+      relationship: 'Spouse'
+    },
+    status: 'moved-out'
+  },
+  {
+    id: 'arch-4',
+    name: 'Linda Garcia',
+    address: '32150 Paseo Adelanto, San Juan Capistrano, CA 92675',
+    email: 'linda.garcia@email.com',
+    phone: '(949) 555-0145',
+    moveInDate: '2018-11-05',
+    moveOutDate: '2024-04-12',
+    archivedDate: '2024-06-11', // 60 days after move out
+    unitType: 'Single Family Home',
+    status: 'moved-out'
+  }
+];
+
 export default function ResidentsPage() {
   const { hasPermission } = useAuth();
   const [residents, setResidents] = useState<Resident[]>(DEFAULT_RESIDENTS);
+  const [archivedResidents, setArchivedResidents] = useState<Resident[]>(DEFAULT_ARCHIVED_RESIDENTS);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState('dashboard');
   const [editingResident, setEditingResident] = useState<Resident | null>(null);
@@ -132,9 +196,11 @@ export default function ResidentsPage() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Load residents from localStorage
+  // Load residents and archived residents from localStorage
   useEffect(() => {
     const savedResidents = localStorage.getItem('residents-data');
+    const savedArchivedResidents = localStorage.getItem('archived-residents-data');
+    
     if (savedResidents) {
       try {
         setResidents(JSON.parse(savedResidents));
@@ -142,7 +208,53 @@ export default function ResidentsPage() {
         console.error('Error loading residents:', error);
       }
     }
+    
+    if (savedArchivedResidents) {
+      try {
+        setArchivedResidents(JSON.parse(savedArchivedResidents));
+      } catch (error) {
+        console.error('Error loading archived residents:', error);
+      }
+    }
   }, []);
+
+  // Auto-archive residents who moved out 60+ days ago
+  useEffect(() => {
+    const now = new Date();
+    const movedOutResidents = residents.filter(resident => 
+      resident.status === 'moved-out' && 
+      resident.moveOutDate &&
+      !resident.archivedDate
+    );
+
+    const toArchive: Resident[] = [];
+    const remainingResidents: Resident[] = [];
+
+    residents.forEach(resident => {
+      if (resident.status === 'moved-out' && resident.moveOutDate && !resident.archivedDate) {
+        const moveOutDate = new Date(resident.moveOutDate);
+        const daysSinceMoveOut = Math.floor((now.getTime() - moveOutDate.getTime()) / (1000 * 60 * 60 * 24));
+        
+        if (daysSinceMoveOut >= 60) {
+          toArchive.push({
+            ...resident,
+            archivedDate: now.toISOString().split('T')[0]
+          });
+        } else {
+          remainingResidents.push(resident);
+        }
+      } else {
+        remainingResidents.push(resident);
+      }
+    });
+
+    if (toArchive.length > 0) {
+      setResidents(remainingResidents);
+      setArchivedResidents(prev => [...prev, ...toArchive]);
+      localStorage.setItem('residents-data', JSON.stringify(remainingResidents));
+      localStorage.setItem('archived-residents-data', JSON.stringify([...archivedResidents, ...toArchive]));
+    }
+  }, [residents, archivedResidents]);
 
   // Save residents to localStorage
   const saveResidents = (newResidents: Resident[]) => {
@@ -150,13 +262,20 @@ export default function ResidentsPage() {
     localStorage.setItem('residents-data', JSON.stringify(newResidents));
   };
 
-  // Filter residents based on search
-  const filteredResidents = residents.filter(resident =>
-    resident.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    resident.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    resident.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    resident.phone.includes(searchTerm)
-  );
+  // Filter residents based on search and tab
+  const filteredResidents = activeTab === 'dashboard' 
+    ? residents.filter(resident =>
+        resident.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        resident.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        resident.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        resident.phone.includes(searchTerm)
+      )
+    : archivedResidents.filter(resident =>
+        resident.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        resident.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        resident.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        resident.phone.includes(searchTerm)
+      );
 
   // Handle invite submission
   const sendInvitation = async () => {
@@ -221,7 +340,8 @@ export default function ResidentsPage() {
 
   // Tab definitions
   const tabs = [
-    { id: 'dashboard', label: 'Dashboard', icon: <Users size={16} /> }
+    { id: 'dashboard', label: 'Dashboard', icon: <Users size={16} /> },
+    { id: 'archives', label: 'Archives', icon: <Calendar size={16} /> }
   ];
 
   return (
@@ -415,6 +535,136 @@ export default function ResidentsPage() {
         </div>
       )}
 
+      {/* Archives Tab Content */}
+      {activeTab === 'archives' && (
+        <div className="space-y-6">
+          {/* Search Bar */}
+          <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-ink-500" size={20} />
+              <input
+                type="text"
+                placeholder="Search archived residents by name, address, email, or phone..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-body"
+              />
+              {searchTerm && (
+                <button
+                  onClick={() => setSearchTerm('')}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-ink-500 hover:text-ink-700"
+                >
+                  ×
+                </button>
+              )}
+            </div>
+            {searchTerm && (
+              <p className="text-caption text-ink-600 mt-2">
+                {filteredResidents.length} archived resident{filteredResidents.length !== 1 ? 's' : ''} found
+              </p>
+            )}
+          </div>
+
+          {/* Archived Residents List */}
+          <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1">
+            <div className="p-6">
+              <div className="space-y-4">
+                {filteredResidents.map((resident) => (
+                  <div key={resident.id} className="p-4 border border-ink-900/8 rounded-lg bg-neutral-50">
+                    <div className="flex items-start gap-4">
+                      {/* Profile Photo */}
+                      <Avatar 
+                        name={resident.name}
+                        size="lg"
+                        src={resident.profilePhoto}
+                      />
+
+                      {/* Resident Info */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-3 mb-2">
+                          <h3 className="text-h3 font-semibold text-ink-900">{resident.name}</h3>
+                          <span className="px-2 py-1 rounded-full text-xs font-medium bg-neutral-200 text-neutral-700">
+                            Archived
+                          </span>
+                        </div>
+                        
+                        <div className="space-y-1 mb-3">
+                          <div className="flex items-center gap-2">
+                            <MapPin size={14} className="text-ink-500" />
+                            <span className="text-body text-ink-600">{resident.address}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Mail size={14} className="text-ink-500" />
+                            <span className="text-body text-ink-600">{resident.email}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Phone size={14} className="text-ink-500" />
+                            <span className="text-body text-ink-600">{resident.phone}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Calendar size={14} className="text-ink-500" />
+                            <span className="text-body text-ink-600">
+                              Lived here {new Date(resident.moveInDate).toLocaleDateString()} - {new Date(resident.moveOutDate!).toLocaleDateString()}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Calendar size={14} className="text-ink-500" />
+                            <span className="text-body text-ink-600">
+                              Archived {new Date(resident.archivedDate!).toLocaleDateString()}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Tenure Info */}
+                        <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
+                          <p className="text-caption font-medium text-blue-700 mb-1">Residence Duration:</p>
+                          <p className="text-caption text-blue-600">
+                            {(() => {
+                              const moveIn = new Date(resident.moveInDate);
+                              const moveOut = new Date(resident.moveOutDate!);
+                              const years = moveOut.getFullYear() - moveIn.getFullYear();
+                              const months = moveOut.getMonth() - moveIn.getMonth() + (years * 12);
+                              
+                              if (months < 12) {
+                                return `${months} month${months !== 1 ? 's' : ''}`;
+                              } else {
+                                const displayYears = Math.floor(months / 12);
+                                const displayMonths = months % 12;
+                                return `${displayYears} year${displayYears !== 1 ? 's' : ''}${displayMonths > 0 ? ` and ${displayMonths} month${displayMonths !== 1 ? 's' : ''}` : ''}`;
+                              }
+                            })()}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Archive Actions */}
+                      <div className="flex flex-col gap-2">
+                        <span className="text-caption text-ink-500 text-center">
+                          Auto-archived after<br />60 days
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                {filteredResidents.length === 0 && (
+                  <div className="text-center py-12">
+                    <Calendar className="mx-auto text-neutral-400 mb-4" size={48} />
+                    <h3 className="text-h3 font-medium text-ink-900 mb-2">No Archived Residents Found</h3>
+                    <p className="text-body text-ink-600">
+                      {searchTerm 
+                        ? 'Try adjusting your search criteria'
+                        : 'Residents are automatically archived 60 days after moving out'
+                      }
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Edit Resident Modal */}
       {editingResident && (
         <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
@@ -578,6 +828,21 @@ export default function ResidentsPage() {
                     </select>
                   </div>
                 </div>
+                
+                {editingResident.status === 'moved-out' && (
+                  <div className="mt-4">
+                    <label className="block text-body font-medium text-ink-700 mb-2">Move-out Date</label>
+                    <input
+                      type="date"
+                      value={editingResident.moveOutDate || ''}
+                      onChange={(e) => setEditingResident(prev => prev ? { ...prev, moveOutDate: e.target.value } : null)}
+                      className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                    />
+                    <p className="text-caption text-ink-600 mt-1">
+                      Residents are automatically archived 60 days after move-out date.
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
             
