@@ -346,24 +346,52 @@ export default function DashboardPage() {
       ) : (
         // Admin/Management/Board Dashboard (existing)
         <div className="space-y-8">
-          {/* Welcome Header */}
-          <div className="rounded-card border border-ink-900/8 bg-white shadow-elev1 p-6 md:p-8">
-            <div className="text-caption uppercase tracking-wide text-ink-800 mb-2">Welcome Back</div>
-            <h1 className="text-h1 font-bold text-ink-900 mb-4">
-              {userProfile.name}
-            </h1>
-            <p className="text-body-lg text-ink-800 mb-6">
-              You're viewing the HOA Connect platform as a {userProfile.role.replace('-', ' ')}.
-            </p>
-            <div className="flex gap-3">
-              <Button variant="primary" size="lg">
-                <Play size={18} />
-                Get Started
-              </Button>
-              <Button variant="ghost" size="lg">
-                <FileText size={18} />
-                View Guide
-              </Button>
+          {/* Community Banner */}
+          <div className="relative rounded-card overflow-hidden border border-ink-900/8 shadow-elev1">
+            {/* Banner Image */}
+            <div className="relative h-48 md:h-56">
+              <img
+                src="/HOAConnect_Demo_BG.jpg"
+                alt="Sample HOA Community"
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  // Fallback to gradient if image fails to load
+                  const target = e.target as HTMLImageElement;
+                  target.style.display = 'none';
+                  const parent = target.parentElement;
+                  if (parent) {
+                    parent.classList.add('bg-gradient-to-r', 'from-blue-600', 'to-purple-700');
+                  }
+                }}
+              />
+              {/* Gradient overlay for text readability */}
+              <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-black/20" />
+              
+              {/* Content overlay */}
+              <div className="absolute inset-0 flex items-end">
+                <div className="p-6 md:p-8 text-white">
+                  <div className="text-sm font-medium opacity-90 mb-2">
+                    {userProfile.role === 'captain' && 'HOA Captain Dashboard'}
+                    {userProfile.role === 'management-company' && 'Management Dashboard'}
+                    {userProfile.role === 'board-member' && 'Board Member Dashboard'}
+                  </div>
+                  <h1 className="text-2xl md:text-3xl font-bold mb-2">
+                    Welcome back, {userProfile.name.split(' ')[0]}
+                  </h1>
+                  <p className="text-sm md:text-base opacity-90">
+                    Sample HOA Community • San Juan Capistrano, CA
+                  </p>
+                </div>
+              </div>
+
+              {/* Admin Badge */}
+              <div className="absolute top-4 right-4">
+                <div className="bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-sm font-medium text-ink-900">
+                  {userProfile.role === 'captain' && '🛡️ Captain'}
+                  {userProfile.role === 'management-company' && '🏢 Manager'}
+                  {userProfile.role === 'board-member' && '👥 Board'}
+                </div>
+              </div>
             </div>
           </div>
 
