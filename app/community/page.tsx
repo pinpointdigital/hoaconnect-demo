@@ -123,40 +123,40 @@ const DEFAULT_COMMUNITY_DATA = {
       id: 'muni-1',
       name: 'City of San Juan Capistrano',
       address: '32400 Paseo Adelanto, San Juan Capistrano, CA 92675',
-      phone: '949.493.1171',
+      phone: '(949) 493-1171',
       website: 'sanjuancapistrano.org',
       category: 'City Government'
     },
     {
       id: 'muni-2',
       name: 'San Juan Capistrano Police Services',
-      address: '',
-      phone: '949.443.7000',
-      website: '',
+      address: '32506 Paseo Adelanto, San Juan Capistrano, CA 92675',
+      phone: '(949) 443-7000',
+      website: 'www.ocsheriff.gov/patrol-areas/san-juan-capistrano',
       category: 'Police Services'
     },
     {
       id: 'muni-3',
       name: 'Orange County Sheriff\'s Department',
-      address: '',
-      phone: '714.647.7000',
-      website: '',
+      address: 'Non-Emergency Dispatch',
+      phone: '(714) 647-7000',
+      website: 'www.ocsheriff.gov',
       category: 'Police Services'
     },
     {
       id: 'muni-4',
       name: 'Orange County Fire Authority',
-      address: '31865 Del Obispo, San Juan Capistrano 92675',
-      phone: '714.573.6000',
-      website: '',
+      address: '31865 Del Obispo, San Juan Capistrano, CA 92675',
+      phone: '(714) 573-6000',
+      website: 'www.sanjuancapistrano.org/325/OCFA-Fire-Station-7',
       category: 'Fire Services'
     },
     {
       id: 'muni-5',
-      name: 'San Juan Capistrano - Chamber of Commerce',
+      name: 'San Juan Capistrano Chamber of Commerce',
       address: '31421 La Matanza St, San Juan Capistrano, CA 92675',
-      phone: '949.493.4700',
-      website: '',
+      phone: '(949) 493-4700',
+      website: 'www.sanjuanchamber.com',
       category: 'Business Services'
     }
   ],
@@ -1034,6 +1034,55 @@ function SchoolsTab({ schools, saveData, canEdit }) {
 
 // Municipalities Tab Component
 function MunicipalitiesTab({ municipalities, saveData, canEdit }) {
+  const [editingMunicipality, setEditingMunicipality] = useState<any>(null);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [newMunicipality, setNewMunicipality] = useState({
+    name: '',
+    address: '',
+    phone: '',
+    website: '',
+    category: 'City Government'
+  });
+
+  const saveMunicipality = () => {
+    if (editingMunicipality) {
+      const updatedMunicipalities = municipalities.map(item => 
+        item.id === editingMunicipality.id ? editingMunicipality : item
+      );
+      saveData(prev => ({ ...prev, municipalities: updatedMunicipalities }));
+      setEditingMunicipality(null);
+    }
+  };
+
+  const addMunicipality = () => {
+    const newMunicipalityData = {
+      ...newMunicipality,
+      id: `muni-${Date.now()}`
+    };
+    const updatedMunicipalities = [...municipalities, newMunicipalityData];
+    saveData(prev => ({ ...prev, municipalities: updatedMunicipalities }));
+    setShowAddModal(false);
+    setNewMunicipality({
+      name: '',
+      address: '',
+      phone: '',
+      website: '',
+      category: 'City Government'
+    });
+  };
+
+  const cancelEdit = () => {
+    setEditingMunicipality(null);
+    setShowAddModal(false);
+    setNewMunicipality({
+      name: '',
+      address: '',
+      phone: '',
+      website: '',
+      category: 'City Government'
+    });
+  };
+
   return (
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
@@ -1041,6 +1090,7 @@ function MunicipalitiesTab({ municipalities, saveData, canEdit }) {
         {canEdit && (
           <Button
             variant="primary"
+            onClick={() => setShowAddModal(true)}
             className="flex items-center gap-2"
           >
             <Plus size={16} />
@@ -1063,8 +1113,29 @@ function MunicipalitiesTab({ municipalities, saveData, canEdit }) {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {categoryItems.map((item) => (
                   <div key={item.id} className="p-4 border border-ink-900/8 rounded-lg">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
+                    <div className="flex items-start gap-4">
+                      {/* Website Favicon */}
+                      <div className="w-16 h-16 bg-neutral-100 rounded-lg border border-neutral-200 flex items-center justify-center flex-shrink-0">
+                        {item.website ? (
+                          <img
+                            src={`https://www.google.com/s2/favicons?domain=${item.website}&sz=64`}
+                            alt={`${item.name} website`}
+                            className="w-8 h-8 object-contain"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                              const parent = target.parentElement;
+                              if (parent) {
+                                parent.innerHTML = '<svg class="w-5 h-5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>';
+                              }
+                            }}
+                          />
+                        ) : (
+                          <Building2 size={20} className="text-neutral-400" />
+                        )}
+                      </div>
+
+                      <div className="flex-1 min-w-0">
                         <h4 className="text-h4 font-semibold text-ink-900 mb-2">{item.name}</h4>
                         <div className="space-y-1">
                           {item.address && (
@@ -1087,13 +1158,14 @@ function MunicipalitiesTab({ municipalities, saveData, canEdit }) {
                           )}
                         </div>
                       </div>
+
                       {canEdit && (
-                        <Button
-                          variant="outline"
-                          size="sm"
+                        <button
+                          onClick={() => setEditingMunicipality(item)}
+                          className="flex items-center gap-2 text-primary hover:text-primary-700 transition-colors text-body font-medium"
                         >
                           <Edit3 size={14} />
-                        </Button>
+                        </button>
                       )}
                     </div>
                   </div>
@@ -1103,6 +1175,150 @@ function MunicipalitiesTab({ municipalities, saveData, canEdit }) {
           );
         })}
       </div>
+
+      {/* Edit Municipality Modal */}
+      {editingMunicipality && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6 max-h-[90vh] overflow-y-auto">
+            <h3 className="text-h3 font-semibold text-ink-900 mb-4">Edit Municipality</h3>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Name</label>
+                <input
+                  type="text"
+                  value={editingMunicipality.name}
+                  onChange={(e) => setEditingMunicipality(prev => ({ ...prev, name: e.target.value }))}
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Address</label>
+                <input
+                  type="text"
+                  value={editingMunicipality.address}
+                  onChange={(e) => setEditingMunicipality(prev => ({ ...prev, address: e.target.value }))}
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Phone</label>
+                <input
+                  type="tel"
+                  value={editingMunicipality.phone}
+                  onChange={(e) => setEditingMunicipality(prev => ({ ...prev, phone: e.target.value }))}
+                  placeholder="(949) 493-1171"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Website</label>
+                <input
+                  type="url"
+                  value={editingMunicipality.website}
+                  onChange={(e) => setEditingMunicipality(prev => ({ ...prev, website: e.target.value }))}
+                  placeholder="www.example.org"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Category</label>
+                <select
+                  value={editingMunicipality.category}
+                  onChange={(e) => setEditingMunicipality(prev => ({ ...prev, category: e.target.value }))}
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                >
+                  <option value="City Government">City Government</option>
+                  <option value="Police Services">Police Services</option>
+                  <option value="Fire Services">Fire Services</option>
+                  <option value="Business Services">Business Services</option>
+                </select>
+              </div>
+            </div>
+            
+            <div className="flex justify-end gap-3 mt-6">
+              <Button variant="outline" onClick={cancelEdit}>Cancel</Button>
+              <Button variant="primary" onClick={saveMunicipality}>Save Changes</Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add Municipality Modal */}
+      {showAddModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6 max-h-[90vh] overflow-y-auto">
+            <h3 className="text-h3 font-semibold text-ink-900 mb-4">Add New Municipality</h3>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Name</label>
+                <input
+                  type="text"
+                  value={newMunicipality.name}
+                  onChange={(e) => setNewMunicipality(prev => ({ ...prev, name: e.target.value }))}
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Address</label>
+                <input
+                  type="text"
+                  value={newMunicipality.address}
+                  onChange={(e) => setNewMunicipality(prev => ({ ...prev, address: e.target.value }))}
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Phone</label>
+                <input
+                  type="tel"
+                  value={newMunicipality.phone}
+                  onChange={(e) => setNewMunicipality(prev => ({ ...prev, phone: e.target.value }))}
+                  placeholder="(949) 493-1171"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Website</label>
+                <input
+                  type="url"
+                  value={newMunicipality.website}
+                  onChange={(e) => setNewMunicipality(prev => ({ ...prev, website: e.target.value }))}
+                  placeholder="www.example.org"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+              
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Category</label>
+                <select
+                  value={newMunicipality.category}
+                  onChange={(e) => setNewMunicipality(prev => ({ ...prev, category: e.target.value }))}
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                >
+                  <option value="City Government">City Government</option>
+                  <option value="Police Services">Police Services</option>
+                  <option value="Fire Services">Fire Services</option>
+                  <option value="Business Services">Business Services</option>
+                </select>
+              </div>
+            </div>
+            
+            <div className="flex justify-end gap-3 mt-6">
+              <Button variant="outline" onClick={cancelEdit}>Cancel</Button>
+              <Button variant="primary" onClick={addMunicipality} disabled={!newMunicipality.name}>Add Municipality</Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
