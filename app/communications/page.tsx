@@ -19,7 +19,8 @@ import {
   Eye,
   Bell,
   X,
-  Send
+  Send,
+  Upload
 } from 'lucide-react';
 
 interface CommunicationItem {
@@ -60,7 +61,7 @@ interface CommunityUpdate {
 interface Poll {
   id: string;
   title: string;
-  audience: 'Community' | 'Board';
+  audience: 'Community' | 'Board' | 'All';
   questionType: 'single' | 'multiple';
   options: string[];
   openDate: Date;
@@ -73,6 +74,7 @@ interface Poll {
     voter?: string; // null if anonymous
   }>;
   createdBy: string;
+  attachments?: string[];
 }
 
 
@@ -163,6 +165,7 @@ export default function CommunicationsPage() {
     anonymous: true,
     requireQuorum: ''
   });
+  const [pollAttachments, setPollAttachments] = useState<File[]>([]);
   
   // Filter states
   const [updatesFilter, setUpdatesFilter] = useState<'All' | 'Notices' | 'Resolutions'>('All');
@@ -170,6 +173,7 @@ export default function CommunicationsPage() {
   
   // File upload
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const pollFileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   
   // Load data from localStorage
@@ -242,6 +246,12 @@ export default function CommunicationsPage() {
     setSelectedFiles(prev => [...prev, ...files]);
   };
 
+  // Handle poll file upload
+  const handlePollFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    setPollAttachments(prev => [...prev, ...files]);
+  };
+
   // Submit new request
   const submitNewRequest = () => {
     const newItem: CommunicationItem = {
@@ -291,7 +301,8 @@ export default function CommunicationsPage() {
       requireQuorum: newPoll.requireQuorum ? parseInt(newPoll.requireQuorum) : undefined,
       status: new Date(newPoll.openDate) <= new Date() ? 'Active' : 'Scheduled',
       votes: [],
-      createdBy: user?.name || 'HOA Manager'
+      createdBy: user?.name || 'HOA Manager',
+      attachments: pollAttachments.map(f => f.name)
     };
 
     setPolls(prev => [poll, ...prev]);
@@ -307,6 +318,7 @@ export default function CommunicationsPage() {
       anonymous: true,
       requireQuorum: ''
     });
+    setPollAttachments([]);
     setShowCreatePollModal(false);
     saveData();
   };
@@ -652,6 +664,7 @@ export default function CommunicationsPage() {
                   >
                     <option value="Community">Community</option>
                     <option value="Board">Board</option>
+                    <option value="All">All</option>
                   </select>
                 </div>
                 
@@ -671,26 +684,77 @@ export default function CommunicationsPage() {
               <div>
                 <label className="block text-body font-medium text-ink-700 mb-2">Options</label>
                 {newPoll.options.map((option, index) => (
-                  <input
-                    key={index}
-                    type="text"
-                    value={option}
-                    onChange={(e) => {
-                      const newOptions = [...newPoll.options];
-                      newOptions[index] = e.target.value;
-                      setNewPoll(prev => ({ ...prev, options: newOptions }));
-                    }}
-                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary mb-2"
-                    placeholder={`Option ${index + 1}`}
-                  />
+                  <div key={index} className="flex gap-2 mb-2">
+                    <input
+                      type="text"
+                      value={option}
+                      onChange={(e) => {
+                        const newOptions = [...newPoll.options];
+                        newOptions[index] = e.target.value;
+                        setNewPoll(prev => ({ ...prev, options: newOptions }));
+                      }}
+                      className="flex-1 px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                      placeholder={`Option ${index + 1}`}
+                    />
+                    {newPoll.options.length > 2 && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const newOptions = newPoll.options.filter((_, i) => i !== index);
+                          setNewPoll(prev => ({ ...prev, options: newOptions }));
+                        }}
+                        className="px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                      >
+                        <X size={16} />
+                      </button>
+                    )}
+                  </div>
                 ))}
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => setNewPoll(prev => ({ ...prev, options: [...prev.options, ''] }))}
+                  className="mr-2"
                 >
                   Add Option
                 </Button>
+              </div>
+              
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">Attachments (Optional)</label>
+                <input
+                  ref={pollFileInputRef}
+                  type="file"
+                  multiple
+                  onChange={handlePollFileUpload}
+                  className="hidden"
+                />
+                <Button
+                  variant="outline"
+                  onClick={() => pollFileInputRef.current?.click()}
+                  className="flex items-center gap-2"
+                >
+                  <Upload size={16} />
+                  Upload Files
+                </Button>
+                {pollAttachments.length > 0 && (
+                  <div className="mt-2">
+                    <p className="text-caption text-ink-600">{pollAttachments.length} file(s) selected</p>
+                    <div className="flex flex-wrap gap-2 mt-1">
+                      {pollAttachments.map((file, index) => (
+                        <div key={index} className="flex items-center gap-1 px-2 py-1 bg-neutral-100 rounded text-xs">
+                          <span className="truncate max-w-[100px]">{file.name}</span>
+                          <button
+                            onClick={() => setPollAttachments(prev => prev.filter((_, i) => i !== index))}
+                            className="text-red-600 hover:text-red-800"
+                          >
+                            <X size={12} />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
               
               <div className="grid grid-cols-2 gap-4">
