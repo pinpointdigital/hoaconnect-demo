@@ -56,6 +56,9 @@ const getNavigation = (userRole: import('@/lib/auth/types').UserRole): NavItem[]
   // Community Documents - All users
   { name: 'Community Documents', href: '/community-documents', icon: <BookOpen size={20} /> },
   
+  // Reserve Study - All users
+  { name: 'Reserve Study', href: '/reserve-study', icon: <FileText size={20} /> },
+  
   // ARC Requests - Different access levels
   ...(userRole === 'homeowner' 
     ? [{ name: 'My ARC Requests', href: '/dashboard/arc', icon: <FileText size={20} />, hasNotification: true }]
