@@ -20,7 +20,12 @@ import {
   Bell,
   X,
   Send,
-  Upload
+  Upload,
+  LayoutDashboard,
+  FileText,
+  Car,
+  CreditCard,
+  Key
 } from 'lucide-react';
 
 interface CommunicationItem {
@@ -167,9 +172,11 @@ export default function CommunicationsPage() {
   });
   const [pollAttachments, setPollAttachments] = useState<File[]>([]);
   
-  // Filter states
+  // Tab and filter states
+  const [activeTab, setActiveTab] = useState('dashboard');
   const [updatesFilter, setUpdatesFilter] = useState<'All' | 'Notices' | 'Resolutions'>('All');
   const [pollsFilter, setPollsFilter] = useState<'Active' | 'Scheduled' | 'Closed'>('Active');
+  const [selectedForm, setSelectedForm] = useState<string | null>(null);
   
   // File upload
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -335,6 +342,62 @@ export default function CommunicationsPage() {
 
   const canManage = hasPermission('canManageResidents') || hasPermission('canReviewARCRequests');
 
+  // Tab definitions
+  const tabs = [
+    { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={16} /> },
+    { id: 'forms', label: 'Resident Request Forms', icon: <FileText size={16} /> }
+  ];
+
+  // Form definitions
+  const residentForms = [
+    {
+      id: 'safe-listing',
+      title: 'Safe Listing Vehicles',
+      icon: <Car size={20} className="text-blue-600" />,
+      description: 'Register your vehicles with the HOA for gate access and security purposes',
+      fields: [
+        { label: 'Vehicle Make', type: 'text', placeholder: 'Toyota, Honda, Ford, etc.' },
+        { label: 'Vehicle Model', type: 'text', placeholder: 'Camry, Civic, F-150, etc.' },
+        { label: 'Vehicle Year', type: 'number', placeholder: '2020' },
+        { label: 'License Plate', type: 'text', placeholder: 'ABC1234' },
+        { label: 'Vehicle Color', type: 'text', placeholder: 'White, Black, Silver, etc.' },
+        { label: 'Owner Name', type: 'text', placeholder: 'Full name of vehicle owner' },
+        { label: 'Relationship to Resident', type: 'select', options: ['Self', 'Spouse', 'Child', 'Guest', 'Other'] }
+      ]
+    },
+    {
+      id: 'transponder',
+      title: 'Transponder Application',
+      icon: <CreditCard size={20} className="text-green-600" />,
+      description: 'Apply for a gate transponder for convenient community access',
+      fields: [
+        { label: 'Resident Name', type: 'text', placeholder: 'Full name as on HOA records' },
+        { label: 'Property Address', type: 'text', placeholder: 'Your community address' },
+        { label: 'Phone Number', type: 'tel', placeholder: '(949) 555-0123' },
+        { label: 'Email Address', type: 'email', placeholder: 'your.email@example.com' },
+        { label: 'Number of Transponders', type: 'number', placeholder: '1', min: 1, max: 4 },
+        { label: 'Vehicle Information', type: 'textarea', placeholder: 'List vehicles that will use transponders (Make, Model, License Plate)' },
+        { label: 'Reason for Request', type: 'select', options: ['New Resident', 'Replacement', 'Additional Vehicle', 'Lost/Stolen'] }
+      ]
+    },
+    {
+      id: 'gate-code',
+      title: 'Gate Code Request',
+      icon: <Key size={20} className="text-purple-600" />,
+      description: 'Request temporary gate codes for guests and service providers',
+      fields: [
+        { label: 'Resident Name', type: 'text', placeholder: 'Your full name' },
+        { label: 'Property Address', type: 'text', placeholder: 'Your community address' },
+        { label: 'Guest/Service Provider Name', type: 'text', placeholder: 'Name of person needing access' },
+        { label: 'Company Name', type: 'text', placeholder: 'If applicable (delivery, contractor, etc.)' },
+        { label: 'Phone Number', type: 'tel', placeholder: 'Contact number for guest/provider' },
+        { label: 'Access Date(s)', type: 'text', placeholder: 'Specific dates or date range' },
+        { label: 'Access Time', type: 'text', placeholder: 'Time range (e.g., 9:00 AM - 5:00 PM)' },
+        { label: 'Purpose of Visit', type: 'textarea', placeholder: 'Reason for access (delivery, maintenance, guest visit, etc.)' }
+      ]
+    }
+  ];
+
   return (
     <div className="space-y-6">
       {/* Page Header */}
@@ -356,7 +419,29 @@ export default function CommunicationsPage() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* Tab Navigation */}
+      <div className="border-b border-ink-900/8">
+        <nav className="flex space-x-8">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-body transition-colors ${
+                activeTab === tab.id
+                  ? 'border-primary text-primary'
+                  : 'border-transparent text-ink-600 hover:text-ink-900 hover:border-ink-300'
+              }`}
+            >
+              {tab.icon}
+              {tab.label}
+            </button>
+          ))}
+        </nav>
+      </div>
+
+      {/* Dashboard Tab */}
+      {activeTab === 'dashboard' && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Community Updates */}
         <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6">
           <div className="flex items-center justify-between mb-4">
@@ -468,7 +553,119 @@ export default function CommunicationsPage() {
             </div>
           )}
         </div>
-      </div>
+        </div>
+      )}
+
+      {/* Resident Request Forms Tab */}
+      {activeTab === 'forms' && (
+        <div className="space-y-6">
+          {!selectedForm ? (
+            // Forms List
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {residentForms.map((form) => (
+                <div 
+                  key={form.id}
+                  onClick={() => setSelectedForm(form.id)}
+                  className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6 hover:border-neutral-300 transition-colors cursor-pointer"
+                >
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 bg-neutral-100 rounded-lg flex items-center justify-center">
+                      {form.icon}
+                    </div>
+                    <div>
+                      <h3 className="text-h3 font-semibold text-ink-900">{form.title}</h3>
+                    </div>
+                  </div>
+                  <p className="text-body text-ink-600">{form.description}</p>
+                  <div className="mt-4 flex items-center text-primary hover:text-primary-700 transition-colors">
+                    <span className="text-body font-medium">View Form</span>
+                    <Eye size={16} className="ml-2" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            // Selected Form View
+            (() => {
+              const form = residentForms.find(f => f.id === selectedForm);
+              if (!form) return null;
+              
+              return (
+                <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 bg-neutral-100 rounded-lg flex items-center justify-center">
+                        {form.icon}
+                      </div>
+                      <div>
+                        <h2 className="text-2xl font-semibold text-ink-900">{form.title}</h2>
+                        <p className="text-body text-ink-600">{form.description}</p>
+                      </div>
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      onClick={() => setSelectedForm(null)}
+                      className="flex items-center gap-2"
+                    >
+                      <X size={16} />
+                      Back to Forms
+                    </Button>
+                  </div>
+                  
+                  <form className="space-y-4">
+                    {form.fields.map((field, index) => (
+                      <div key={index}>
+                        <label className="block text-body font-medium text-ink-700 mb-2">
+                          {field.label}
+                          {field.type === 'number' && field.min && field.max && (
+                            <span className="text-caption text-ink-500 ml-1">
+                              (Max {field.max})
+                            </span>
+                          )}
+                        </label>
+                        
+                        {field.type === 'select' ? (
+                          <select className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-body">
+                            <option value="">Select {field.label}</option>
+                            {field.options?.map((option) => (
+                              <option key={option} value={option}>{option}</option>
+                            ))}
+                          </select>
+                        ) : field.type === 'textarea' ? (
+                          <textarea
+                            rows={3}
+                            placeholder={field.placeholder}
+                            className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-body resize-none"
+                          />
+                        ) : (
+                          <input
+                            type={field.type}
+                            placeholder={field.placeholder}
+                            min={field.min}
+                            max={field.max}
+                            className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary text-body"
+                          />
+                        )}
+                      </div>
+                    ))}
+                    
+                    <div className="pt-4 border-t border-neutral-200">
+                      <div className="flex justify-end gap-3">
+                        <Button variant="outline" onClick={() => setSelectedForm(null)}>
+                          Cancel
+                        </Button>
+                        <Button type="submit">
+                          Submit Request
+                        </Button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              );
+            })()
+          )}
+        </div>
+      )}
 
       {/* New Request Modal */}
       {showNewRequestModal && (
