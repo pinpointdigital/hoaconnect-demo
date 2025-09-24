@@ -452,6 +452,7 @@ export default function ReserveStudyPage() {
             </div>
           </div>
         </div>
+        </div>
       ) : (
         /* Card View */
         <div className="space-y-6">
