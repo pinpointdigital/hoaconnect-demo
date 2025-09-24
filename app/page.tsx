@@ -390,7 +390,6 @@ export default function Home() {
         ref={videoRef}
         autoPlay={true}
         muted={true}
-        defaultMuted={true}
         loop={true}
         playsInline={true}
         controls={false}
