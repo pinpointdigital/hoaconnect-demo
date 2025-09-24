@@ -7,6 +7,7 @@ import { Sidebar } from '@/components/navigation/Sidebar';
 import { Avatar } from '@/components/ui/Avatar';
 import { useHOAInfo } from '@/lib/branding/context';
 import { useAuth } from '@/lib/auth/context';
+import { WorkflowProvider } from '@/lib/arc/workflow-context';
 import { User } from 'lucide-react';
 
 interface DashboardLayoutProps {
@@ -67,7 +68,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         
         {/* Main Content Area */}
         <main className="flex-1 p-6">
-          {children}
+          <WorkflowProvider>
+            {children}
+          </WorkflowProvider>
         </main>
       </div>
 
