@@ -91,64 +91,12 @@ export default function DashboardPage() {
   const chatEndRef = useRef<HTMLDivElement>(null);
   
   // Banner image management
-  const [showImageUploadModal, setShowImageUploadModal] = useState(false);
   const [communityBannerImage, setCommunityBannerImage] = useState('/HOAConnect_Demo_BG.jpg');
-  const [uploadingImage, setUploadingImage] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const hideAlert = (alertId: string) => {
     setHiddenAlerts(prev => new Set([...prev, alertId]));
   };
 
-  // Load banner image from localStorage on mount
-  useEffect(() => {
-    const savedBannerImage = localStorage.getItem('hoa-connect-community-banner');
-    if (savedBannerImage) {
-      setCommunityBannerImage(savedBannerImage);
-    }
-  }, []);
-
-  // Handle image upload
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    // Validate file type
-    if (!file.type.startsWith('image/')) {
-      alert('Please select an image file (JPG, PNG, etc.)');
-      return;
-    }
-
-    // Validate file size (max 5MB)
-    if (file.size > 5 * 1024 * 1024) {
-      alert('Image file must be smaller than 5MB');
-      return;
-    }
-
-    setUploadingImage(true);
-
-    // Create object URL for immediate preview
-    const imageUrl = URL.createObjectURL(file);
-    
-    // Simulate upload delay for demo
-    setTimeout(() => {
-      setCommunityBannerImage(imageUrl);
-      localStorage.setItem('hoa-connect-community-banner', imageUrl);
-      setUploadingImage(false);
-      setShowImageUploadModal(false);
-      
-      // Clean up the file input
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
-    }, 1000);
-  };
-
-  const resetToDefaultImage = () => {
-    setCommunityBannerImage('/HOAConnect_Demo_BG.jpg');
-    localStorage.removeItem('hoa-connect-community-banner');
-    setShowImageUploadModal(false);
-  };
 
   const scrollToBottom = () => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -437,30 +385,6 @@ export default function DashboardPage() {
                 </div>
               </div>
 
-              {/* Image Edit Button - HOA Manager Only */}
-              {(userProfile.role === 'management-company' || userProfile.role === 'captain') && (
-                <div className="absolute bottom-4 right-4">
-                  <button
-                    onClick={() => setShowImageUploadModal(true)}
-                    className="bg-white/90 backdrop-blur-sm hover:bg-white transition-colors rounded-full p-2 shadow-lg group"
-                    title="Change community banner image"
-                  >
-                    <svg 
-                      className="w-4 h-4 text-ink-700 group-hover:text-ink-900" 
-                      fill="none" 
-                      stroke="currentColor" 
-                      viewBox="0 0 24 24"
-                    >
-                      <path 
-                        strokeLinecap="round" 
-                        strokeLinejoin="round" 
-                        strokeWidth={2} 
-                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" 
-                      />
-                    </svg>
-                  </button>
-                </div>
-              )}
             </div>
           </div>
 
@@ -584,10 +508,17 @@ export default function DashboardPage() {
                     <Button 
                       variant="primary"
                       onClick={() => {
-                        // Trigger D-ID initialization
                         console.log('🤖 Starting AI Assistant...');
-                        const event = new CustomEvent('did-agent-start');
-                        window.dispatchEvent(event);
+                        // Clear the placeholder content
+                        const container = document.getElementById('hoa-ai-assistant');
+                        if (container) {
+                          container.innerHTML = '<div class="flex items-center justify-center h-full"><div class="animate-spin rounded-full h-8 w-8 border-2 border-blue-600 border-t-transparent"></div></div>';
+                          
+                          // Give D-ID a moment to initialize
+                          setTimeout(() => {
+                            console.log('✅ AI Assistant container ready for D-ID');
+                          }, 1000);
+                        }
                       }}
                     >
                       Start Assistant
@@ -600,71 +531,6 @@ export default function DashboardPage() {
           </div>
 
 
-          {/* Image Upload Modal */}
-          {showImageUploadModal && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-              <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-6">
-                <h3 className="text-lg font-semibold text-ink-900 mb-4">Change Community Banner</h3>
-                
-                {/* Current Image Preview */}
-                <div className="mb-4">
-                  <p className="text-sm text-ink-600 mb-2">Current banner:</p>
-                  <div className="relative h-24 rounded-lg overflow-hidden border border-neutral-200">
-                    <img
-                      src={communityBannerImage}
-                      alt="Current banner"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                </div>
-
-                {/* Upload Section */}
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-ink-700 mb-2">
-                      Upload New Image
-                    </label>
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-transparent"
-                    />
-                    <p className="text-xs text-ink-500 mt-1">
-                      Recommended: 1200x400px or similar aspect ratio. Max 5MB.
-                    </p>
-                  </div>
-
-                  {/* Loading State */}
-                  {uploadingImage && (
-                    <div className="flex items-center gap-2 text-sm text-blue-600">
-                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-600 border-t-transparent"></div>
-                      Uploading image...
-                    </div>
-                  )}
-
-                  {/* Action Buttons */}
-                  <div className="flex gap-3">
-                    <Button
-                      variant="ghost"
-                      onClick={() => setShowImageUploadModal(false)}
-                      disabled={uploadingImage}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      variant="secondary"
-                      onClick={resetToDefaultImage}
-                      disabled={uploadingImage}
-                    >
-                      Reset to Default
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       )}
     </div>
