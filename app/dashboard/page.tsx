@@ -559,117 +559,34 @@ export default function DashboardPage() {
               </div>
             </div>
 
-            {/* Messages & Inquiries */}
-            <div className="rounded-card border border-ink-900/8 bg-white shadow-elev1 p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-h3 font-semibold text-ink-900 flex items-center gap-2">
-                  <MessageSquare className="text-blue-600" size={20} />
-                  Recent Messages
-                </h3>
-                <Button variant="ghost" size="sm">
-                  View All
-                </Button>
-              </div>
-              
-              <div className="space-y-4">
-                {/* Urgent Message */}
-                <div className="p-6 border border-neutral-200 rounded-lg hover:border-orange-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1 min-w-0">
-                      <h4 className="text-base font-semibold text-ink-900 mb-2">
-                        Permit requirements clarification needed
-                      </h4>
-                      <p className="text-sm text-ink-600 mb-1">
-                        David Martinez
-                      </p>
-                      <p className="text-sm text-ink-600 mb-2">
-                        1423 Oceanview Dr
-                      </p>
-                      <p className="text-sm text-orange-600 font-medium">
-                        2 hours ago
-                      </p>
-                    </div>
-                    <Button variant="primary" size="sm" className="ml-6">
-                      Reply
-                    </Button>
+            {/* AI Video Assistant */}
+            {(currentRole === 'management-company' || currentRole === 'captain') && (
+              <div className="rounded-card border border-ink-900/8 bg-white shadow-elev1 p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center">
+                    <Bot className="text-white" size={20} />
+                  </div>
+                  <div>
+                    <h3 className="text-h3 font-semibold text-ink-900">AI Video Assistant</h3>
+                    <p className="text-caption text-ink-600">Powered by D-ID</p>
                   </div>
                 </div>
-
-                {/* Standard Message */}
-                <div className="p-6 border border-neutral-200 rounded-lg hover:border-green-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1 min-w-0">
-                      <h4 className="text-base font-semibold text-ink-900 mb-2">
-                        Thank you message for approval
-                      </h4>
-                      <p className="text-sm text-ink-600 mb-1">
-                        Sarah Johnson
-                      </p>
-                      <p className="text-sm text-ink-600 mb-2">
-                        1425 Oceanview Dr
-                      </p>
-                      <p className="text-sm text-green-600 font-medium">
-                        1 day ago
-                      </p>
-                    </div>
-                    <Button variant="primary" size="sm" className="ml-6">
-                      Reply
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Board Inquiry */}
-                <div className="p-6 border border-neutral-200 rounded-lg hover:border-purple-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1 min-w-0">
-                      <h4 className="text-base font-semibold text-ink-900 mb-2">
-                        CC&R amendments input needed
-                      </h4>
-                      <p className="text-sm text-ink-600 mb-1">
-                        Lisa Chen
-                      </p>
-                      <p className="text-sm text-ink-600 mb-2">
-                        Board Member
-                      </p>
-                      <p className="text-sm text-purple-600 font-medium">
-                        3 hours ago
-                      </p>
-                    </div>
-                    <Button variant="primary" size="sm" className="ml-6">
-                      Reply
-                    </Button>
+                
+                <div 
+                  id="hoa-ai-assistant" 
+                  className="w-full h-[400px] bg-neutral-50 rounded-lg border border-neutral-200 flex items-center justify-center"
+                >
+                  <div className="text-center text-neutral-500">
+                    <Bot size={48} className="mx-auto mb-4 opacity-50" />
+                    <p className="text-body">AI Video Assistant will load here</p>
+                    <p className="text-caption">Initializing...</p>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
 
           </div>
 
-          {/* AI Video Assistant */}
-          {(currentRole === 'management-company' || currentRole === 'captain') && (
-            <div className="rounded-card border border-ink-900/8 bg-white shadow-elev1 p-6 mb-8">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center">
-                  <Bot className="text-white" size={20} />
-                </div>
-                <div>
-                  <h3 className="text-h3 font-semibold text-ink-900">AI Video Assistant</h3>
-                  <p className="text-caption text-ink-600">Powered by D-ID</p>
-                </div>
-              </div>
-              
-              <div 
-                id="hoa-ai-assistant" 
-                className="w-full h-[400px] bg-neutral-50 rounded-lg border border-neutral-200 flex items-center justify-center"
-              >
-                <div className="text-center text-neutral-500">
-                  <Bot size={48} className="mx-auto mb-4 opacity-50" />
-                  <p className="text-body">AI Video Assistant will load here</p>
-                  <p className="text-caption">Initializing...</p>
-                </div>
-              </div>
-            </div>
-          )}
 
           {/* Image Upload Modal */}
           {showImageUploadModal && (
