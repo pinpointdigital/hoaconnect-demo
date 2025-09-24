@@ -137,13 +137,16 @@ export default function CommunityDocumentsPage() {
   const startAIDemo = async () => {
     setShowAIDemo(true);
     setAIAnalysisProgress(0);
+    setShowAIResults(false);
     
     // Simulate AI analysis progress
     for (let i = 0; i <= 100; i += 10) {
-      await new Promise(resolve => setTimeout(resolve, 200));
+      await new Promise(resolve => setTimeout(resolve, 300));
       setAIAnalysisProgress(i);
     }
     
+    // Wait a moment then show results
+    await new Promise(resolve => setTimeout(resolve, 500));
     setShowAIResults(true);
   };
 
@@ -162,14 +165,13 @@ export default function CommunityDocumentsPage() {
         </div>
         {canEdit && (
           <div className="flex gap-3">
-            <Button
-              variant="outline"
+            <button
               onClick={() => setShowAIDemo(true)}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 text-primary hover:text-primary-700 transition-colors text-body font-medium"
             >
               <Bot size={16} />
               AI Assistant Demo
-            </Button>
+            </button>
             <Button
               variant="primary"
               onClick={() => setShowUploadModal(true)}
@@ -258,12 +260,16 @@ export default function CommunityDocumentsPage() {
         <div className="text-center">
           <Button
             variant="primary"
-            onClick={startAIDemo}
+            onClick={() => {
+              if (!showAIDemo) {
+                startAIDemo();
+              }
+            }}
             className="flex items-center gap-2"
-            disabled={showAIDemo}
+            disabled={showAIDemo && aiAnalysisProgress < 100}
           >
             <Sparkles size={16} />
-            {showAIDemo ? 'Demo Running...' : 'Start AI Analysis Demo'}
+            {showAIDemo && aiAnalysisProgress < 100 ? 'Demo Running...' : 'Start AI Analysis Demo'}
           </Button>
         </div>
       </div>
