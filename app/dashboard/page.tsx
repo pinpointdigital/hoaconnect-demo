@@ -480,7 +480,7 @@ export default function DashboardPage() {
                         <MapPin size={14} className="flex-shrink-0" />
                         1423 Oceanview Dr
                       </a>
-                      <p className="text-sm text-red-600 font-medium">
+                      <p className="text-sm font-medium" style={{ color: 'var(--error)' }}>
                         5 days overdue
                       </p>
                     </div>
@@ -511,7 +511,7 @@ export default function DashboardPage() {
                         <MapPin size={14} className="flex-shrink-0" />
                         1427 Oceanview Dr
                       </a>
-                      <p className="text-sm text-yellow-600 font-medium">
+                      <p className="text-sm font-medium" style={{ color: 'var(--warning)' }}>
                         2 neighbors pending
                       </p>
                     </div>
@@ -542,7 +542,7 @@ export default function DashboardPage() {
                         <MapPin size={14} className="flex-shrink-0" />
                         1429 Oceanview Dr
                       </a>
-                      <p className="text-sm text-blue-600 font-medium">
+                      <p className="text-sm font-medium" style={{ color: 'var(--info)' }}>
                         Today, 2:30 PM
                       </p>
                     </div>
