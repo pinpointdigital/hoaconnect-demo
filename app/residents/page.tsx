@@ -45,7 +45,7 @@ const DEFAULT_RESIDENTS: Resident[] = [
     address: '31462 Paseo Campeon, San Juan Capistrano, CA 92675',
     email: 'allan.chua@email.com',
     phone: '(949) 555-0123',
-    profilePhoto: '/residents/allan-chua.jpg',
+    profilePhoto: undefined,
     moveInDate: '2023-06-15',
     unitType: 'Single Family Home',
     emergencyContact: {
@@ -128,6 +128,9 @@ export default function ResidentsPage() {
   });
   const [showInviteSuccess, setShowInviteSuccess] = useState(false);
   const [showMessageSuccess, setShowMessageSuccess] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Load residents from localStorage
   useEffect(() => {
@@ -176,6 +179,25 @@ export default function ResidentsPage() {
     setSelectedResident(null);
   };
 
+  // Handle image upload for resident profile
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedImage(file);
+      if (file instanceof File) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const base64Url = e.target?.result as string;
+          setImagePreview(base64Url);
+          if (editingResident) {
+            setEditingResident({ ...editingResident, profilePhoto: base64Url });
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  };
+
   // Update resident
   const saveResident = () => {
     if (editingResident) {
@@ -184,7 +206,15 @@ export default function ResidentsPage() {
       );
       saveResidents(updatedResidents);
       setEditingResident(null);
+      setSelectedImage(null);
+      setImagePreview(null);
     }
+  };
+
+  const cancelEdit = () => {
+    setEditingResident(null);
+    setSelectedImage(null);
+    setImagePreview(null);
   };
 
   const canEdit = hasPermission('canManageResidents') || hasPermission('canReviewARCRequests');
@@ -315,12 +345,7 @@ export default function ResidentsPage() {
                           </div>
                           <div className="flex items-center gap-2">
                             <Mail size={14} className="text-ink-500" />
-                            <a 
-                              href={`mailto:${resident.email}`}
-                              className="text-body text-primary hover:text-primary-700 transition-colors"
-                            >
-                              {resident.email}
-                            </a>
+                            <span className="text-body text-ink-600">{resident.email}</span>
                           </div>
                           <div className="flex items-center gap-2">
                             <Phone size={14} className="text-ink-500" />
@@ -354,7 +379,10 @@ export default function ResidentsPage() {
                         <div className="flex gap-3">
                           {canEdit && (
                             <button
-                              onClick={() => setEditingResident(resident)}
+                              onClick={() => {
+                                setEditingResident(resident);
+                                setImagePreview(resident.profilePhoto || null);
+                              }}
                               className="flex items-center gap-1 text-primary hover:text-primary-700 transition-colors text-body font-medium"
                             >
                               <Edit3 size={14} />
@@ -407,13 +435,38 @@ export default function ResidentsPage() {
       {/* Edit Resident Modal */}
       {editingResident && (
         <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-lg shadow-lg max-w-2xl w-full p-6 max-h-[90vh] overflow-y-auto">
             <h3 className="text-h3 font-semibold text-ink-900 mb-4">Edit Resident Profile</h3>
             
-            <div className="space-y-4">
+            <div className="space-y-6">
+              {/* Profile Photo */}
+              <div className="flex flex-col items-center mb-6">
+                <div className="w-20 h-20 mb-3 flex-shrink-0">
+                  <Avatar 
+                    name={editingResident.name} 
+                    size="xl" 
+                    src={editingResident.profilePhoto}
+                  />
+                </div>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                />
+                <Button
+                  variant="outline"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  Change Photo
+                </Button>
+              </div>
+
+              {/* Basic Information */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-body font-medium text-ink-700 mb-2">Name</label>
+                  <label className="block text-body font-medium text-ink-700 mb-2">Full Name</label>
                   <input
                     type="text"
                     value={editingResident.name}
@@ -423,18 +476,19 @@ export default function ResidentsPage() {
                 </div>
                 
                 <div>
-                  <label className="block text-body font-medium text-ink-700 mb-2">Phone</label>
+                  <label className="block text-body font-medium text-ink-700 mb-2">Phone Number</label>
                   <input
                     type="tel"
                     value={editingResident.phone}
                     onChange={(e) => setEditingResident(prev => prev ? { ...prev, phone: e.target.value } : null)}
+                    placeholder="(949) 555-0123"
                     className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                   />
                 </div>
               </div>
               
               <div>
-                <label className="block text-body font-medium text-ink-700 mb-2">Email</label>
+                <label className="block text-body font-medium text-ink-700 mb-2">Email Address</label>
                 <input
                   type="email"
                   value={editingResident.email}
@@ -444,7 +498,7 @@ export default function ResidentsPage() {
               </div>
               
               <div>
-                <label className="block text-body font-medium text-ink-700 mb-2">Address</label>
+                <label className="block text-body font-medium text-ink-700 mb-2">Property Address</label>
                 <input
                   type="text"
                   value={editingResident.address}
@@ -452,23 +506,100 @@ export default function ResidentsPage() {
                   className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                 />
               </div>
-              
-              <div>
-                <label className="block text-body font-medium text-ink-700 mb-2">Status</label>
-                <select
-                  value={editingResident.status}
-                  onChange={(e) => setEditingResident(prev => prev ? { ...prev, status: e.target.value as Resident['status'] } : null)}
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-                >
-                  <option value="active">Active</option>
-                  <option value="pending">Pending</option>
-                  <option value="moved-out">Moved Out</option>
-                </select>
+
+              {/* Emergency Contact */}
+              <div className="border-t border-neutral-200 pt-4">
+                <h4 className="text-h4 font-semibold text-ink-900 mb-3">Emergency Contact</h4>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-body font-medium text-ink-700 mb-2">Contact Name</label>
+                    <input
+                      type="text"
+                      value={editingResident.emergencyContact?.name || ''}
+                      onChange={(e) => setEditingResident(prev => prev ? { 
+                        ...prev, 
+                        emergencyContact: { 
+                          ...prev.emergencyContact, 
+                          name: e.target.value,
+                          phone: prev.emergencyContact?.phone || '',
+                          relationship: prev.emergencyContact?.relationship || ''
+                        }
+                      } : null)}
+                      className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-body font-medium text-ink-700 mb-2">Relationship</label>
+                    <input
+                      type="text"
+                      value={editingResident.emergencyContact?.relationship || ''}
+                      onChange={(e) => setEditingResident(prev => prev ? { 
+                        ...prev, 
+                        emergencyContact: { 
+                          ...prev.emergencyContact, 
+                          relationship: e.target.value,
+                          name: prev.emergencyContact?.name || '',
+                          phone: prev.emergencyContact?.phone || ''
+                        }
+                      } : null)}
+                      placeholder="Spouse, Parent, Sibling, etc."
+                      className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                    />
+                  </div>
+                </div>
+                
+                <div className="mt-4">
+                  <label className="block text-body font-medium text-ink-700 mb-2">Emergency Contact Phone</label>
+                  <input
+                    type="tel"
+                    value={editingResident.emergencyContact?.phone || ''}
+                    onChange={(e) => setEditingResident(prev => prev ? { 
+                      ...prev, 
+                      emergencyContact: { 
+                        ...prev.emergencyContact, 
+                        phone: e.target.value,
+                        name: prev.emergencyContact?.name || '',
+                        relationship: prev.emergencyContact?.relationship || ''
+                      }
+                    } : null)}
+                    placeholder="(949) 555-0124"
+                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                  />
+                </div>
+              </div>
+
+              {/* Additional Fields */}
+              <div className="border-t border-neutral-200 pt-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-body font-medium text-ink-700 mb-2">Move-in Date</label>
+                    <input
+                      type="date"
+                      value={editingResident.moveInDate}
+                      onChange={(e) => setEditingResident(prev => prev ? { ...prev, moveInDate: e.target.value } : null)}
+                      className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-body font-medium text-ink-700 mb-2">Status</label>
+                    <select
+                      value={editingResident.status}
+                      onChange={(e) => setEditingResident(prev => prev ? { ...prev, status: e.target.value as Resident['status'] } : null)}
+                      className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                    >
+                      <option value="active">Active</option>
+                      <option value="pending">Pending</option>
+                      <option value="moved-out">Moved Out</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
             
             <div className="flex justify-end gap-3 mt-6">
-              <Button variant="outline" onClick={() => setEditingResident(null)}>Cancel</Button>
+              <Button variant="outline" onClick={cancelEdit}>Cancel</Button>
               <Button variant="primary" onClick={saveResident}>Save Changes</Button>
             </div>
           </div>
