@@ -50,7 +50,7 @@ const DEFAULT_COMMUNITY_DATA = {
       name: 'San Juan Hills High School',
       address: '29211 Stallion Rd, San Juan Capistrano CA 92675',
       phone: '(949) 234-5900',
-      website: 'sjhhs.capousd.org',
+      website: 'sanjuanhills.capousd.org',
       type: 'public',
       grades: '9-12'
     },
@@ -59,7 +59,7 @@ const DEFAULT_COMMUNITY_DATA = {
       name: 'Marco Forster Middle School',
       address: '25601 Camino del Avion, San Juan Capistrano, CA 92675',
       phone: '(949) 234-5907',
-      website: 'mfms.capousd.org',
+      website: 'marcoforster.capousd.org',
       type: 'public',
       grades: '6-8'
     },
@@ -68,7 +68,7 @@ const DEFAULT_COMMUNITY_DATA = {
       name: 'San Juan Elementary School',
       address: '31642 El Camino Real, San Juan Capistrano, CA 92675',
       phone: '(949) 493-4533',
-      website: 'sjes.capousd.org',
+      website: 'sanjuan.capousd.org',
       type: 'public',
       grades: 'K-5'
     },
@@ -104,7 +104,7 @@ const DEFAULT_COMMUNITY_DATA = {
       name: 'Fairmont Schools',
       address: '26333 Oso Rd, San Juan Capistrano, CA 92675',
       phone: '(714) 234-2784',
-      website: 'www.fairmontschools.com',
+      website: 'www.fairmontschools.com/campuses/san-juan-capistrano-campus',
       type: 'private',
       grades: 'K-12'
     },
@@ -113,7 +113,7 @@ const DEFAULT_COMMUNITY_DATA = {
       name: 'Stoneybrooke Christian School',
       address: '26300 Via Escolar, San Juan Capistrano, CA 92692',
       phone: '(949) 364-4407',
-      website: 'www.stoneybrookechristian.org',
+      website: 'www.stoneybrooke.com',
       type: 'private',
       grades: 'K-12'
     }
