@@ -39,7 +39,14 @@ export interface UserProfile {
   email?: string;
   phone?: string;
   address?: string;
+  title?: string;
   profilePhoto?: string;
+  socialMedia?: {
+    twitter?: string;
+    facebook?: string;
+    instagram?: string;
+    linkedin?: string;
+  };
   permissions: UserPermissions;
 }
 
@@ -151,12 +158,14 @@ export const DEFAULT_USER_PROFILES: Record<UserRole, Omit<UserProfile, 'role'>> 
     name: 'Sarah Johnson',
     email: 'president@hoa.demo',
     phone: '(949) 555-0101',
+    title: 'HOA President',
     permissions: ROLE_PERMISSIONS['captain']
   },
   'board-member': {
     name: 'Mike Chen',
     email: 'board@hoa.demo',
     phone: '(949) 555-0102',
+    title: 'Board Member',
     permissions: ROLE_PERMISSIONS['board-member']
   },
   'homeowner': {
@@ -164,12 +173,14 @@ export const DEFAULT_USER_PROFILES: Record<UserRole, Omit<UserProfile, 'role'>> 
     email: 'sarah.johnson@email.com',
     phone: '(949) 555-0189',
     address: '1423 Oceanview Drive',
+    title: 'Homeowner',
     permissions: ROLE_PERMISSIONS['homeowner']
   },
   'management-company': {
     name: 'ProManage HOA Services',
     email: 'contact@promanage.demo',
     phone: '(949) 555-0200',
+    title: 'Property Management Company',
     permissions: ROLE_PERMISSIONS['management-company']
   }
 };

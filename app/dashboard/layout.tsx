@@ -26,7 +26,14 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     name: userProfile.name,
     email: userProfile.email,
     phone: userProfile.phone || '',
-    profilePhoto: userProfile.profilePhoto
+    title: userProfile.title || '',
+    profilePhoto: userProfile.profilePhoto,
+    socialMedia: {
+      twitter: userProfile.socialMedia?.twitter || '',
+      facebook: userProfile.socialMedia?.facebook || '',
+      instagram: userProfile.socialMedia?.instagram || '',
+      linkedin: userProfile.socialMedia?.linkedin || ''
+    }
   });
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -38,7 +45,14 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       name: userProfile.name,
       email: userProfile.email,
       phone: userProfile.phone || '',
-      profilePhoto: userProfile.profilePhoto
+      title: userProfile.title || '',
+      profilePhoto: userProfile.profilePhoto,
+      socialMedia: {
+        twitter: userProfile.socialMedia?.twitter || '',
+        facebook: userProfile.socialMedia?.facebook || '',
+        instagram: userProfile.socialMedia?.instagram || '',
+        linkedin: userProfile.socialMedia?.linkedin || ''
+      }
     });
     setShowProfileModal(true);
   };
@@ -60,7 +74,9 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       name: editingProfile.name,
       email: editingProfile.email,
       phone: editingProfile.phone,
-      profilePhoto: editingProfile.profilePhoto
+      title: editingProfile.title,
+      profilePhoto: editingProfile.profilePhoto,
+      socialMedia: editingProfile.socialMedia
     });
     setShowProfileModal(false);
     setSelectedImage(null);
@@ -194,6 +210,20 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 />
               </div>
 
+              {/* Title/Role */}
+              <div>
+                <label className="block text-body font-medium text-ink-700 mb-2">
+                  Title / Role
+                </label>
+                <input
+                  type="text"
+                  value={editingProfile.title}
+                  onChange={(e) => setEditingProfile(prev => ({ ...prev, title: e.target.value }))}
+                  placeholder="e.g., HOA President, Property Manager, Board Member"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                />
+              </div>
+
               {/* Email */}
               <div>
                 <label className="block text-body font-medium text-ink-700 mb-2">
@@ -219,6 +249,79 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   placeholder="(555) 123-4567"
                   className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                 />
+              </div>
+
+              {/* Social Media Section */}
+              <div className="pt-4 border-t border-neutral-200">
+                <h4 className="text-body font-semibold text-ink-900 mb-3">Social Media</h4>
+                
+                {/* Twitter/X */}
+                <div className="mb-3">
+                  <label className="block text-caption font-medium text-ink-700 mb-1">
+                    X (Twitter)
+                  </label>
+                  <input
+                    type="url"
+                    value={editingProfile.socialMedia.twitter}
+                    onChange={(e) => setEditingProfile(prev => ({ 
+                      ...prev, 
+                      socialMedia: { ...prev.socialMedia, twitter: e.target.value }
+                    }))}
+                    placeholder="https://x.com/username"
+                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                  />
+                </div>
+
+                {/* Facebook */}
+                <div className="mb-3">
+                  <label className="block text-caption font-medium text-ink-700 mb-1">
+                    Facebook
+                  </label>
+                  <input
+                    type="url"
+                    value={editingProfile.socialMedia.facebook}
+                    onChange={(e) => setEditingProfile(prev => ({ 
+                      ...prev, 
+                      socialMedia: { ...prev.socialMedia, facebook: e.target.value }
+                    }))}
+                    placeholder="https://facebook.com/username"
+                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                  />
+                </div>
+
+                {/* Instagram */}
+                <div className="mb-3">
+                  <label className="block text-caption font-medium text-ink-700 mb-1">
+                    Instagram
+                  </label>
+                  <input
+                    type="url"
+                    value={editingProfile.socialMedia.instagram}
+                    onChange={(e) => setEditingProfile(prev => ({ 
+                      ...prev, 
+                      socialMedia: { ...prev.socialMedia, instagram: e.target.value }
+                    }))}
+                    placeholder="https://instagram.com/username"
+                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                  />
+                </div>
+
+                {/* LinkedIn */}
+                <div>
+                  <label className="block text-caption font-medium text-ink-700 mb-1">
+                    LinkedIn
+                  </label>
+                  <input
+                    type="url"
+                    value={editingProfile.socialMedia.linkedin}
+                    onChange={(e) => setEditingProfile(prev => ({ 
+                      ...prev, 
+                      socialMedia: { ...prev.socialMedia, linkedin: e.target.value }
+                    }))}
+                    placeholder="https://linkedin.com/in/username"
+                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                  />
+                </div>
               </div>
             </div>
             
