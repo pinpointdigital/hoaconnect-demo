@@ -135,9 +135,12 @@ export default function CommunityDocumentsPage() {
 
   // AI Demo simulation
   const startAIDemo = async () => {
-    setShowAIDemo(true);
+    // Reset states
     setAIAnalysisProgress(0);
     setShowAIResults(false);
+    
+    // Small delay to ensure modal is rendered
+    await new Promise(resolve => setTimeout(resolve, 100));
     
     // Simulate AI analysis progress
     for (let i = 0; i <= 100; i += 10) {
@@ -166,7 +169,11 @@ export default function CommunityDocumentsPage() {
         {canEdit && (
           <div className="flex gap-3">
             <button
-              onClick={() => setShowAIDemo(true)}
+              onClick={() => {
+                setShowAIDemo(true);
+                setAIAnalysisProgress(0);
+                setShowAIResults(false);
+              }}
               className="flex items-center gap-2 text-primary hover:text-primary-700 transition-colors text-body font-medium"
             >
               <Bot size={16} />
@@ -260,16 +267,12 @@ export default function CommunityDocumentsPage() {
         <div className="text-center">
           <Button
             variant="primary"
-            onClick={() => {
-              if (!showAIDemo) {
-                startAIDemo();
-              }
-            }}
+            onClick={startAIDemo}
             className="flex items-center gap-2"
-            disabled={showAIDemo && aiAnalysisProgress < 100}
+            disabled={aiAnalysisProgress > 0 && aiAnalysisProgress < 100}
           >
             <Sparkles size={16} />
-            {showAIDemo && aiAnalysisProgress < 100 ? 'Demo Running...' : 'Start AI Analysis Demo'}
+            {aiAnalysisProgress > 0 && aiAnalysisProgress < 100 ? 'Demo Running...' : 'Start AI Analysis Demo'}
           </Button>
         </div>
       </div>
