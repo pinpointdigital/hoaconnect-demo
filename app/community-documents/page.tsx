@@ -348,14 +348,13 @@ export default function CommunityDocumentsPage() {
 
         <div className="text-center">
           <div className="flex gap-3 justify-center">
-            <Button
-              variant="outline"
+            <button
               onClick={resetAIAnalysis}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 text-primary hover:text-primary-700 transition-colors text-body font-medium"
             >
               <Bot size={16} />
               Reset AI Demo
-            </Button>
+            </button>
             <Button
               variant="primary"
               onClick={activateAIDocumentScan}
