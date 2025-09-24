@@ -487,8 +487,8 @@ export default function DashboardPage() {
             {(currentRole === 'management-company' || currentRole === 'captain') && (
               <div className="rounded-card border border-ink-900/8 bg-white shadow-elev1 p-6">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center">
-                    <Bot className="text-white" size={20} />
+                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                    <Bot className="text-primary" size={20} />
                   </div>
                   <div>
                     <h3 className="text-h3 font-semibold text-ink-900">AI HOA Connect Assistant</h3>
@@ -500,8 +500,8 @@ export default function DashboardPage() {
                   className="w-full h-[400px] bg-neutral-50 rounded-lg border border-neutral-200 flex items-center justify-center"
                 >
                   <div className="text-center">
-                    <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Bot className="text-white" size={32} />
+                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Bot className="text-primary" size={32} />
                     </div>
                     <h4 className="text-h4 font-medium text-ink-900 mb-2">AI HOA Connect Assistant</h4>
                     <p className="text-body text-ink-600 mb-4">Ready to help with HOA management tasks</p>
