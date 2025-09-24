@@ -19,20 +19,9 @@ import {
   Eye,
   MessageCircle,
   Bell,
-  UserPlus,
-  Car,
-  Phone,
-  BookOpen,
-  Building,
-  DollarSign,
-  FileCheck,
-  Shield,
-  Briefcase,
-  ChevronRight,
   X,
   Send
 } from 'lucide-react';
-import Link from 'next/link';
 
 interface CommunicationItem {
   id: string;
@@ -87,14 +76,6 @@ interface Poll {
   createdBy: string;
 }
 
-interface VendorDoc {
-  id: string;
-  vendorName: string;
-  w9ein: 'Uploaded' | 'Missing';
-  coi: 'Uploaded' | 'Missing';
-  workersComp: 'Uploaded' | 'Missing';
-  poStatus: 'Active' | 'Pending' | 'Inactive';
-}
 
 const DEFAULT_ITEMS: CommunicationItem[] = [
   {
@@ -154,31 +135,12 @@ const DEFAULT_UPDATES: CommunityUpdate[] = [
   }
 ];
 
-const DEFAULT_VENDOR_DOCS: VendorDoc[] = [
-  {
-    id: 'v1',
-    vendorName: 'South County Landscape',
-    w9ein: 'Uploaded',
-    coi: 'Uploaded',
-    workersComp: 'Uploaded',
-    poStatus: 'Active'
-  },
-  {
-    id: 'v2',
-    vendorName: 'WB Starr Tree Service',
-    w9ein: 'Uploaded',
-    coi: 'Missing',
-    workersComp: 'Uploaded',
-    poStatus: 'Active'
-  }
-];
 
 export default function CommunicationsPage() {
   const { user, hasPermission } = useAuth();
   const [items, setItems] = useState<CommunicationItem[]>(DEFAULT_ITEMS);
   const [updates, setUpdates] = useState<CommunityUpdate[]>(DEFAULT_UPDATES);
   const [polls, setPolls] = useState<Poll[]>([]);
-  const [vendorDocs, setVendorDocs] = useState<VendorDoc[]>(DEFAULT_VENDOR_DOCS);
   
   // Modal states
   const [showNewRequestModal, setShowNewRequestModal] = useState(false);
@@ -578,110 +540,9 @@ export default function CommunicationsPage() {
           </div>
         </div>
 
-        {/* Sidebar */}
+        {/* Sidebar - Empty for now */}
         <div className="space-y-6">
-          {/* New Resident & Rules */}
-          <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6">
-            <h3 className="text-h3 font-semibold text-ink-900 mb-4">New Resident & Rules</h3>
-            <div className="space-y-2">
-              <Link href="/dashboard/new-residents/registration" className="flex items-center justify-between p-3 hover:bg-neutral-50 rounded-lg transition-colors">
-                <div className="flex items-center gap-3">
-                  <UserPlus size={16} className="text-ink-500" />
-                  <span className="text-body text-ink-700">New resident form</span>
-                </div>
-                <ChevronRight size={16} className="text-ink-400" />
-              </Link>
-              <button className="flex items-center justify-between w-full p-3 hover:bg-neutral-50 rounded-lg transition-colors">
-                <div className="flex items-center gap-3">
-                  <Car size={16} className="text-ink-500" />
-                  <span className="text-body text-ink-700">Vehicle registration</span>
-                </div>
-                <ChevronRight size={16} className="text-ink-400" />
-              </button>
-              <button className="flex items-center justify-between w-full p-3 hover:bg-neutral-50 rounded-lg transition-colors">
-                <div className="flex items-center gap-3">
-                  <Phone size={16} className="text-ink-500" />
-                  <span className="text-body text-ink-700">Emergency contacts</span>
-                </div>
-                <ChevronRight size={16} className="text-ink-400" />
-              </button>
-              <Link href="/community-documents" className="flex items-center justify-between p-3 hover:bg-neutral-50 rounded-lg transition-colors">
-                <div className="flex items-center gap-3">
-                  <BookOpen size={16} className="text-ink-500" />
-                  <span className="text-body text-ink-700">CC&Rs & Bylaws</span>
-                </div>
-                <ChevronRight size={16} className="text-ink-400" />
-              </Link>
-            </div>
-          </div>
-
-          {/* Vendor Docs (Manager/Board only) */}
-          {canManage && (
-            <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6">
-              <h3 className="text-h3 font-semibold text-ink-900 mb-4">Vendor Docs</h3>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="border-b border-neutral-200">
-                      <th className="text-left py-2 text-caption font-medium text-ink-600">Vendor</th>
-                      <th className="text-left py-2 text-caption font-medium text-ink-600">W-9/EIN</th>
-                      <th className="text-left py-2 text-caption font-medium text-ink-600">COI</th>
-                      <th className="text-left py-2 text-caption font-medium text-ink-600">Workers' Comp</th>
-                      <th className="text-left py-2 text-caption font-medium text-ink-600">PO Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {vendorDocs.map((vendor) => (
-                      <tr key={vendor.id} className="border-b border-neutral-100">
-                        <td className="py-2 text-body text-ink-900">{vendor.vendorName}</td>
-                        <td className="py-2">
-                          <span className={`text-xs px-2 py-1 rounded ${
-                            vendor.w9ein === 'Uploaded' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-                          }`}>
-                            {vendor.w9ein}
-                          </span>
-                        </td>
-                        <td className="py-2">
-                          <span className={`text-xs px-2 py-1 rounded ${
-                            vendor.coi === 'Uploaded' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-                          }`}>
-                            {vendor.coi}
-                          </span>
-                        </td>
-                        <td className="py-2">
-                          <span className={`text-xs px-2 py-1 rounded ${
-                            vendor.workersComp === 'Uploaded' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-                          }`}>
-                            {vendor.workersComp}
-                          </span>
-                        </td>
-                        <td className="py-2">
-                          <span className={`text-xs px-2 py-1 rounded ${
-                            vendor.poStatus === 'Active' ? 'bg-green-100 text-green-700' :
-                            vendor.poStatus === 'Pending' ? 'bg-yellow-100 text-yellow-700' :
-                            'bg-neutral-100 text-neutral-700'
-                          }`}>
-                            {vendor.poStatus}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <Button 
-                size="sm" 
-                variant="outline" 
-                className="mt-3"
-                onClick={() => {
-                  // Toast stub
-                  alert('Document request sent to vendor');
-                }}
-              >
-                Request docs
-              </Button>
-            </div>
-          )}
+          {/* Sidebar content removed for cleaner manager view */}
         </div>
       </div>
 
