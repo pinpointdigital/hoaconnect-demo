@@ -711,26 +711,30 @@ export default function RequestDetailPage({ params }: RequestDetailPageProps) {
       <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6">
         <div className="flex items-start justify-between">
           <div className="flex-1">
-            {/* Owner Name - 3x size */}
-            <h1 className="text-5xl font-bold text-ink-900 mb-2">{request.submittedBy.name}</h1>
+            {/* Owner Name - 2x size */}
+            <h1 className="text-4xl font-bold text-ink-900 mb-2">{request.submittedBy.name}</h1>
             
             {/* Address Link */}
-            <div className="mb-4">
+            <div className="mb-4 flex items-center gap-2">
+              <svg className="w-4 h-4 text-ink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
               <a 
                 href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(request.submittedBy.address)}&zoom=20`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary hover:text-primary-700 transition-colors text-body font-medium"
               >
-                📍 {request.submittedBy.address}
+                {request.submittedBy.address}
               </a>
             </div>
             
             {/* Request Title - 2x size */}
             <h2 className="text-4xl font-semibold text-ink-900 mb-3">{request.title}</h2>
             
-            {/* Request Description */}
-            <p className="text-body text-ink-700 leading-relaxed">{request.description}</p>
+            {/* Request Description - smaller size */}
+            <p className="text-sm text-ink-700 leading-relaxed">{request.description}</p>
           </div>
           
           {/* Status Badge */}
