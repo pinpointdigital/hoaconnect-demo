@@ -699,7 +699,7 @@ export default function ARCPage() {
                               <span className="px-2 py-1 bg-yellow-600 text-white text-xs font-medium rounded">
                                 Open
                               </span>
-                              <p className="text-xs text-ink-600">Jan 30, 2:15 PM</p>
+                              <p className="text-xs" style={{ color: '#434343' }}>Jan 30, 2:15 PM</p>
                             </div>
                           </div>
                         </div>
@@ -733,7 +733,7 @@ export default function ARCPage() {
                                 }`}>
                                   {repliedMessages.has('mike-message-1') ? 'Done' : 'Reply Required'}
                                 </span>
-                                <p className="text-xs text-ink-600">Jan 29, 10:30 AM</p>
+                                <p className="text-xs" style={{ color: '#434343' }}>Jan 29, 10:30 AM</p>
                               </div>
                             </div>
                           </div>
@@ -821,7 +821,7 @@ export default function ARCPage() {
                               <p className="text-caption font-medium text-ink-900">Status Update: Under Review</p>
                               <p className="text-xs text-ink-600">by Mike Thompson</p>
                             </div>
-                            <p className="text-xs text-ink-600">Jan 29, 8:45 AM</p>
+                            <p className="text-xs" style={{ color: '#434343' }}>Jan 29, 8:45 AM</p>
                           </div>
                         </div>
                       </div>
@@ -964,7 +964,7 @@ export default function ARCPage() {
                               Approved
                             </span>
                           </div>
-                          <p className="text-xs text-ink-700">Signed off on Jan 30, 2024 at 9:15 AM</p>
+                          <p className="text-xs" style={{ color: '#434343' }}>Signed off on Jan 30, 2024 at 9:15 AM</p>
                         </div>
                       </div>
 

@@ -1821,7 +1821,7 @@ export default function RequestDetailPage({ params }: RequestDetailPageProps) {
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="text-sm font-medium text-ink-900">Robert Chen</span>
-                        <span className="text-xs text-ink-500">2 hours ago</span>
+                        <span className="text-xs" style={{ color: '#434343' }}>2 hours ago</span>
                       </div>
                       <p className="text-sm text-ink-700 bg-neutral-50 rounded-lg p-3">
                         The exterior modification looks reasonable and follows our architectural guidelines. I'm approving this request.
@@ -1836,7 +1836,7 @@ export default function RequestDetailPage({ params }: RequestDetailPageProps) {
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="text-sm font-medium text-ink-900">Maria Santos</span>
-                        <span className="text-xs text-ink-500">1 hour ago</span>
+                        <span className="text-xs" style={{ color: '#434343' }}>1 hour ago</span>
                       </div>
                       <p className="text-sm text-ink-700 bg-neutral-50 rounded-lg p-3">
                         Agreed. The materials and colors are consistent with neighborhood standards. Voting to approve.
@@ -1851,7 +1851,7 @@ export default function RequestDetailPage({ params }: RequestDetailPageProps) {
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="text-sm font-medium text-ink-900">Jennifer Walsh</span>
-                        <span className="text-xs text-ink-500">30 minutes ago</span>
+                        <span className="text-xs" style={{ color: '#434343' }}>30 minutes ago</span>
                       </div>
                       <p className="text-sm text-ink-700 bg-neutral-50 rounded-lg p-3">
                         This sets a good precedent for similar modifications. I support this request.

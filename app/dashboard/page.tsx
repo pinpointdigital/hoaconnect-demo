@@ -319,7 +319,7 @@ export default function DashboardPage() {
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-bold text-ink-900">ARC Request Needs Your Reply</p>
                         <p className="text-xs text-ink-600 mt-1">HOA Manager is waiting for clarification</p>
-                        <p className="text-xs text-ink-500 mt-2">Jan 29, 2024 at 10:30 AM</p>
+                        <p className="text-xs mt-2" style={{ color: '#434343' }}>Jan 29, 2024 at 10:30 AM</p>
                       </div>
                     </div>
                     <div className="flex items-center justify-between">
@@ -346,7 +346,7 @@ export default function DashboardPage() {
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-bold text-ink-900">Pool Maintenance Notice</p>
                         <p className="text-xs text-ink-600 mt-1">Scheduled for next week</p>
-                        <p className="text-xs text-ink-500 mt-2">Jan 28, 2024 at 2:15 PM</p>
+                        <p className="text-xs mt-2" style={{ color: '#434343' }}>Jan 28, 2024 at 2:15 PM</p>
                       </div>
                     </div>
                     <div className="flex items-center justify-between">
@@ -373,7 +373,7 @@ export default function DashboardPage() {
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-bold text-ink-900">HOA Fees Current</p>
                         <p className="text-xs text-ink-600 mt-1">February payment processed</p>
-                        <p className="text-xs text-ink-500 mt-2">Feb 1, 2024 at 8:00 AM</p>
+                        <p className="text-xs mt-2" style={{ color: '#434343' }}>Feb 1, 2024 at 8:00 AM</p>
                       </div>
                     </div>
                     <div className="flex items-center justify-end">
