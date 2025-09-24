@@ -295,82 +295,82 @@ export default function ReserveStudyPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Next 5 Years */}
             <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
-                <Calendar className="text-purple-600" size={16} />
-              </div>
-              <h3 className="text-h3 font-semibold text-ink-900">Next 5 Years</h3>
-            </div>
-            
-            <div className="space-y-3 mb-4">
-              {reserveData.upcomingProjects.slice(0, 3).map((project, index) => (
-                <div key={project.name} className="flex items-center justify-between p-3 bg-neutral-50 rounded-lg">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-body font-medium text-ink-900">{project.name}</span>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        project.priority === 'high' ? 'bg-red-100 text-red-700' :
-                        project.priority === 'medium' ? 'bg-yellow-100 text-yellow-700' :
-                        'bg-green-100 text-green-700'
-                      }`}>
-                        {project.priority}
-                      </span>
-                    </div>
-                    <span className="text-caption text-ink-600">{project.year}</span>
-                  </div>
-                  <span className="text-body font-medium text-ink-900">{formatCurrency(project.estimatedCost)}</span>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                  <Calendar className="text-purple-600" size={16} />
                 </div>
-              ))}
-            </div>
+                <h3 className="text-h3 font-semibold text-ink-900">Next 5 Years</h3>
+              </div>
             
-            <p className="text-body text-ink-600 text-center mb-3">
-              Top priorities include street repairs, community painting, and fencing/wall replacements.
-            </p>
-            <div className="p-3 bg-purple-50 border border-purple-200 rounded-lg">
-              <p className="text-caption text-purple-700">
-                <strong>What this means:</strong> These are major expenses coming up that your reserves help pay for. Without adequate reserves, these could become special assessments.
+              <div className="space-y-3 mb-4">
+                {reserveData.upcomingProjects.slice(0, 3).map((project, index) => (
+                  <div key={project.name} className="flex items-center justify-between p-3 bg-neutral-50 rounded-lg">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-body font-medium text-ink-900">{project.name}</span>
+                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          project.priority === 'high' ? 'bg-red-100 text-red-700' :
+                          project.priority === 'medium' ? 'bg-yellow-100 text-yellow-700' :
+                          'bg-green-100 text-green-700'
+                        }`}>
+                          {project.priority}
+                        </span>
+                      </div>
+                      <span className="text-caption text-ink-600">{project.year}</span>
+                    </div>
+                    <span className="text-body font-medium text-ink-900">{formatCurrency(project.estimatedCost)}</span>
+                  </div>
+                ))}
+              </div>
+              
+              <p className="text-body text-ink-600 text-center mb-3">
+                Top priorities include street repairs, community painting, and fencing/wall replacements.
               </p>
-            </div>
+              <div className="p-3 bg-purple-50 border border-purple-200 rounded-lg">
+                <p className="text-caption text-purple-700">
+                  <strong>What this means:</strong> These are major expenses coming up that your reserves help pay for. Without adequate reserves, these could become special assessments.
+                </p>
+              </div>
             </div>
 
             {/* Risk Areas */}
             <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
-                <AlertTriangle className="text-red-600" size={16} />
-              </div>
-              <h3 className="text-h3 font-semibold text-ink-900">Risk Areas</h3>
-            </div>
-            
-            <div className="space-y-3 mb-4">
-              {reserveData.riskAreas.map((area) => (
-                <div key={area.component} className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-body text-ink-700">{area.component}</span>
-                    <span className="text-caption font-medium text-ink-900">{area.fundingLevel}%</span>
-                  </div>
-                  <div className="w-full bg-neutral-200 rounded-full h-2">
-                    <div 
-                      className={`h-2 rounded-full transition-all duration-1000 ease-out ${
-                        area.risk === 'high' ? 'bg-red-500' :
-                        area.risk === 'medium' ? 'bg-yellow-500' :
-                        'bg-green-500'
-                      }`}
-                      style={{ width: `${Math.min(area.fundingLevel, 100)}%` }}
-                    />
-                  </div>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
+                  <AlertTriangle className="text-red-600" size={16} />
                 </div>
-              ))}
-            </div>
+                <h3 className="text-h3 font-semibold text-ink-900">Risk Areas</h3>
+              </div>
             
-            <p className="text-body text-ink-600 text-center mb-3">
-              Multiple components are critically underfunded: Mailboxes (0%), Tot Lot (5%), and Fencing (8%). These may require special assessments.
-            </p>
-            <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-caption text-red-700">
-                <strong>What this means:</strong> Red and yellow items don't have enough money saved for future repairs. When they need fixing, you might get a special bill.
+              <div className="space-y-3 mb-4">
+                {reserveData.riskAreas.map((area) => (
+                  <div key={area.component} className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-body text-ink-700">{area.component}</span>
+                      <span className="text-caption font-medium text-ink-900">{area.fundingLevel}%</span>
+                    </div>
+                    <div className="w-full bg-neutral-200 rounded-full h-2">
+                      <div 
+                        className={`h-2 rounded-full transition-all duration-1000 ease-out ${
+                          area.risk === 'high' ? 'bg-red-500' :
+                          area.risk === 'medium' ? 'bg-yellow-500' :
+                          'bg-green-500'
+                        }`}
+                        style={{ width: `${Math.min(area.fundingLevel, 100)}%` }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              <p className="text-body text-ink-600 text-center mb-3">
+                Multiple components are critically underfunded: Mailboxes (0%), Tot Lot (5%), and Fencing (8%). These may require special assessments.
               </p>
-            </div>
+              <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-caption text-red-700">
+                  <strong>What this means:</strong> Red and yellow items don't have enough money saved for future repairs. When they need fixing, you might get a special bill.
+                </p>
+              </div>
             </div>
           </div>
 
