@@ -234,6 +234,23 @@ export default function ResidentsPage() {
           </div>
           <h1 className="text-3xl font-bold text-ink-900">Residents</h1>
         </div>
+        
+        {/* Action Buttons */}
+        <div className="flex items-center gap-3">
+          <Link href="/dashboard/new-residents/registration">
+            <Button variant="primary" className="flex items-center gap-2">
+              <Plus size={16} />
+              Add Resident
+            </Button>
+          </Link>
+          <button 
+            onClick={() => setShowInviteModal(true)}
+            className="flex items-center gap-2 text-primary hover:text-primary-700 transition-colors text-body font-medium"
+          >
+            <UserPlus size={16} />
+            Invite Resident
+          </button>
+        </div>
       </div>
 
       {/* Tab Navigation */}
@@ -259,23 +276,6 @@ export default function ResidentsPage() {
       {/* Dashboard Tab Content */}
       {activeTab === 'dashboard' && (
         <div className="space-y-6">
-          {/* Action Buttons */}
-          <div className="flex gap-3">
-            <Link href="/dashboard/new-residents/registration">
-              <Button variant="primary" className="flex items-center gap-2">
-                <Plus size={16} />
-                Add Resident
-              </Button>
-            </Link>
-            <Button 
-              variant="outline" 
-              onClick={() => setShowInviteModal(true)}
-              className="flex items-center gap-2"
-            >
-              <UserPlus size={16} />
-              Invite Resident
-            </Button>
-          </div>
 
           {/* Search Bar */}
           <div className="bg-white rounded-card border border-ink-900/8 shadow-elev1 p-4">
@@ -363,15 +363,6 @@ export default function ResidentsPage() {
                             </span>
                           </div>
                         </div>
-
-                        {resident.emergencyContact && (
-                          <div className="p-3 bg-neutral-50 rounded-lg border border-neutral-200">
-                            <p className="text-caption font-medium text-ink-700 mb-1">Emergency Contact:</p>
-                            <p className="text-caption text-ink-600">
-                              {resident.emergencyContact.name} ({resident.emergencyContact.relationship}) - {resident.emergencyContact.phone}
-                            </p>
-                          </div>
-                        )}
                       </div>
 
                       {/* Actions */}
@@ -410,20 +401,12 @@ export default function ResidentsPage() {
                   <div className="text-center py-12">
                     <Users className="mx-auto text-neutral-400 mb-4" size={48} />
                     <h3 className="text-h3 font-medium text-ink-900 mb-2">No Residents Found</h3>
-                    <p className="text-body text-ink-600 mb-4">
+                    <p className="text-body text-ink-600">
                       {searchTerm 
                         ? 'Try adjusting your search criteria'
-                        : 'Add your first resident to get started'
+                        : 'Use the "Add Resident" button above to get started'
                       }
                     </p>
-                    {canEdit && !searchTerm && (
-                      <Link href="/dashboard/new-residents/registration">
-                        <Button variant="primary" className="flex items-center gap-2">
-                          <Plus size={16} />
-                          Add Resident
-                        </Button>
-                      </Link>
-                    )}
                   </div>
                 )}
               </div>
