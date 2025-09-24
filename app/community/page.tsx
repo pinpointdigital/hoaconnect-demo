@@ -125,7 +125,7 @@ const DEFAULT_COMMUNITY_DATA = {
       address: '32400 Paseo Adelanto, San Juan Capistrano, CA 92675',
       phone: '(949) 493-1171',
       website: 'sanjuancapistrano.org',
-      category: 'City Government'
+      category: 'Business Services'
     },
     {
       id: 'muni-2',
@@ -1041,7 +1041,7 @@ function MunicipalitiesTab({ municipalities, saveData, canEdit }) {
     address: '',
     phone: '',
     website: '',
-    category: 'City Government'
+    category: 'Business Services'
   });
 
   const saveMunicipality = () => {
@@ -1067,7 +1067,7 @@ function MunicipalitiesTab({ municipalities, saveData, canEdit }) {
       address: '',
       phone: '',
       website: '',
-      category: 'City Government'
+      category: 'Business Services'
     });
   };
 
@@ -1079,7 +1079,7 @@ function MunicipalitiesTab({ municipalities, saveData, canEdit }) {
       address: '',
       phone: '',
       website: '',
-      category: 'City Government'
+      category: 'Business Services'
     });
   };
 
@@ -1101,8 +1101,10 @@ function MunicipalitiesTab({ municipalities, saveData, canEdit }) {
 
       <div className="space-y-6">
         {/* Group by category */}
-        {['City Government', 'Police Services', 'Fire Services', 'Business Services'].map(category => {
-          const categoryItems = municipalities.filter(item => item.category === category);
+        {['Business Services', 'City Government', 'Fire Services', 'Police Services'].map(category => {
+          const categoryItems = municipalities
+            .filter(item => item.category === category)
+            .sort((a, b) => a.name.localeCompare(b.name));
           if (categoryItems.length === 0) return null;
 
           return (
@@ -1227,16 +1229,16 @@ function MunicipalitiesTab({ municipalities, saveData, canEdit }) {
               
               <div>
                 <label className="block text-body font-medium text-ink-700 mb-2">Category</label>
-                <select
-                  value={editingMunicipality.category}
-                  onChange={(e) => setEditingMunicipality(prev => ({ ...prev, category: e.target.value }))}
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-                >
-                  <option value="City Government">City Government</option>
-                  <option value="Police Services">Police Services</option>
-                  <option value="Fire Services">Fire Services</option>
-                  <option value="Business Services">Business Services</option>
-                </select>
+                  <select
+                    value={editingMunicipality.category}
+                    onChange={(e) => setEditingMunicipality(prev => ({ ...prev, category: e.target.value }))}
+                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                  >
+                    <option value="Business Services">Business Services</option>
+                    <option value="City Government">City Government</option>
+                    <option value="Fire Services">Fire Services</option>
+                    <option value="Police Services">Police Services</option>
+                  </select>
               </div>
             </div>
             
@@ -1299,16 +1301,16 @@ function MunicipalitiesTab({ municipalities, saveData, canEdit }) {
               
               <div>
                 <label className="block text-body font-medium text-ink-700 mb-2">Category</label>
-                <select
-                  value={newMunicipality.category}
-                  onChange={(e) => setNewMunicipality(prev => ({ ...prev, category: e.target.value }))}
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-                >
-                  <option value="City Government">City Government</option>
-                  <option value="Police Services">Police Services</option>
-                  <option value="Fire Services">Fire Services</option>
-                  <option value="Business Services">Business Services</option>
-                </select>
+                  <select
+                    value={newMunicipality.category}
+                    onChange={(e) => setNewMunicipality(prev => ({ ...prev, category: e.target.value }))}
+                    className="w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                  >
+                    <option value="Business Services">Business Services</option>
+                    <option value="City Government">City Government</option>
+                    <option value="Fire Services">Fire Services</option>
+                    <option value="Police Services">Police Services</option>
+                  </select>
               </div>
             </div>
             
