@@ -645,6 +645,32 @@ export default function DashboardPage() {
 
           </div>
 
+          {/* AI Video Assistant */}
+          {(currentRole === 'management-company' || currentRole === 'captain') && (
+            <div className="rounded-card border border-ink-900/8 bg-white shadow-elev1 p-6 mb-8">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center">
+                  <Bot className="text-white" size={20} />
+                </div>
+                <div>
+                  <h3 className="text-h3 font-semibold text-ink-900">AI Video Assistant</h3>
+                  <p className="text-caption text-ink-600">Powered by D-ID</p>
+                </div>
+              </div>
+              
+              <div 
+                id="hoa-ai-assistant" 
+                className="w-full h-[400px] bg-neutral-50 rounded-lg border border-neutral-200 flex items-center justify-center"
+              >
+                <div className="text-center text-neutral-500">
+                  <Bot size={48} className="mx-auto mb-4 opacity-50" />
+                  <p className="text-body">AI Video Assistant will load here</p>
+                  <p className="text-caption">Initializing...</p>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Image Upload Modal */}
           {showImageUploadModal && (
             <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">

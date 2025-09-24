@@ -35,6 +35,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script 
+          type="module"
+          src="https://agent.d-id.com/v2/index.js"
+          data-mode="full"
+          data-client-key="Z29vZ2xlLW9hdXRoMnwxMTcwMjYzNDk1OTI1MDc3MTk1MjQ6dkNtS2p0anVLRWlkXzJJTUc3Q3VM"
+          data-agent-id="v2_agt_KZeBzDbg"
+          data-name="did-agent"
+          data-monitor="true"
+          data-target-id="hoa-ai-assistant"
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
