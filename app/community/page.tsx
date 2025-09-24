@@ -225,9 +225,18 @@ export default function CommunityInfoPage() {
     const savedData = localStorage.getItem('community-info-data');
     if (savedData) {
       try {
-        setCommunityData(JSON.parse(savedData));
+        const parsedData = JSON.parse(savedData);
+        // Merge with default data to ensure new fields are included
+        setCommunityData({
+          ...DEFAULT_COMMUNITY_DATA,
+          ...parsedData,
+          schools: DEFAULT_COMMUNITY_DATA.schools, // Always use updated school data
+          municipalities: DEFAULT_COMMUNITY_DATA.municipalities,
+          utilities: DEFAULT_COMMUNITY_DATA.utilities
+        });
       } catch (error) {
         console.error('Error loading community data:', error);
+        setCommunityData(DEFAULT_COMMUNITY_DATA);
       }
     }
   }, []);
@@ -294,6 +303,16 @@ export default function CommunityInfoPage() {
           </div>
           <h1 className="text-3xl font-bold text-ink-900">HOA Community Info</h1>
         </div>
+        <Button
+          variant="outline"
+          onClick={() => {
+            localStorage.removeItem('community-info-data');
+            setCommunityData(DEFAULT_COMMUNITY_DATA);
+          }}
+          size="sm"
+        >
+          Reset Data
+        </Button>
       </div>
 
       {/* Tab Navigation - Consistent with ARC Management */}
@@ -704,11 +723,18 @@ function SchoolsTab({ schools, saveData, canEdit }) {
               {/* Website Thumbnail */}
               <div className="w-16 h-16 bg-neutral-100 rounded-lg border border-neutral-200 flex items-center justify-center flex-shrink-0">
                 {school.website ? (
-                  <iframe
-                    src={`https://${school.website}`}
-                    className="w-full h-full rounded-lg pointer-events-none"
-                    style={{ transform: 'scale(0.25)', transformOrigin: 'top left', width: '400%', height: '400%' }}
-                    title={`${school.name} website`}
+                  <img
+                    src={`https://www.google.com/s2/favicons?domain=${school.website}&sz=64`}
+                    alt={`${school.name} website`}
+                    className="w-8 h-8 object-contain"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                      const parent = target.parentElement;
+                      if (parent) {
+                        parent.innerHTML = '<svg class="w-5 h-5 text-neutral-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path></svg>';
+                      }
+                    }}
                   />
                 ) : (
                   <GraduationCap size={20} className="text-neutral-400" />
