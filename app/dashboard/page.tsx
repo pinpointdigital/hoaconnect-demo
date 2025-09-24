@@ -524,11 +524,11 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Medium Priority Alert */}
-                <div className="p-6 border border-neutral-200 rounded-lg hover:border-yellow-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+                <div className="p-6 border border-neutral-200 rounded-lg hover:border-green-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
                   <div className="flex items-start justify-between">
                     <div className="flex-1 min-w-0">
                       <h4 className="text-base font-semibold text-ink-900 mb-2">
-                        Neighbor sign-offs pending
+                        Message received from homeowner
                       </h4>
                       <p className="text-body font-medium text-ink-600 mb-1">
                         Sarah Johnson
@@ -543,7 +543,7 @@ export default function DashboardPage() {
                         1427 Oceanview Dr
                       </a>
                       <p className="text-sm font-medium" style={{ color: '#434343' }}>
-                        2 neighbors pending
+                        Reply requested
                       </p>
                     </div>
                     <Link href="/dashboard/arc-management/arc-002">
