@@ -28,6 +28,12 @@ interface EditableContent {
   communityDescription: string;
   primaryColor: string;
   secondaryColor: string;
+  highlights: {
+    highlight1: { title: string; description: string };
+    highlight2: { title: string; description: string };
+    highlight3: { title: string; description: string };
+    highlight4: { title: string; description: string };
+  };
   events: {
     boardMeeting: { title: string; date: string; image: string };
     fallCleanup: { title: string; date: string; image: string };
@@ -42,6 +48,12 @@ const defaultContent: EditableContent = {
   communityDescription: 'Rancho Madrina is a gated community located in San Juan Capistrano developed by the William Lyon Company that opened in 2006. The community sits within walking distance of the charm and historic make up of San Juan Capistrano\'s downtown with easy access to the (5) Fwy, (74) Ortega Hwy (74) and the (79) and (241) Toll Roads.',
   primaryColor: 'slate',
   secondaryColor: 'stone',
+  highlights: {
+    highlight1: { title: '120 Homes', description: 'Ten unique floor plans' },
+    highlight2: { title: 'Gated Community', description: 'Secure & private' },
+    highlight3: { title: 'Prime Location', description: 'Walk to downtown' },
+    highlight4: { title: 'Est. 2006', description: 'William Lyon Company' }
+  },
   events: {
     boardMeeting: {
       title: 'Board Meeting',
@@ -64,8 +76,8 @@ const defaultContent: EditableContent = {
 export default function PageEditor() {
   const [content, setContent] = useState<EditableContent>(defaultContent);
   const [isEditing, setIsEditing] = useState(false);
-  const [showPreview, setShowPreview] = useState(true);
-  const [activeTab, setActiveTab] = useState<'content' | 'design' | 'events'>('content');
+  const [showPreview] = useState(true);
+  const [activeTab, setActiveTab] = useState<'content' | 'design' | 'highlights' | 'events'>('content');
   const [imagePreview, setImagePreview] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -133,13 +145,6 @@ export default function PageEditor() {
               </button>
             </Link>
             
-            <button
-              onClick={() => setShowPreview(!showPreview)}
-              className="flex items-center space-x-2 px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
-            >
-              {showPreview ? <EyeOff size={16} /> : <Eye size={16} />}
-              <span>{showPreview ? 'Hide' : 'Show'} Preview</span>
-            </button>
             
             <button
               onClick={saveContent}
@@ -169,6 +174,7 @@ export default function PageEditor() {
               {[
                 { id: 'content', label: 'Content', icon: <Type size={16} /> },
                 { id: 'design', label: 'Design', icon: <Palette size={16} /> },
+                { id: 'highlights', label: 'Highlights', icon: <Settings size={16} /> },
                 { id: 'events', label: 'Events', icon: <Calendar size={16} /> }
               ].map((tab) => (
                 <button
@@ -215,14 +221,51 @@ export default function PageEditor() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Hero Image URL
+                    Hero Image
+                    <span className="text-xs text-gray-500 ml-2">(Recommended: 1200x400px)</span>
                   </label>
-                  <input
-                    type="url"
-                    value={content.heroImage}
-                    onChange={(e) => updateContent('heroImage', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
+                  <div className="space-y-3">
+                    <input
+                      type="url"
+                      value={content.heroImage}
+                      onChange={(e) => updateContent('heroImage', e.target.value)}
+                      placeholder="Enter image URL..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                    <div className="text-center">
+                      <span className="text-xs text-gray-500">or</span>
+                    </div>
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onload = (event) => {
+                            const result = event.target?.result as string;
+                            updateContent('heroImage', result);
+                            setImagePreview(result);
+                          };
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                      className="hidden"
+                    />
+                    <button
+                      onClick={() => fileInputRef.current?.click()}
+                      className="w-full px-4 py-2 border-2 border-dashed border-gray-300 rounded-lg hover:border-gray-400 transition-colors flex items-center justify-center space-x-2"
+                    >
+                      <ImageIcon size={16} />
+                      <span>Upload Image</span>
+                    </button>
+                    {imagePreview && (
+                      <div className="mt-2">
+                        <img src={imagePreview} alt="Preview" className="w-full h-20 object-cover rounded border" />
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 <div>
@@ -236,6 +279,50 @@ export default function PageEditor() {
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
+              </div>
+            )}
+
+            {/* Highlights Tab */}
+            {activeTab === 'highlights' && (
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-4">Community Highlights</h3>
+                  <p className="text-sm text-gray-600 mb-6">Edit the four feature cards that showcase your community's key attributes.</p>
+                </div>
+                
+                {Object.entries(content.highlights).map(([key, highlight]) => (
+                  <div key={key} className="p-4 border border-gray-200 rounded-lg">
+                    <h4 className="font-medium text-gray-900 mb-3">
+                      Highlight {key.slice(-1)}
+                    </h4>
+                    
+                    <div className="space-y-3">
+                      <div>
+                        <label className="block text-xs font-medium text-gray-600 mb-1">
+                          Title
+                        </label>
+                        <input
+                          type="text"
+                          value={highlight.title}
+                          onChange={(e) => updateContent(`highlights.${key}.title`, e.target.value)}
+                          className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-transparent"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-xs font-medium text-gray-600 mb-1">
+                          Description
+                        </label>
+                        <input
+                          type="text"
+                          value={highlight.description}
+                          onChange={(e) => updateContent(`highlights.${key}.description`, e.target.value)}
+                          className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-transparent"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
 
@@ -496,9 +583,19 @@ export default function PageEditor() {
                       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                         <div>
                           <h2 className="text-xl font-bold text-gray-900 mb-4">About Our Community</h2>
-                          <p className="text-sm text-gray-700 leading-relaxed">
+                          <p className="text-sm text-gray-700 leading-relaxed mb-6">
                             {content.communityDescription}
                           </p>
+                          
+                          {/* Community Highlights Preview */}
+                          <div className="grid grid-cols-2 gap-3">
+                            {Object.entries(content.highlights).map(([key, highlight]) => (
+                              <div key={key} className="bg-amber-50 p-3 rounded-lg border border-amber-200">
+                                <h4 className="font-semibold text-gray-900 text-sm mb-1">{highlight.title}</h4>
+                                <p className="text-xs text-gray-600">{highlight.description}</p>
+                              </div>
+                            ))}
+                          </div>
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                           <div className="bg-white rounded-lg shadow-sm h-24"></div>
