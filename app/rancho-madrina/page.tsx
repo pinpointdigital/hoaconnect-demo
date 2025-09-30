@@ -792,16 +792,17 @@ export default function RanchoMadrinaPublicSite() {
 
         /* Handwritten welcome styling */
         .handwritten-welcome {
-          font-family: 'Pacifico', 'Kalam', 'Caveat', cursive;
-          font-size: 2.5rem;
-          color: #0891b2;
+          font-family: 'Caveat', 'Kalam', cursive;
+          font-size: 1.75rem;
+          color: #64748b;
           font-weight: 400;
-          letter-spacing: 0.5px;
+          letter-spacing: 0.25px;
+          opacity: 0.8;
         }
 
         @media (min-width: 768px) {
           .handwritten-welcome {
-            font-size: 3.5rem;
+            font-size: 2.25rem;
           }
         }
       `}</style>
