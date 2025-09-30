@@ -88,7 +88,7 @@ export default function RanchoMadrinaPublicSite() {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <div className="flex items-center">
-              <span className="font-bold text-xl text-gray-900">Rancho Madrina</span>
+              <span className="font-bold text-xl text-gray-900">Rancho Madrina Community</span>
             </div>
 
             {/* Desktop Navigation */}
@@ -134,6 +134,21 @@ export default function RanchoMadrinaPublicSite() {
                   )}
                 </div>
               ))}
+              
+              {/* CTA Buttons */}
+              <div className="flex items-center space-x-3 ml-4">
+                <Link href="/dashboard/new-residents/registration">
+                  <button className="px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-sm font-medium rounded-lg hover:from-amber-600 hover:to-orange-600 transition-all duration-200 shadow-sm hover:shadow-md">
+                    Community Registration
+                  </button>
+                </Link>
+                
+                <Link href="/dashboard?role=captain">
+                  <button className="px-4 py-2 bg-gradient-to-r from-slate-600 to-blue-700 text-white text-sm font-medium rounded-lg hover:from-slate-700 hover:to-blue-800 transition-all duration-200 shadow-sm hover:shadow-md">
+                    Owner Login
+                  </button>
+                </Link>
+              </div>
             </div>
 
             {/* Mobile Menu Button */}
@@ -151,18 +166,47 @@ export default function RanchoMadrinaPublicSite() {
           <div className="md:hidden bg-white border-t border-gray-200">
             <div className="px-4 py-2 space-y-1">
               {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className={`block w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    activeSection === item.id 
-                      ? 'bg-amber-50 text-amber-600' 
-                      : 'text-gray-700 hover:bg-amber-50'
-                  }`}
-                >
-                  {item.label}
-                </button>
+                <div key={item.id}>
+                  <button
+                    onClick={() => scrollToSection(item.id)}
+                    className={`block w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                      activeSection === item.id 
+                        ? 'bg-teal-50 text-teal-600' 
+                        : 'text-gray-700 hover:bg-teal-50'
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                  {item.submenu && (
+                    <div className="ml-4 mt-1 space-y-1">
+                      {item.submenu.map((subItem) => (
+                        <button
+                          key={subItem.id}
+                          onClick={() => scrollToSection(subItem.id)}
+                          className="block w-full text-left px-3 py-1 text-xs text-gray-600 hover:text-teal-600 transition-colors"
+                        >
+                          {subItem.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))}
+              
+              {/* Mobile CTA Buttons */}
+              <div className="pt-4 space-y-2 border-t border-gray-200 mt-4">
+                <Link href="/dashboard/new-residents/registration">
+                  <button className="w-full px-4 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-sm font-medium rounded-lg hover:from-amber-600 hover:to-orange-600 transition-all duration-200">
+                    Community Registration
+                  </button>
+                </Link>
+                
+                <Link href="/dashboard?role=captain">
+                  <button className="w-full px-4 py-3 bg-gradient-to-r from-slate-600 to-blue-700 text-white text-sm font-medium rounded-lg hover:from-slate-700 hover:to-blue-800 transition-all duration-200">
+                    Owner Login
+                  </button>
+                </Link>
+              </div>
             </div>
           </div>
         )}
@@ -173,7 +217,7 @@ export default function RanchoMadrinaPublicSite() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 pt-8">
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 animate-fade-in">
-              Welcome to Rancho Madrina Community Association
+              Welcome to Rancho Madrina Community
             </h1>
           </div>
 
@@ -193,7 +237,7 @@ export default function RanchoMadrinaPublicSite() {
                       <div class="w-full h-96 bg-gradient-to-br from-amber-100 via-orange-100 to-red-100 rounded-2xl shadow-2xl flex items-center justify-center">
                         <div class="text-center">
                           <div class="text-6xl mb-4">🏘️</div>
-                          <h2 class="text-2xl font-bold text-gray-800">Rancho Madrina</h2>
+                          <h2 class="text-2xl font-bold text-gray-800">Rancho Madrina Community</h2>
                           <p class="text-gray-600">Gated Community Entrance</p>
                         </div>
                       </div>
