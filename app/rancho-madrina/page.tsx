@@ -215,7 +215,7 @@ export default function RanchoMadrinaPublicSite() {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <img
-                  src="/demo/rancho-madrina-photo-1.jpg"
+                  src="/demo/rancho-madrina-photos/rancho-madrina-photo-1.jpg"
                   alt="Rancho Madrina Community View"
                   className="w-full h-40 object-cover rounded-lg shadow-lg"
                   onError={(e) => {
@@ -224,7 +224,7 @@ export default function RanchoMadrinaPublicSite() {
                   }}
                 />
                 <img
-                  src="/demo/rancho-madrina-hoa-photo-2.jpg"
+                  src="/demo/rancho-madrina-photos/rancho-madrina-hoa-photo-2.jpg"
                   alt="Rancho Madrina Homes"
                   className="w-full h-40 object-cover rounded-lg shadow-lg"
                   onError={(e) => {
@@ -234,7 +234,7 @@ export default function RanchoMadrinaPublicSite() {
                 />
               </div>
               <img
-                src="/demo/rancho-madrina-hoa-photo-3.jpg"
+                src="/demo/rancho-madrina-photos/rancho-madrina-hoa-photo-3.jpg"
                 alt="Rancho Madrina Community Features"
                 className="w-full h-48 object-cover rounded-lg shadow-lg"
                 onError={(e) => {
@@ -257,12 +257,11 @@ export default function RanchoMadrinaPublicSite() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { src: '/demo/rancho-madrina-hoa-photo.jpg', alt: 'Community Entrance', title: 'Gated Entrance' },
-              { src: '/demo/rancho-madrina-photo-1.jpg', alt: 'Community Streets', title: 'Tree-Lined Streets' },
-              { src: '/demo/rancho-madrina-hoa-photo-2.jpg', alt: 'Community Homes', title: 'Beautiful Homes' },
-              { src: '/demo/rancho-madrina-hoa-photo-3.jpg', alt: 'Community Amenities', title: 'Community Features' },
-              { src: '/demo/rancho-madrina-hoa-photo.jpg', alt: 'Landscape', title: 'Mature Landscaping' },
-              { src: '/demo/rancho-madrina-photo-1.jpg', alt: 'Neighborhood', title: 'Quiet Neighborhoods' }
+              { src: '/demo/rancho-madrina-photos/rancho-madrina-photo-4.jpg', alt: 'Community Streets', title: 'Tree-Lined Streets' },
+              { src: '/demo/rancho-madrina-photos/rancho-madrina-photo-5.jpg', alt: 'Community Homes', title: 'Beautiful Homes' },
+              { src: '/demo/rancho-madrina-photos/rancho-madrina-photo-6.jpg', alt: 'Community Amenities', title: 'Community Features' },
+              { src: '/demo/rancho-madrina-photos/rancho-madrina-photo-7.jpg', alt: 'Landscape', title: 'Mature Landscaping' },
+              { src: '/demo/rancho-madrina-photos/rancho-madrina-photo-8.png', alt: 'Neighborhood', title: 'Quiet Neighborhoods' }
             ].map((photo, index) => (
               <div key={index} className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500">
                 <img
