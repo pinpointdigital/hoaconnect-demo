@@ -16,6 +16,7 @@ import {
   Menu,
   X,
   ChevronRight,
+  ChevronDown,
   School,
   Zap,
   Car
@@ -93,15 +94,45 @@ export default function RanchoMadrinaPublicSite() {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
               {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className={`text-sm font-medium transition-colors hover:text-amber-600 ${
-                    activeSection === item.id ? 'text-amber-600' : 'text-gray-700'
-                  }`}
-                >
-                  {item.label}
-                </button>
+                <div key={item.id} className="relative group">
+                  {item.submenu ? (
+                    <>
+                      <button
+                        onClick={() => scrollToSection(item.id)}
+                        className={`flex items-center gap-1 text-sm font-medium transition-colors hover:text-teal-600 ${
+                          activeSection === item.id ? 'text-teal-600' : 'text-gray-700'
+                        }`}
+                      >
+                        {item.label}
+                        <ChevronDown size={14} className="transition-transform group-hover:rotate-180" />
+                      </button>
+                      
+                      {/* Submenu */}
+                      <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                        <div className="py-2">
+                          {item.submenu.map((subItem) => (
+                            <button
+                              key={subItem.id}
+                              onClick={() => scrollToSection(subItem.id)}
+                              className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
+                            >
+                              {subItem.label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <button
+                      onClick={() => scrollToSection(item.id)}
+                      className={`text-sm font-medium transition-colors hover:text-teal-600 ${
+                        activeSection === item.id ? 'text-teal-600' : 'text-gray-700'
+                      }`}
+                    >
+                      {item.label}
+                    </button>
+                  )}
+                </div>
               ))}
             </div>
 
@@ -790,19 +821,18 @@ export default function RanchoMadrinaPublicSite() {
           perspective: 1000px;
         }
 
-        /* Handwritten welcome styling */
+        /* Welcome text styling */
         .handwritten-welcome {
-          font-family: 'Caveat', 'Kalam', cursive;
-          font-size: 1.75rem;
+          font-family: inherit;
+          font-size: 1.5rem;
           color: #64748b;
           font-weight: 400;
-          letter-spacing: 0.25px;
           opacity: 0.8;
         }
 
         @media (min-width: 768px) {
           .handwritten-welcome {
-            font-size: 2.25rem;
+            font-size: 1.875rem;
           }
         }
       `}</style>
