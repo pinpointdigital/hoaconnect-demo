@@ -441,12 +441,18 @@ export default function RanchoMadrinaPublicSite() {
         </div>
       </section>
 
-      {/* Financial Information */}
+      {/* Financial Information - Start of unified background */}
       <section 
         id="financial" 
-        className={`py-20 bg-gray-50 transition-all duration-1000 ${
+        className={`py-20 bg-gray-50 relative overflow-hidden transition-all duration-1000 ${
           visibleSections.has('financial') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
+        style={{
+          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.90)), url('/demo/rancho-madrina-photos/rancho-madrina-photo-4.jpg')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
+        }}
       >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -475,14 +481,14 @@ export default function RanchoMadrinaPublicSite() {
         </div>
       </section>
 
-      {/* Schools Section */}
+      {/* Schools Section - Unified background continues */}
       <section 
         id="schools" 
         className={`py-20 bg-white relative overflow-hidden transition-all duration-1000 ${
           visibleSections.has('schools') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
         style={{
-          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.85)), url('/demo/rancho-madrina-photos/rancho-madrina-photo-4.jpg')`,
+          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.90)), url('/demo/rancho-madrina-photos/rancho-madrina-photo-4.jpg')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed'
@@ -571,7 +577,7 @@ export default function RanchoMadrinaPublicSite() {
           visibleSections.has('utilities') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
         style={{
-          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.82)), url('/demo/rancho-madrina-photos/rancho-madrina-photo-5.jpg')`,
+          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.90)), url('/demo/rancho-madrina-photos/rancho-madrina-photo-4.jpg')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed'
@@ -642,7 +648,7 @@ export default function RanchoMadrinaPublicSite() {
           visibleSections.has('documents') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
         style={{
-          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0.86)), url('/demo/rancho-madrina-photos/rancho-madrina-photo-8.png')`,
+          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.90)), url('/demo/rancho-madrina-photos/rancho-madrina-photo-4.jpg')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed'
