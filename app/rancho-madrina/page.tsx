@@ -428,7 +428,7 @@ export default function RanchoMadrinaPublicSite() {
                   <img
                     src="/demo/rancho-madrina-photos/rancho-madrina-photo-1.jpg"
                     alt="Rancho Madrina Community View"
-                    className="w-full h-40 object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-52 object-cover group-hover:scale-110 transition-transform duration-500"
                     onError={(e) => {
                       const target = e.currentTarget;
                       target.style.display = 'none';
@@ -439,7 +439,7 @@ export default function RanchoMadrinaPublicSite() {
                   <img
                     src="/demo/rancho-madrina-photos/rancho-madrina-hoa-photo-2.jpg"
                     alt="Rancho Madrina Homes"
-                    className="w-full h-40 object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-52 object-cover group-hover:scale-110 transition-transform duration-500"
                     onError={(e) => {
                       const target = e.currentTarget;
                       target.style.display = 'none';
@@ -451,7 +451,7 @@ export default function RanchoMadrinaPublicSite() {
                 <img
                   src="/demo/rancho-madrina-photos/rancho-madrina-hoa-photo-3.jpg"
                   alt="Rancho Madrina Community Features"
-                  className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
+                  className="w-full h-60 object-cover group-hover:scale-110 transition-transform duration-500"
                   onError={(e) => {
                     const target = e.currentTarget;
                     target.style.display = 'none';
