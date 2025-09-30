@@ -424,34 +424,40 @@ export default function RanchoMadrinaPublicSite() {
             {/* Community Photos */}
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
+                <div className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
+                  <img
+                    src="/demo/rancho-madrina-photos/rancho-madrina-photo-1.jpg"
+                    alt="Rancho Madrina Community View"
+                    className="w-full h-40 object-cover group-hover:scale-110 transition-transform duration-500"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      target.style.display = 'none';
+                    }}
+                  />
+                </div>
+                <div className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
+                  <img
+                    src="/demo/rancho-madrina-photos/rancho-madrina-hoa-photo-2.jpg"
+                    alt="Rancho Madrina Homes"
+                    className="w-full h-40 object-cover group-hover:scale-110 transition-transform duration-500"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      target.style.display = 'none';
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
                 <img
-                  src="/demo/rancho-madrina-photos/rancho-madrina-photo-1.jpg"
-                  alt="Rancho Madrina Community View"
-                  className="w-full h-40 object-cover rounded-lg shadow-lg"
-                  onError={(e) => {
-                    const target = e.currentTarget;
-                    target.style.display = 'none';
-                  }}
-                />
-                <img
-                  src="/demo/rancho-madrina-photos/rancho-madrina-hoa-photo-2.jpg"
-                  alt="Rancho Madrina Homes"
-                  className="w-full h-40 object-cover rounded-lg shadow-lg"
+                  src="/demo/rancho-madrina-photos/rancho-madrina-hoa-photo-3.jpg"
+                  alt="Rancho Madrina Community Features"
+                  className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
                   onError={(e) => {
                     const target = e.currentTarget;
                     target.style.display = 'none';
                   }}
                 />
               </div>
-              <img
-                src="/demo/rancho-madrina-photos/rancho-madrina-hoa-photo-3.jpg"
-                alt="Rancho Madrina Community Features"
-                className="w-full h-48 object-cover rounded-lg shadow-lg"
-                onError={(e) => {
-                  const target = e.currentTarget;
-                  target.style.display = 'none';
-                }}
-              />
             </div>
           </div>
         </div>
