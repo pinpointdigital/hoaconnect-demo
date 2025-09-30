@@ -289,7 +289,7 @@ export default function RanchoMadrinaPublicSite() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* Board Meeting */}
               <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200 hover:shadow-md transition-shadow cursor-pointer" onClick={() => setShowAgenda(true)}>
-                <div className="h-32 relative">
+                <div className="h-48 relative">
                   <img
                     src="https://www.cmhoa.com/wp-content/uploads/2019/08/hoa-board-meetings-types-Planning-and-purpose.jpeg"
                     alt="HOA Board Meeting"
@@ -311,14 +311,17 @@ export default function RanchoMadrinaPublicSite() {
                   />
                 </div>
                 <div className="p-4">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Board Meeting</h3>
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="text-lg font-semibold text-gray-900">Board Meeting</h3>
+                    <ExternalLink className="text-slate-400 hover:text-slate-600 transition-colors" size={16} />
+                  </div>
                   <p className="text-sm text-slate-600">November 20, 2024 • 7:00 PM</p>
                 </div>
               </div>
 
               {/* HOA Fall Cleanup */}
               <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
-                <div className="h-32 relative">
+                <div className="h-48 relative">
                   <img
                     src="https://pristinelandscapingandlighting.com/wp-content/uploads/2024/07/HOA-Lawn-Care.jpeg"
                     alt="HOA Fall Cleanup - Lawn Care Service"
@@ -345,7 +348,7 @@ export default function RanchoMadrinaPublicSite() {
 
               {/* Pool Maintenance */}
               <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
-                <div className="h-32 relative">
+                <div className="h-48 relative">
                   <img
                     src="https://www.familypoolmaintenance.com/wp-content/uploads/2020/08/pool-cleaning-service.jpg"
                     alt="Pool Maintenance Service"
