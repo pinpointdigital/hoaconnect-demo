@@ -7,3 +7,4 @@ export default function CommunityLayout({
 }) {
   return <DashboardLayout>{children}</DashboardLayout>;
 }
+

@@ -544,9 +544,9 @@ export default function Home() {
         {/* Content */}
         <div className="relative min-h-screen flex items-center justify-center px-4 py-16" style={{ zIndex: 3 }}>
           <div className="text-center">
-            {/* Main Content Card - Enlarged for Rancho Madrina */}
+            {/* Main Content Card */}
             <div 
-              className="rounded-2xl p-8 md:p-12 max-w-3xl mx-auto"
+              className="rounded-2xl p-8 md:p-12 max-w-lg mx-auto"
               style={{ 
                 backgroundColor: 'rgba(255, 255, 255, 0.8)',
                 backdropFilter: 'blur(4px)',
@@ -555,139 +555,65 @@ export default function Home() {
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.05)'
               }}
             >
-              {/* Welcome Title - Editable */}
-              <div className="text-center mb-6">
-                <h1 className="text-3xl font-bold text-gray-900 mb-4">
-                  Welcome to Rancho Madrina Community Association!
-                </h1>
+              {/* HOA Connect Logo */}
+              <div className="mb-6">
+                <img
+                  src="/hoa-connect-logo.png"
+                  alt="HOA Connect"
+                  className="h-8 w-auto mx-auto"
+                />
               </div>
+              
+              {/* HOA Name */}
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                {hoaInfo.name}
+              </h1>
+              <p className="text-gray-600 mb-8">
+                {hoaInfo.address.city}, {hoaInfo.address.state}
+              </p>
 
-              {/* Community Image - Editable */}
-              <div className="text-center mb-6">
-                <div className="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center mb-4">
-                  <img
-                    src="/community-images/rancho-madrina-community.jpg"
-                    alt="Rancho Madrina Community"
-                    className="w-full h-full object-cover rounded-lg"
-                    onError={(e) => {
-                      // Fallback placeholder
-                      const target = e.currentTarget;
-                      target.style.display = 'none';
-                      const parent = target.parentElement;
-                      if (parent) {
-                        parent.innerHTML = `
-                          <div class="w-full h-48 bg-gradient-to-br from-blue-100 to-green-100 rounded-lg flex items-center justify-center">
-                            <div class="text-center">
-                              <div class="text-4xl mb-2">🏘️</div>
-                              <p class="text-gray-600">Rancho Madrina Community</p>
-                            </div>
-                          </div>
-                        `;
-                      }
-                    }}
-                  />
-                </div>
-              </div>
-
-              {/* Community Description - Editable */}
-              <div className="text-center mb-8">
-                <p className="text-gray-700 leading-relaxed text-sm">
-                  Rancho Madrina is a gated community located in San Juan Capistrano developed by the William Lyon Company that opened in 2006. The community sits within walking distance of the charm and historic make up of San Juan Capistrano's downtown with easy access to the (5) Fwy, (74) Ortega Hwy (74) and the (79) and (241) Toll Roads. The community consists of 120 homes featuring ten (10) floor plans and is surrounded by a number of elite private and public institutions making it a most desirable place to call home.
-                </p>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="grid grid-cols-1 gap-3 mb-8">
-                <Link href="/community">
-                  <Button 
-                    variant="primary"
-                    className="w-full flex items-center justify-center gap-2 py-3 font-medium"
-                  >
-                    <HomeIcon size={16} />
-                    Community Information
+              {/* New Resident Registration - Prominent */}
+              <div className="mb-8">
+                <Link href="/dashboard/new-residents">
+                  <Button size="lg" className="w-full flex items-center justify-center gap-2 py-4 text-lg font-semibold">
+                    <UserPlus size={20} />
+                    New Resident Registration
                   </Button>
                 </Link>
-                
-                <Link href="/dashboard/new-residents/registration">
+              </div>
+
+              {/* Other Portals */}
+              <div className="grid grid-cols-2 gap-4 mb-8">
+                <Link href="/dashboard?role=homeowner">
                   <Button 
-                    variant="primary"
-                    className="w-full flex items-center justify-center gap-2 py-3 font-medium"
+                    variant="secondary" 
+                    className="w-full flex items-center justify-center gap-2 py-3 font-medium whitespace-nowrap"
                   >
-                    <UserPlus size={16} />
-                    Community Registration
+                    <User size={16} />
+                    Homeowner Portal
                   </Button>
                 </Link>
                 
                 <Link href="/dashboard?role=captain">
                   <Button 
-                    variant="secondary"
+                    variant="secondary" 
                     className="w-full flex items-center justify-center gap-2 py-3 font-medium whitespace-nowrap"
                   >
                     <Building size={16} />
-                    Owner Login
+                    HOA Login
                   </Button>
                 </Link>
               </div>
 
-              {/* Management Company Info */}
-              <div className="text-center text-gray-700 mb-6 p-4 bg-gray-50 rounded-lg">
-                <p className="font-semibold text-sm mb-2">Managed By: Seabreeze Management</p>
-                <p className="text-xs leading-relaxed">
-                  26840 Aliso Viejo Parkway, Suite 100<br />
-                  Aliso Viejo, CA 92636<br />
-                  800.232.7517<br />
-                  <a href="https://seabreezemgnt.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 transition-colors">
-                    seabreezemgnt.com
-                  </a>
-                </p>
-              </div>
-
-              {/* Next Meeting Info */}
-              <div className="text-center text-gray-700 mb-6 p-3 bg-blue-50 rounded-lg border border-blue-200">
-                <p className="text-sm font-medium mb-1">
-                  Next Meeting: October 15, 2024 at 7:00 PM
-                </p>
-                <button className="text-sm text-blue-600 hover:text-blue-800 hover:underline transition-colors">
-                  Click here for agenda
-                </button>
-              </div>
-
-              {/* Powered by HOA Connect */}
-              <div className="text-center mb-4">
-                <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
-                  <span>Powered by</span>
-                  <img
-                    src="/hoa-connect-logo.png"
-                    alt="HOA Connect"
-                    className="h-4 w-auto"
-                    onError={(e) => {
-                      const target = e.currentTarget;
-                      target.style.display = 'none';
-                      const parent = target.parentElement;
-                      if (parent) {
-                        const span = document.createElement('span');
-                        span.className = 'font-semibold text-blue-600';
-                        span.textContent = 'HOA Connect';
-                        parent.appendChild(span);
-                      }
-                    }}
-                  />
-                </div>
-              </div>
-
-              {/* Version Toggle - Hidden but accessible */}
-              <div className="text-center">
-                <button
-                  onClick={() => {
-                    if (confirm('Switch back to Sample HOA version?')) {
-                      // This would trigger a version switch - for now just reload
-                      window.location.reload();
-                    }
-                  }}
-                  className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
-                >
-                  Switch to Sample HOA
-                </button>
+              {/* HOA President Contact */}
+              <div className="text-center text-gray-700">
+                <p className="font-semibold text-lg">{hoaInfo.admin.name}, HOA President</p>
+                {hoaInfo.admin.email && (
+                  <p className="text-sm">{hoaInfo.admin.email}</p>
+                )}
+                {hoaInfo.admin.phone && (
+                  <p className="text-sm">{hoaInfo.admin.phone}</p>
+                )}
               </div>
             </div>
 

@@ -7,3 +7,4 @@ export default function VendorsLayout({
 }) {
   return <DashboardLayout>{children}</DashboardLayout>;
 }
+

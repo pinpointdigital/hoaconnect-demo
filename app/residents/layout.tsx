@@ -7,3 +7,4 @@ export default function ResidentsLayout({
 }) {
   return <DashboardLayout>{children}</DashboardLayout>;
 }
+
