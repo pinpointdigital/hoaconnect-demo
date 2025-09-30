@@ -56,10 +56,7 @@ export default function RanchoMadrinaPublicSite() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                <HomeIcon className="text-blue-600" size={20} />
-              </div>
+            <div className="flex items-center">
               <span className="font-bold text-xl text-gray-900">Rancho Madrina</span>
             </div>
 
@@ -69,8 +66,8 @@ export default function RanchoMadrinaPublicSite() {
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`text-sm font-medium transition-colors hover:text-blue-600 ${
-                    activeSection === item.id ? 'text-blue-600' : 'text-gray-700'
+                  className={`text-sm font-medium transition-colors hover:text-amber-600 ${
+                    activeSection === item.id ? 'text-amber-600' : 'text-gray-700'
                   }`}
                 >
                   {item.label}
@@ -98,8 +95,8 @@ export default function RanchoMadrinaPublicSite() {
                   onClick={() => scrollToSection(item.id)}
                   className={`block w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                     activeSection === item.id 
-                      ? 'bg-blue-50 text-blue-600' 
-                      : 'text-gray-700 hover:bg-gray-50'
+                      ? 'bg-amber-50 text-amber-600' 
+                      : 'text-gray-700 hover:bg-amber-50'
                   }`}
                 >
                   {item.label}
@@ -111,11 +108,11 @@ export default function RanchoMadrinaPublicSite() {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="pt-16 pb-20 bg-gradient-to-br from-blue-50 to-green-50">
+      <section id="home" className="pt-16 pb-20 bg-gradient-to-br from-amber-50 to-orange-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 animate-fade-in">
-              Welcome to Rancho Madrina Community Association!
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 animate-fade-in">
+              Welcome to Rancho Madrina Community Association
             </h1>
           </div>
 
@@ -123,7 +120,7 @@ export default function RanchoMadrinaPublicSite() {
           <div className="mb-12 animate-slide-up">
             <div className="max-w-4xl mx-auto">
               <img
-                src="/rancho-madrina-entrance.jpg"
+                src="/demo/rancho-madrina-hoa-photo.jpg"
                 alt="Rancho Madrina Community Entrance"
                 className="w-full h-96 object-cover rounded-2xl shadow-2xl"
                 onError={(e) => {
@@ -150,26 +147,26 @@ export default function RanchoMadrinaPublicSite() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 animate-fade-in-up">
             <button
               onClick={() => scrollToSection('about')}
-              className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+              className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-amber-100"
             >
-              <HomeIcon className="text-blue-600 mb-4 mx-auto" size={32} />
+              <HomeIcon className="text-amber-600 mb-4 mx-auto" size={32} />
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Community Information</h3>
               <p className="text-gray-600 text-sm">Learn about our community amenities and lifestyle</p>
             </button>
 
             <Link href="/dashboard/new-residents/registration">
-              <button className="bg-blue-600 text-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full">
+              <button className="bg-amber-600 text-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full">
                 <Users className="text-white mb-4 mx-auto" size={32} />
                 <h3 className="text-lg font-semibold mb-2">Community Registration</h3>
-                <p className="text-blue-100 text-sm">New residents start here</p>
+                <p className="text-amber-100 text-sm">New residents start here</p>
               </button>
             </Link>
 
             <Link href="/dashboard?role=captain">
-              <button className="bg-gray-800 text-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full">
+              <button className="bg-stone-700 text-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full">
                 <Building className="text-white mb-4 mx-auto" size={32} />
                 <h3 className="text-lg font-semibold mb-2">Owner Login</h3>
-                <p className="text-gray-300 text-sm">Access your resident portal</p>
+                <p className="text-stone-200 text-sm">Access your resident portal</p>
               </button>
             </Link>
           </div>
@@ -211,14 +208,14 @@ export default function RanchoMadrinaPublicSite() {
                     <p>26840 Aliso Viejo Parkway, Suite 100</p>
                     <p>Aliso Viejo, CA 92636</p>
                     <div className="flex items-center justify-center gap-2 mt-4">
-                      <Phone size={16} className="text-blue-600" />
-                      <a href="tel:8002327517" className="text-blue-600 hover:text-blue-800 transition-colors">
+                      <Phone size={16} className="text-amber-600" />
+                      <a href="tel:8002327517" className="text-amber-600 hover:text-amber-800 transition-colors">
                         800.232.7517
                       </a>
                     </div>
                     <div className="flex items-center justify-center gap-2">
-                      <ExternalLink size={16} className="text-blue-600" />
-                      <a href="https://seabreezemgnt.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 transition-colors">
+                      <ExternalLink size={16} className="text-amber-600" />
+                      <a href="https://seabreezemgnt.com" target="_blank" rel="noopener noreferrer" className="text-amber-600 hover:text-amber-800 transition-colors">
                         seabreezemgnt.com
                       </a>
                     </div>
@@ -230,8 +227,8 @@ export default function RanchoMadrinaPublicSite() {
                   <div className="text-center">
                     <p className="text-xl font-semibold text-gray-900">Mike Canning</p>
                     <div className="flex items-center justify-center gap-2 mt-2">
-                      <Mail size={16} className="text-blue-600" />
-                      <a href="mailto:mike.canning@seabreezemgnt.com" className="text-blue-600 hover:text-blue-800 transition-colors">
+                      <Mail size={16} className="text-amber-600" />
+                      <a href="mailto:mike.canning@seabreezemgnt.com" className="text-amber-600 hover:text-amber-800 transition-colors">
                         mike.canning@seabreezemgnt.com
                       </a>
                     </div>
@@ -250,9 +247,9 @@ export default function RanchoMadrinaPublicSite() {
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Board Meetings</h2>
           </div>
           
-          <div className="bg-blue-50 rounded-2xl p-8 border border-blue-200">
+              <div className="bg-amber-50 rounded-2xl p-8 border border-amber-200">
             <div className="text-center">
-              <Calendar className="text-blue-600 mb-4 mx-auto" size={48} />
+              <Calendar className="text-amber-600 mb-4 mx-auto" size={48} />
               <h3 className="text-xl font-bold text-gray-900 mb-4">Meeting Schedule</h3>
               <p className="text-gray-700 mb-6">Third Wednesday of every other month</p>
               
@@ -262,7 +259,7 @@ export default function RanchoMadrinaPublicSite() {
                   <p>Seabreeze Management</p>
                   <p>26840 Aliso Viejo Parkway, Ste. 100</p>
                   <p>Aliso Viejo, CA 92656</p>
-                  <p className="text-sm text-blue-600 mt-2">Or by Zoom</p>
+                  <p className="text-sm text-amber-600 mt-2">Or by Zoom</p>
                 </div>
               </div>
               
@@ -328,10 +325,10 @@ export default function RanchoMadrinaPublicSite() {
               { name: 'St Margaret\'s Episcopal School', type: 'Private School', grades: 'K-12' },
               { name: 'Capistrano Valley Christian School', type: 'Private School', grades: 'K-12' }
             ].map((school, index) => (
-              <div key={index} className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
-                <School className="text-blue-600 mb-4" size={24} />
+              <div key={index} className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-amber-100">
+                <School className="text-amber-600 mb-4" size={24} />
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">{school.name}</h3>
-                <p className="text-blue-600 text-sm mb-1">{school.type}</p>
+                <p className="text-amber-600 text-sm mb-1">{school.type}</p>
                 <p className="text-gray-600 text-sm">Grades {school.grades}</p>
               </div>
             ))}
@@ -378,11 +375,11 @@ export default function RanchoMadrinaPublicSite() {
               { title: 'Design Guidelines', description: 'Architectural and landscaping standards' },
               { title: 'Parking Rules', description: 'Community parking regulations' }
             ].map((doc, index) => (
-              <div key={index} className="bg-gray-50 rounded-xl p-6 hover:bg-gray-100 transition-colors cursor-pointer">
-                <FileText className="text-blue-600 mb-4" size={24} />
+              <div key={index} className="bg-amber-50 rounded-xl p-6 hover:bg-amber-100 transition-colors cursor-pointer border border-amber-200">
+                <FileText className="text-amber-600 mb-4" size={24} />
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">{doc.title}</h3>
                 <p className="text-gray-600 text-sm mb-4">{doc.description}</p>
-                <div className="flex items-center text-blue-600 text-sm font-medium">
+                <div className="flex items-center text-amber-600 text-sm font-medium">
                   <span>View Document</span>
                   <ChevronRight size={16} className="ml-1" />
                 </div>
