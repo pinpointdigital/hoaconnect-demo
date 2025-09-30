@@ -175,17 +175,17 @@ export default function PageEditor() {
         <div className="w-1/3 bg-white border-r border-gray-200 overflow-y-auto">
           <div className="p-6">
             {/* Editor Tabs */}
-            <div className="flex space-x-1 mb-6 bg-gray-100 p-1 rounded-lg">
+            <div className="grid grid-cols-2 gap-1 mb-6 bg-gray-100 p-1 rounded-lg">
               {[
-                { id: 'content', label: 'Content', icon: <Type size={16} /> },
-                { id: 'design', label: 'Design', icon: <Palette size={16} /> },
-                { id: 'highlights', label: 'Highlights', icon: <Settings size={16} /> },
-                { id: 'events', label: 'Events', icon: <Calendar size={16} /> }
+                { id: 'content', label: 'Content', icon: <Type size={14} /> },
+                { id: 'design', label: 'Design', icon: <Palette size={14} /> },
+                { id: 'highlights', label: 'Highlights', icon: <Settings size={14} /> },
+                { id: 'events', label: 'Events', icon: <Calendar size={14} /> }
               ].map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  className={`flex items-center justify-center space-x-1 px-2 py-2 rounded-md text-xs font-medium transition-colors ${
                     activeTab === tab.id
                       ? 'bg-white text-gray-900 shadow-sm'
                       : 'text-gray-600 hover:text-gray-900'
