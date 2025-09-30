@@ -143,7 +143,7 @@ export default function RanchoMadrinaPublicSite() {
                   </button>
                 </Link>
                 
-                <Link href="/dashboard?role=captain">
+                <Link href="/dashboard?role=homeowner">
                   <button className="px-4 py-2 bg-gradient-to-r from-slate-500 to-slate-600 text-white text-sm font-medium rounded-lg hover:from-slate-600 hover:to-slate-700 transition-all duration-200 shadow-sm hover:shadow-md">
                     Owner Login
                   </button>
@@ -201,7 +201,7 @@ export default function RanchoMadrinaPublicSite() {
                   </button>
                 </Link>
                 
-                <Link href="/dashboard?role=captain">
+                <Link href="/dashboard?role=homeowner">
                   <button className="w-full px-4 py-3 bg-gradient-to-r from-slate-500 to-slate-600 text-white text-sm font-medium rounded-lg hover:from-slate-600 hover:to-slate-700 transition-all duration-200">
                     Owner Login
                   </button>
@@ -267,7 +267,7 @@ export default function RanchoMadrinaPublicSite() {
               </button>
             </Link>
 
-            <Link href="/dashboard?role=captain">
+            <Link href="/dashboard?role=homeowner">
               <button className="bg-gradient-to-br from-slate-500 to-slate-600 text-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full">
                 <Building className="text-white mb-4 mx-auto" size={32} />
                 <h3 className="text-lg font-semibold mb-2">Owner Login</h3>
