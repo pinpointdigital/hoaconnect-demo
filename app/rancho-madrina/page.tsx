@@ -108,9 +108,9 @@ export default function RanchoMadrinaPublicSite() {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="pt-16 pb-20 bg-gradient-to-br from-amber-50 to-orange-50">
+      <section id="home" className="pt-24 pb-20 bg-gradient-to-br from-amber-50 to-orange-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
+          <div className="text-center mb-12 pt-8">
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 animate-fade-in">
               Welcome to Rancho Madrina Community Association
             </h1>
@@ -175,17 +175,123 @@ export default function RanchoMadrinaPublicSite() {
 
       {/* About Section */}
       <section id="about" className="py-20 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">About Our Community</h2>
-            <div className="prose prose-lg mx-auto text-gray-700 leading-relaxed">
-              <p className="text-lg">
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Community Description */}
+            <div className="prose prose-lg text-gray-700 leading-relaxed">
+              <p className="text-lg mb-6">
                 Rancho Madrina is a gated community located in San Juan Capistrano developed by the William Lyon Company that opened in 2006. The community sits within walking distance of the charm and historic make up of San Juan Capistrano's downtown with easy access to the (5) Fwy, (74) Ortega Hwy (74) and the (79) and (241) Toll Roads.
               </p>
-              <p className="text-lg mt-6">
+              <p className="text-lg">
                 The community consists of 120 homes featuring ten (10) floor plans and is surrounded by a number of elite private and public institutions making it a most desirable place to call home.
               </p>
+              
+              {/* Community Features */}
+              <div className="mt-8 grid grid-cols-2 gap-4">
+                <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
+                  <h4 className="font-semibold text-gray-900 mb-1">120 Homes</h4>
+                  <p className="text-sm text-gray-600">Ten unique floor plans</p>
+                </div>
+                <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
+                  <h4 className="font-semibold text-gray-900 mb-1">Gated Community</h4>
+                  <p className="text-sm text-gray-600">Secure & private</p>
+                </div>
+                <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
+                  <h4 className="font-semibold text-gray-900 mb-1">Prime Location</h4>
+                  <p className="text-sm text-gray-600">Walk to downtown</p>
+                </div>
+                <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
+                  <h4 className="font-semibold text-gray-900 mb-1">Est. 2006</h4>
+                  <p className="text-sm text-gray-600">William Lyon Company</p>
+                </div>
+              </div>
             </div>
+            
+            {/* Community Photos */}
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <img
+                  src="/demo/rancho-madrina-photo-1.jpg"
+                  alt="Rancho Madrina Community View"
+                  className="w-full h-40 object-cover rounded-lg shadow-lg"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    target.style.display = 'none';
+                  }}
+                />
+                <img
+                  src="/demo/rancho-madrina-hoa-photo-2.jpg"
+                  alt="Rancho Madrina Homes"
+                  className="w-full h-40 object-cover rounded-lg shadow-lg"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    target.style.display = 'none';
+                  }}
+                />
+              </div>
+              <img
+                src="/demo/rancho-madrina-hoa-photo-3.jpg"
+                alt="Rancho Madrina Community Features"
+                className="w-full h-48 object-cover rounded-lg shadow-lg"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  target.style.display = 'none';
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Community Gallery Section */}
+      <section className="py-20 bg-stone-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Community Gallery</h2>
+            <p className="text-gray-600">Discover the beauty and charm of Rancho Madrina</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { src: '/demo/rancho-madrina-hoa-photo.jpg', alt: 'Community Entrance', title: 'Gated Entrance' },
+              { src: '/demo/rancho-madrina-photo-1.jpg', alt: 'Community Streets', title: 'Tree-Lined Streets' },
+              { src: '/demo/rancho-madrina-hoa-photo-2.jpg', alt: 'Community Homes', title: 'Beautiful Homes' },
+              { src: '/demo/rancho-madrina-hoa-photo-3.jpg', alt: 'Community Amenities', title: 'Community Features' },
+              { src: '/demo/rancho-madrina-hoa-photo.jpg', alt: 'Landscape', title: 'Mature Landscaping' },
+              { src: '/demo/rancho-madrina-photo-1.jpg', alt: 'Neighborhood', title: 'Quiet Neighborhoods' }
+            ].map((photo, index) => (
+              <div key={index} className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500">
+                <img
+                  src={photo.src}
+                  alt={photo.alt}
+                  className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    target.style.display = 'none';
+                    const parent = target.parentElement;
+                    if (parent) {
+                      parent.innerHTML = `
+                        <div class="w-full h-64 bg-gradient-to-br from-amber-100 to-orange-100 rounded-xl flex items-center justify-center">
+                          <div class="text-center">
+                            <div class="text-3xl mb-2">🏘️</div>
+                            <p class="text-gray-600 font-medium">${photo.title}</p>
+                          </div>
+                        </div>
+                      `;
+                    }
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-4 left-4 text-white">
+                    <h3 className="font-semibold">{photo.title}</h3>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
