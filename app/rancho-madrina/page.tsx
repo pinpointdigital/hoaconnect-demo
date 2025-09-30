@@ -250,29 +250,29 @@ export default function RanchoMadrinaPublicSite() {
               </div>
 
               {/* CTAs */}
-              <div className="space-y-4 animate-fade-in-up">
+              <div className="flex flex-col space-y-3 animate-fade-in-up">
                 <button
                   onClick={() => scrollToSection('about')}
-                  className="w-full bg-white p-5 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-slate-200 h-24 flex flex-col items-center justify-center"
+                  className="w-full bg-white p-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-slate-200 min-h-[100px] flex flex-col items-center justify-center"
                 >
-                  <HomeIcon className="text-slate-600 mb-2 mx-auto" size={24} />
-                  <h3 className="text-sm font-semibold text-gray-900 mb-1">Community Information</h3>
-                  <p className="text-gray-600 text-xs leading-tight">Learn about our amenities</p>
+                  <HomeIcon className="text-slate-600 mb-2 mx-auto" size={32} />
+                  <h3 className="text-base font-semibold text-gray-900 mb-1">Community Information</h3>
+                  <p className="text-gray-600 text-xs text-center">Learn about our amenities</p>
                 </button>
 
                 <Link href="/dashboard/new-residents/registration">
-                  <button className="w-full bg-gradient-to-br from-stone-600 to-stone-700 text-white p-5 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-24 flex flex-col items-center justify-center">
-                    <Users className="text-white mb-2 mx-auto" size={24} />
-                    <h3 className="text-sm font-semibold mb-1">Community Registration</h3>
-                    <p className="text-stone-200 text-xs leading-tight">New residents start here</p>
+                  <button className="w-full bg-gradient-to-br from-stone-600 to-stone-700 text-white p-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 min-h-[100px] flex flex-col items-center justify-center">
+                    <Users className="text-white mb-2 mx-auto" size={32} />
+                    <h3 className="text-base font-semibold mb-1">Community Registration</h3>
+                    <p className="text-stone-200 text-xs text-center">New residents start here</p>
                   </button>
                 </Link>
 
                 <Link href="/dashboard?role=homeowner">
-                  <button className="w-full bg-gradient-to-br from-slate-500 to-slate-600 text-white p-5 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-24 flex flex-col items-center justify-center">
-                    <Building className="text-white mb-2 mx-auto" size={24} />
-                    <h3 className="text-sm font-semibold mb-1">Owner Login</h3>
-                    <p className="text-slate-200 text-xs leading-tight">Access your portal</p>
+                  <button className="w-full bg-gradient-to-br from-slate-500 to-slate-600 text-white p-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 min-h-[100px] flex flex-col items-center justify-center">
+                    <Building className="text-white mb-2 mx-auto" size={32} />
+                    <h3 className="text-base font-semibold mb-1">Owner Login</h3>
+                    <p className="text-slate-200 text-xs text-center">Access your portal</p>
                   </button>
                 </Link>
               </div>
