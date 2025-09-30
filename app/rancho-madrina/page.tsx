@@ -316,12 +316,12 @@ export default function RanchoMadrinaPublicSite() {
                 </div>
               </div>
 
-              {/* Holiday Decorations */}
+              {/* HOA Fall Cleanup */}
               <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
                 <div className="h-32 relative">
                   <img
-                    src="/demo/rancho-madrina-photos/rancho-madrina-photo-4.jpg"
-                    alt="Holiday Decorations - Community Entrance"
+                    src="https://pristinelandscapingandlighting.com/wp-content/uploads/2024/07/HOA-Lawn-Care.jpeg"
+                    alt="HOA Fall Cleanup - Lawn Care Service"
                     className="w-full h-full object-cover"
                     onError={(e) => {
                       const target = e.currentTarget;
@@ -329,8 +329,8 @@ export default function RanchoMadrinaPublicSite() {
                       const parent = target.parentElement;
                       if (parent) {
                         parent.innerHTML = `
-                          <div class="w-full h-full bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center">
-                            <span class="text-4xl">🎄</span>
+                          <div class="w-full h-full bg-gradient-to-br from-green-100 to-amber-200 flex items-center justify-center">
+                            <span class="text-4xl">🍂</span>
                           </div>
                         `;
                       }
@@ -338,8 +338,8 @@ export default function RanchoMadrinaPublicSite() {
                   />
                 </div>
                 <div className="p-4">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Holiday Decorations</h3>
-                  <p className="text-sm text-slate-600">December 1, 2024 • 9:00 AM</p>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">HOA Fall Cleanup</h3>
+                  <p className="text-sm text-slate-600">November 15, 2024 • 8:00 AM</p>
                 </div>
               </div>
 
