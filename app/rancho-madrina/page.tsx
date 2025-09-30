@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/Button';
 import { 
   Home as HomeIcon, 
@@ -26,6 +26,27 @@ export default function RanchoMadrinaPublicSite() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [showAgenda, setShowAgenda] = useState(false);
+  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set(['home']));
+
+  // Intersection Observer for scroll animations
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setVisibleSections(prev => new Set([...prev, entry.target.id]));
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '50px' }
+    );
+
+    // Observe all sections
+    const sections = document.querySelectorAll('section[id]');
+    sections.forEach((section) => observer.observe(section));
+
+    return () => observer.disconnect();
+  }, []);
 
   // Smooth scroll to section
   const scrollToSection = (sectionId: string) => {
@@ -174,7 +195,12 @@ export default function RanchoMadrinaPublicSite() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 bg-white">
+      <section 
+        id="about" 
+        className={`py-20 bg-white transition-all duration-1000 ${
+          visibleSections.has('about') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">About Our Community</h2>
@@ -248,7 +274,12 @@ export default function RanchoMadrinaPublicSite() {
       </section>
 
       {/* Community Gallery Section */}
-      <section className="py-20 bg-stone-50">
+      <section 
+        className={`py-20 bg-stone-50 transition-all duration-1000 ${
+          visibleSections.has('gallery') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+        id="gallery"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Community Gallery</h2>
@@ -296,7 +327,18 @@ export default function RanchoMadrinaPublicSite() {
       </section>
 
       {/* Management Section */}
-      <section id="management" className="py-20 bg-gray-50">
+      <section 
+        id="management" 
+        className={`py-20 bg-gray-50 relative overflow-hidden transition-all duration-1000 ${
+          visibleSections.has('management') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+        style={{
+          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)), url('/demo/rancho-madrina-photos/rancho-madrina-photo-6.jpg')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
+        }}
+      >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Management</h2>
@@ -346,7 +388,18 @@ export default function RanchoMadrinaPublicSite() {
       </section>
 
       {/* Meetings Section */}
-      <section id="meetings" className="py-20 bg-white">
+      <section 
+        id="meetings" 
+        className={`py-20 bg-white relative overflow-hidden transition-all duration-1000 ${
+          visibleSections.has('meetings') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+        style={{
+          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.96)), url('/demo/rancho-madrina-photos/rancho-madrina-photo-7.jpg')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
+        }}
+      >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Board Meetings</h2>
@@ -385,7 +438,12 @@ export default function RanchoMadrinaPublicSite() {
       </section>
 
       {/* Financial Information */}
-      <section id="financial" className="py-20 bg-gray-50">
+      <section 
+        id="financial" 
+        className={`py-20 bg-gray-50 transition-all duration-1000 ${
+          visibleSections.has('financial') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Financial Information</h2>
@@ -414,7 +472,18 @@ export default function RanchoMadrinaPublicSite() {
       </section>
 
       {/* Schools Section */}
-      <section id="schools" className="py-20 bg-white">
+      <section 
+        id="schools" 
+        className={`py-20 bg-white relative overflow-hidden transition-all duration-1000 ${
+          visibleSections.has('schools') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+        style={{
+          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)), url('/demo/rancho-madrina-photos/rancho-madrina-photo-4.jpg')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
+        }}
+      >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Local Schools</h2>
@@ -423,15 +492,65 @@ export default function RanchoMadrinaPublicSite() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { name: 'San Juan Hills High School', type: 'Public High School', grades: '9-12' },
-              { name: 'Marco Forster Middle School', type: 'Public Middle School', grades: '6-8' },
-              { name: 'San Juan Elementary School', type: 'Public Elementary', grades: 'K-5' },
-              { name: 'JSerra Catholic High School', type: 'Private High School', grades: '9-12' },
-              { name: 'St Margaret\'s Episcopal School', type: 'Private School', grades: 'K-12' },
-              { name: 'Capistrano Valley Christian School', type: 'Private School', grades: 'K-12' }
+              { 
+                name: 'San Juan Hills High School', 
+                type: 'Public High School', 
+                grades: '9-12',
+                website: 'sanjuanhills.capousd.org',
+                icon: `https://www.google.com/s2/favicons?domain=sanjuanhills.capousd.org&sz=32`
+              },
+              { 
+                name: 'Marco Forster Middle School', 
+                type: 'Public Middle School', 
+                grades: '6-8',
+                website: 'marcoforster.capousd.org',
+                icon: `https://www.google.com/s2/favicons?domain=marcoforster.capousd.org&sz=32`
+              },
+              { 
+                name: 'San Juan Elementary School', 
+                type: 'Public Elementary', 
+                grades: 'K-5',
+                website: 'sanjuan.capousd.org',
+                icon: `https://www.google.com/s2/favicons?domain=sanjuan.capousd.org&sz=32`
+              },
+              { 
+                name: 'JSerra Catholic High School', 
+                type: 'Private High School', 
+                grades: '9-12',
+                website: 'www.jserra.org',
+                icon: `https://www.google.com/s2/favicons?domain=www.jserra.org&sz=32`
+              },
+              { 
+                name: 'St Margaret\'s Episcopal School', 
+                type: 'Private School', 
+                grades: 'K-12',
+                website: 'www.smes.org',
+                icon: `https://www.google.com/s2/favicons?domain=www.smes.org&sz=32`
+              },
+              { 
+                name: 'Capistrano Valley Christian School', 
+                type: 'Private School', 
+                grades: 'K-12',
+                website: 'www.cvcs.org',
+                icon: `https://www.google.com/s2/favicons?domain=www.cvcs.org&sz=32`
+              }
             ].map((school, index) => (
-              <div key={index} className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-amber-100">
-                <School className="text-amber-600 mb-4" size={24} />
+              <div key={index} className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-amber-100">
+                <div className="w-8 h-8 mb-4 flex items-center justify-center">
+                  <img
+                    src={school.icon}
+                    alt={`${school.name} icon`}
+                    className="w-8 h-8 object-contain"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      target.style.display = 'none';
+                      const parent = target.parentElement;
+                      if (parent) {
+                        parent.innerHTML = '<div class="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center"><span class="text-amber-600 text-xs font-bold">📚</span></div>';
+                      }
+                    }}
+                  />
+                </div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">{school.name}</h3>
                 <p className="text-amber-600 text-sm mb-1">{school.type}</p>
                 <p className="text-gray-600 text-sm">Grades {school.grades}</p>
@@ -442,7 +561,18 @@ export default function RanchoMadrinaPublicSite() {
       </section>
 
       {/* Services Section */}
-      <section id="utilities" className="py-20 bg-gray-50">
+      <section 
+        id="utilities" 
+        className={`py-20 bg-stone-50 relative overflow-hidden transition-all duration-1000 ${
+          visibleSections.has('utilities') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+        style={{
+          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)), url('/demo/rancho-madrina-photos/rancho-madrina-photo-5.jpg')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
+        }}
+      >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Local Services</h2>
@@ -451,15 +581,50 @@ export default function RanchoMadrinaPublicSite() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { name: 'City of San Juan Capistrano', type: 'Municipal Services', icon: <Building size={24} className="text-blue-600" /> },
-              { name: 'Cox Communications', type: 'Internet & Cable', icon: <Zap size={24} className="text-green-600" /> },
-              { name: 'SoCal Gas', type: 'Natural Gas', icon: <Zap size={24} className="text-orange-600" /> },
-              { name: 'SDG&E', type: 'Electricity', icon: <Zap size={24} className="text-yellow-600" /> }
+              { 
+                name: 'City of San Juan Capistrano', 
+                type: 'Municipal Services', 
+                website: 'sanjuancapistrano.org',
+                icon: `https://www.google.com/s2/favicons?domain=sanjuancapistrano.org&sz=32`
+              },
+              { 
+                name: 'Cox Communications', 
+                type: 'Internet & Cable', 
+                website: 'www.cox.com',
+                icon: `https://www.google.com/s2/favicons?domain=www.cox.com&sz=32`
+              },
+              { 
+                name: 'SoCal Gas', 
+                type: 'Natural Gas', 
+                website: 'www.socalgas.com',
+                icon: `https://www.google.com/s2/favicons?domain=www.socalgas.com&sz=32`
+              },
+              { 
+                name: 'SDG&E', 
+                type: 'Electricity', 
+                website: 'www.sdge.com',
+                icon: `https://www.google.com/s2/favicons?domain=www.sdge.com&sz=32`
+              }
             ].map((service, index) => (
-              <div key={index} className="bg-white rounded-xl p-6 shadow-lg text-center hover:shadow-xl transition-all duration-300">
-                <div className="mb-4">{service.icon}</div>
+              <div key={index} className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-lg text-center hover:shadow-xl transition-all duration-300 border border-stone-200">
+                <div className="w-8 h-8 mb-4 mx-auto flex items-center justify-center">
+                  <img
+                    src={service.icon}
+                    alt={`${service.name} icon`}
+                    className="w-8 h-8 object-contain"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      target.style.display = 'none';
+                      const parent = target.parentElement;
+                      if (parent) {
+                        const icons = ['🏛️', '📡', '🔥', '⚡'];
+                        parent.innerHTML = `<div class="w-8 h-8 bg-stone-100 rounded-full flex items-center justify-center"><span class="text-stone-600 text-lg">${icons[index]}</span></div>`;
+                      }
+                    }}
+                  />
+                </div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">{service.name}</h3>
-                <p className="text-gray-600 text-sm">{service.type}</p>
+                <p className="text-stone-600 text-sm">{service.type}</p>
               </div>
             ))}
           </div>
@@ -467,7 +632,18 @@ export default function RanchoMadrinaPublicSite() {
       </section>
 
       {/* Documents Section */}
-      <section id="documents" className="py-20 bg-white">
+      <section 
+        id="documents" 
+        className={`py-20 bg-white relative overflow-hidden transition-all duration-1000 ${
+          visibleSections.has('documents') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+        style={{
+          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.94)), url('/demo/rancho-madrina-photos/rancho-madrina-photo-8.png')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
+        }}
+      >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Community Documents</h2>
