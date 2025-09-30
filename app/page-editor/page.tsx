@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/Button';
 import { 
   Home as HomeIcon, 
@@ -16,7 +16,8 @@ import {
   Palette,
   Type,
   Image as ImageIcon,
-  Settings
+  Settings,
+  X
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -65,6 +66,8 @@ export default function PageEditor() {
   const [isEditing, setIsEditing] = useState(false);
   const [showPreview, setShowPreview] = useState(true);
   const [activeTab, setActiveTab] = useState<'content' | 'design' | 'events'>('content');
+  const [imagePreview, setImagePreview] = useState<string>('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Load saved content from localStorage
   useEffect(() => {
@@ -123,6 +126,13 @@ export default function PageEditor() {
           </div>
           
           <div className="flex items-center space-x-3">
+            <Link href="/">
+              <button className="flex items-center space-x-2 px-4 py-2 text-gray-600 hover:text-gray-800 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                <X size={16} />
+                <span>Cancel</span>
+              </button>
+            </Link>
+            
             <button
               onClick={() => setShowPreview(!showPreview)}
               className="flex items-center space-x-2 px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
@@ -400,15 +410,46 @@ export default function PageEditor() {
 
                         {/* CTAs Preview */}
                         <div className="space-y-3">
-                          <div className={`bg-white p-3 rounded-lg shadow border border-${content.primaryColor}-200 text-center`}>
-                            <HomeIcon className={`text-${content.primaryColor}-600 mb-2 mx-auto`} size={24} />
+                          <div className="bg-white p-3 rounded-lg shadow border border-gray-200 text-center">
+                            <HomeIcon 
+                              className="mb-2 mx-auto" 
+                              size={24}
+                              style={{
+                                color: content.primaryColor === 'slate' ? '#475569' :
+                                       content.primaryColor === 'blue' ? '#3b82f6' :
+                                       content.primaryColor === 'amber' ? '#f59e0b' :
+                                       content.primaryColor === 'emerald' ? '#10b981' :
+                                       content.primaryColor === 'rose' ? '#f43f5e' :
+                                       '#475569'
+                              }}
+                            />
                             <h3 className="text-sm font-semibold text-gray-900">Community Info</h3>
                           </div>
-                          <div className={`bg-gradient-to-br from-${content.secondaryColor}-600 to-${content.secondaryColor}-700 text-white p-3 rounded-lg text-center`}>
+                          <div 
+                            className="text-white p-3 rounded-lg text-center"
+                            style={{
+                              background: content.secondaryColor === 'stone' ? 'linear-gradient(to bottom right, #57534e, #44403c)' :
+                                         content.secondaryColor === 'cyan' ? 'linear-gradient(to bottom right, #06b6d4, #0891b2)' :
+                                         content.secondaryColor === 'orange' ? 'linear-gradient(to bottom right, #ea580c, #c2410c)' :
+                                         content.secondaryColor === 'teal' ? 'linear-gradient(to bottom right, #14b8a6, #0d9488)' :
+                                         content.secondaryColor === 'pink' ? 'linear-gradient(to bottom right, #ec4899, #db2777)' :
+                                         'linear-gradient(to bottom right, #57534e, #44403c)'
+                            }}
+                          >
                             <Users className="text-white mb-2 mx-auto" size={24} />
                             <h3 className="text-sm font-semibold">Registration</h3>
                           </div>
-                          <div className={`bg-gradient-to-br from-${content.primaryColor}-500 to-${content.primaryColor}-600 text-white p-3 rounded-lg text-center`}>
+                          <div 
+                            className="text-white p-3 rounded-lg text-center"
+                            style={{
+                              background: content.primaryColor === 'slate' ? 'linear-gradient(to bottom right, #64748b, #475569)' :
+                                         content.primaryColor === 'blue' ? 'linear-gradient(to bottom right, #3b82f6, #1d4ed8)' :
+                                         content.primaryColor === 'amber' ? 'linear-gradient(to bottom right, #f59e0b, #d97706)' :
+                                         content.primaryColor === 'emerald' ? 'linear-gradient(to bottom right, #10b981, #047857)' :
+                                         content.primaryColor === 'rose' ? 'linear-gradient(to bottom right, #f43f5e, #e11d48)' :
+                                         'linear-gradient(to bottom right, #64748b, #475569)'
+                            }}
+                          >
                             <Building className="text-white mb-2 mx-auto" size={24} />
                             <h3 className="text-sm font-semibold">Owner Login</h3>
                           </div>
