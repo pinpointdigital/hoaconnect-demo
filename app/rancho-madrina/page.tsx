@@ -26,7 +26,7 @@ export default function RanchoMadrinaPublicSite() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [showAgenda, setShowAgenda] = useState(false);
-  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set(['home']));
+  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set(['home', 'about', 'gallery']));
 
   // Intersection Observer for scroll animations
   useEffect(() => {
@@ -62,6 +62,7 @@ export default function RanchoMadrinaPublicSite() {
   const navItems = [
     { id: 'home', label: 'Home' },
     { id: 'about', label: 'About' },
+    { id: 'gallery', label: 'Gallery' },
     { id: 'management', label: 'Management' },
     { id: 'meetings', label: 'Meetings' },
     { id: 'financial', label: 'Financial' },
