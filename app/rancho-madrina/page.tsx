@@ -133,8 +133,11 @@ export default function RanchoMadrinaPublicSite() {
       <section id="home" className="pt-24 pb-20 bg-gradient-to-br from-amber-50 to-orange-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 pt-8">
+            <div className="handwritten-welcome mb-2">
+              Welcome to
+            </div>
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 animate-fade-in">
-              Welcome to Rancho Madrina Community Association
+              Rancho Madrina Community Association
             </h1>
           </div>
 
@@ -790,6 +793,62 @@ export default function RanchoMadrinaPublicSite() {
           transform: translateZ(0);
           backface-visibility: hidden;
           perspective: 1000px;
+        }
+
+        /* Handwritten welcome animation */
+        .handwritten-welcome {
+          font-family: 'Brush Script MT', cursive, 'Dancing Script', cursive;
+          font-size: 1.5rem;
+          color: #d97706;
+          opacity: 0;
+          animation: handwrite 2s ease-out 0.5s forwards;
+          position: relative;
+          display: inline-block;
+        }
+
+        .handwritten-welcome::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 0;
+          height: 100%;
+          background: linear-gradient(to right, transparent, #fef3c7, transparent);
+          animation: writing-effect 2s ease-out 0.5s forwards;
+        }
+
+        @keyframes handwrite {
+          0% {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          20% {
+            opacity: 0.3;
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes writing-effect {
+          0% {
+            width: 0;
+          }
+          50% {
+            width: 100%;
+            opacity: 0.8;
+          }
+          100% {
+            width: 100%;
+            opacity: 0;
+          }
+        }
+
+        @media (min-width: 768px) {
+          .handwritten-welcome {
+            font-size: 2rem;
+          }
         }
       `}</style>
     </div>
