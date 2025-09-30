@@ -291,8 +291,8 @@ export default function RanchoMadrinaPublicSite() {
               <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200 hover:shadow-md transition-shadow cursor-pointer" onClick={() => setShowAgenda(true)}>
                 <div className="h-32 relative">
                   <img
-                    src="/demo/rancho-madrina-photos/rancho-madrina-photo-1.jpg"
-                    alt="Board Meeting"
+                    src="/demo/rancho-madrina-photos/rancho-madrina-hoa-photo-3.jpg"
+                    alt="Board Meeting - Community Center"
                     className="w-full h-full object-cover"
                     onError={(e) => {
                       const target = e.currentTarget;
@@ -320,8 +320,8 @@ export default function RanchoMadrinaPublicSite() {
               <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
                 <div className="h-32 relative">
                   <img
-                    src="/demo/rancho-madrina-photos/rancho-madrina-photo-2.jpg"
-                    alt="Holiday Decorations"
+                    src="/demo/rancho-madrina-photos/rancho-madrina-photo-4.jpg"
+                    alt="Holiday Decorations - Community Entrance"
                     className="w-full h-full object-cover"
                     onError={(e) => {
                       const target = e.currentTarget;
@@ -347,8 +347,8 @@ export default function RanchoMadrinaPublicSite() {
               <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
                 <div className="h-32 relative">
                   <img
-                    src="/demo/rancho-madrina-photos/rancho-madrina-photo-3.jpg"
-                    alt="Pool Maintenance"
+                    src="/demo/rancho-madrina-photos/rancho-madrina-photo-5.jpg"
+                    alt="Pool Maintenance - Community Pool Area"
                     className="w-full h-full object-cover"
                     onError={(e) => {
                       const target = e.currentTarget;
