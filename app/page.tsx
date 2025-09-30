@@ -19,7 +19,8 @@ import {
   ChevronDown,
   School,
   Zap,
-  Car
+  Car,
+  Edit3
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -881,9 +882,16 @@ export default function RanchoMadrinaPublicSite() {
               <p className="text-gray-400 text-sm mb-2">
                 © 2024 Rancho Madrina Community Association. All rights reserved.
               </p>
-              <Link href="/sample-hoa" className="text-gray-500 hover:text-gray-300 text-xs transition-colors">
-                Switch to Sample HOA Demo
-              </Link>
+              <div className="flex items-center justify-center space-x-4">
+                <Link href="/sample-hoa" className="text-gray-500 hover:text-gray-300 text-xs transition-colors">
+                  Switch to Sample HOA Demo
+                </Link>
+                <span className="text-gray-400">•</span>
+                <Link href="/page-editor" className="text-gray-500 hover:text-gray-300 text-xs transition-colors flex items-center space-x-1">
+                  <Edit3 size={12} />
+                  <span>Edit This Page</span>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
