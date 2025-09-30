@@ -334,7 +334,7 @@ export default function RanchoMadrinaPublicSite() {
           visibleSections.has('management') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
         style={{
-          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)), url('/demo/rancho-madrina-photos/rancho-madrina-photo-6.jpg')`,
+          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.88)), url('/demo/rancho-madrina-photos/rancho-madrina-photo-6.jpg')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed'
@@ -395,7 +395,7 @@ export default function RanchoMadrinaPublicSite() {
           visibleSections.has('meetings') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
         style={{
-          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.96)), url('/demo/rancho-madrina-photos/rancho-madrina-photo-7.jpg')`,
+          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.80), rgba(255, 255, 255, 0.90)), url('/demo/rancho-madrina-photos/rancho-madrina-photo-7.jpg')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed'
@@ -479,7 +479,7 @@ export default function RanchoMadrinaPublicSite() {
           visibleSections.has('schools') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
         style={{
-          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)), url('/demo/rancho-madrina-photos/rancho-madrina-photo-4.jpg')`,
+          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.85)), url('/demo/rancho-madrina-photos/rancho-madrina-photo-4.jpg')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed'
@@ -568,7 +568,7 @@ export default function RanchoMadrinaPublicSite() {
           visibleSections.has('utilities') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
         style={{
-          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)), url('/demo/rancho-madrina-photos/rancho-madrina-photo-5.jpg')`,
+          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.82)), url('/demo/rancho-madrina-photos/rancho-madrina-photo-5.jpg')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed'
@@ -639,7 +639,7 @@ export default function RanchoMadrinaPublicSite() {
           visibleSections.has('documents') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
         style={{
-          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.94)), url('/demo/rancho-madrina-photos/rancho-madrina-photo-8.png')`,
+          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.76), rgba(255, 255, 255, 0.86)), url('/demo/rancho-madrina-photos/rancho-madrina-photo-8.png')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed'
@@ -772,6 +772,24 @@ export default function RanchoMadrinaPublicSite() {
         
         .animate-fade-in-up {
           animation: fade-in-up 1s ease-out 0.6s both;
+        }
+
+        /* Enhanced parallax effect */
+        section[style*="background-attachment: fixed"] {
+          background-attachment: fixed !important;
+          will-change: transform;
+        }
+
+        /* Smooth scrolling for better parallax */
+        html {
+          scroll-behavior: smooth;
+        }
+
+        /* Optimize parallax performance */
+        section[style*="backgroundAttachment"] {
+          transform: translateZ(0);
+          backface-visibility: hidden;
+          perspective: 1000px;
         }
       `}</style>
     </div>
