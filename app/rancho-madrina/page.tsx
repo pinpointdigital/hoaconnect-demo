@@ -172,11 +172,8 @@ export default function RanchoMadrinaPublicSite() {
       <section id="home" className="pt-24 pb-20 bg-gradient-to-br from-blue-50 via-teal-50 to-amber-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 pt-8">
-            <div className="handwritten-welcome mb-2">
-              Welcome to
-            </div>
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 animate-fade-in">
-              Rancho Madrina Community Association
+              Welcome to Rancho Madrina Community Association
             </h1>
           </div>
 
@@ -821,20 +818,6 @@ export default function RanchoMadrinaPublicSite() {
           perspective: 1000px;
         }
 
-        /* Welcome text styling */
-        .handwritten-welcome {
-          font-family: inherit;
-          font-size: 1.5rem;
-          color: #64748b;
-          font-weight: 400;
-          opacity: 0.8;
-        }
-
-        @media (min-width: 768px) {
-          .handwritten-welcome {
-            font-size: 1.875rem;
-          }
-        }
       `}</style>
     </div>
   );
