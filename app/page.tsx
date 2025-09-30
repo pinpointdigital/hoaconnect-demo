@@ -931,7 +931,7 @@ export default function RanchoMadrinaPublicSite() {
             </div>
             
             <div className="flex justify-end gap-3 mt-6">
-              <Button variant="outline" onClick={() => setShowAgenda(false)}>
+              <Button variant="secondary" onClick={() => setShowAgenda(false)}>
                 Close
               </Button>
               <Button>
