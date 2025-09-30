@@ -278,26 +278,97 @@ export default function RanchoMadrinaPublicSite() {
         </div>
       </section>
 
-      {/* Meeting Announcement Banner */}
-      <section className="py-6 bg-gradient-to-r from-slate-100 to-stone-100 border-b border-slate-200">
+      {/* Community Calendar Updates */}
+      <section className="py-8 bg-gradient-to-r from-slate-100 to-stone-100 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between bg-white rounded-xl p-6 shadow-lg border border-slate-200">
-            <div className="flex items-center space-x-4 mb-4 sm:mb-0">
-              <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center">
-                <Calendar className="text-slate-600" size={24} />
+          <div className="bg-white rounded-xl p-6 shadow-lg border border-slate-200">
+            <div className="flex items-center space-x-3 mb-6">
+              <div className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center">
+                <Calendar className="text-slate-600" size={20} />
               </div>
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900">Next Meeting</h3>
-                <p className="text-slate-600">November 20, 2024 at 7:00 PM</p>
+              <h2 className="text-xl font-bold text-gray-900">Community Calendar</h2>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {/* Upcoming Meeting */}
+              <div className="bg-slate-50 rounded-lg p-4 border-l-4 border-slate-600">
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-gray-900 mb-1">Board Meeting</h3>
+                    <p className="text-sm text-slate-600 mb-2">Monthly community board meeting</p>
+                    <p className="text-sm font-medium text-slate-700">November 20, 2024 • 7:00 PM</p>
+                  </div>
+                  <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full">Upcoming</span>
+                </div>
+                <button
+                  onClick={() => setShowAgenda(true)}
+                  className="text-slate-600 hover:text-slate-800 text-sm font-medium flex items-center space-x-1 mt-2"
+                >
+                  <FileText size={14} />
+                  <span>View Agenda</span>
+                </button>
+              </div>
+
+              {/* Recent Update */}
+              <div className="bg-blue-50 rounded-lg p-4 border-l-4 border-blue-500">
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-gray-900 mb-1">Pool Maintenance</h3>
+                    <p className="text-sm text-slate-600 mb-2">Annual pool cleaning and equipment service</p>
+                    <p className="text-sm font-medium text-slate-700">October 15, 2024 • Completed</p>
+                  </div>
+                  <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full">Completed</span>
+                </div>
+              </div>
+
+              {/* Community Event */}
+              <div className="bg-amber-50 rounded-lg p-4 border-l-4 border-amber-500">
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-gray-900 mb-1">Holiday Decorations</h3>
+                    <p className="text-sm text-slate-600 mb-2">Community entrance holiday lighting installation</p>
+                    <p className="text-sm font-medium text-slate-700">December 1, 2024 • 9:00 AM</p>
+                  </div>
+                  <span className="px-2 py-1 bg-amber-100 text-amber-700 text-xs font-medium rounded-full">Scheduled</span>
+                </div>
+              </div>
+
+              {/* Maintenance Notice */}
+              <div className="bg-orange-50 rounded-lg p-4 border-l-4 border-orange-500">
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-gray-900 mb-1">Street Sweeping</h3>
+                    <p className="text-sm text-slate-600 mb-2">Monthly street cleaning - please move vehicles</p>
+                    <p className="text-sm font-medium text-slate-700">November 5, 2024 • 8:00 AM</p>
+                  </div>
+                  <span className="px-2 py-1 bg-orange-100 text-orange-700 text-xs font-medium rounded-full">Notice</span>
+                </div>
+              </div>
+
+              {/* Past Event */}
+              <div className="bg-gray-50 rounded-lg p-4 border-l-4 border-gray-400">
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-gray-900 mb-1">Landscape Renovation</h3>
+                    <p className="text-sm text-slate-600 mb-2">Front entrance landscaping project completed</p>
+                    <p className="text-sm font-medium text-slate-700">September 28, 2024 • Finished</p>
+                  </div>
+                  <span className="px-2 py-1 bg-gray-100 text-gray-700 text-xs font-medium rounded-full">Completed</span>
+                </div>
+              </div>
+
+              {/* Community Notice */}
+              <div className="bg-purple-50 rounded-lg p-4 border-l-4 border-purple-500">
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-gray-900 mb-1">Annual Meeting</h3>
+                    <p className="text-sm text-slate-600 mb-2">2025 budget presentation and board elections</p>
+                    <p className="text-sm font-medium text-slate-700">January 15, 2025 • 7:00 PM</p>
+                  </div>
+                  <span className="px-2 py-1 bg-purple-100 text-purple-700 text-xs font-medium rounded-full">Important</span>
+                </div>
               </div>
             </div>
-            <button
-              onClick={() => setShowAgenda(true)}
-              className="px-6 py-3 bg-gradient-to-r from-slate-600 to-slate-700 text-white font-medium rounded-lg hover:from-slate-700 hover:to-slate-800 transition-all duration-200 shadow-sm hover:shadow-md flex items-center space-x-2"
-            >
-              <FileText size={16} />
-              <span>Click here for agenda</span>
-            </button>
           </div>
         </div>
       </section>
