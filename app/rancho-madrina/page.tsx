@@ -613,7 +613,13 @@ export default function RanchoMadrinaPublicSite() {
                 icon: `https://www.google.com/s2/favicons?domain=www.cvcs.org&sz=32`
               }
             ].map((school, index) => (
-              <div key={index} className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-amber-100">
+              <a 
+                key={index} 
+                href={`https://${school.website}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200 hover:border-slate-300 cursor-pointer block"
+              >
                 <div className="w-8 h-8 mb-4 flex items-center justify-center">
                   <img
                     src={school.icon}
@@ -632,7 +638,7 @@ export default function RanchoMadrinaPublicSite() {
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">{school.name}</h3>
                 <p className="text-amber-600 text-sm mb-1">{school.type}</p>
                 <p className="text-gray-600 text-sm">Grades {school.grades}</p>
-              </div>
+              </a>
             ))}
           </div>
         </div>
@@ -678,7 +684,13 @@ export default function RanchoMadrinaPublicSite() {
                 icon: `https://www.google.com/s2/favicons?domain=www.sdge.com&sz=32`
               }
             ].map((service, index) => (
-              <div key={index} className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-lg text-center hover:shadow-xl transition-all duration-300 border border-stone-200">
+              <a 
+                key={index} 
+                href={`https://${service.website}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white/90 backdrop-blur-sm rounded-xl p-6 shadow-lg text-center hover:shadow-xl transition-all duration-300 border border-stone-200 hover:border-stone-300 cursor-pointer block"
+              >
                 <div className="w-8 h-8 mb-4 mx-auto flex items-center justify-center">
                   <img
                     src={service.icon}
@@ -697,7 +709,7 @@ export default function RanchoMadrinaPublicSite() {
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">{service.name}</h3>
                 <p className="text-stone-600 text-sm">{service.type}</p>
-              </div>
+              </a>
             ))}
           </div>
         </div>
