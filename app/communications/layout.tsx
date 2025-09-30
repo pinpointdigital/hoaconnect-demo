@@ -8,3 +8,4 @@ export default function CommunicationsLayout({
   return <DashboardLayout>{children}</DashboardLayout>;
 }
 
+

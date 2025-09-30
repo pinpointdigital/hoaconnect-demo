@@ -19,28 +19,84 @@ import {
 } from 'lucide-react';
 
 interface RegistrationData {
-  // Owner Information
-  ownerNames: string;
-  homePhone: string;
-  cellPhone: string;
-  ownerEmails: string;
+  // Auto-filled Information
+  date: string;
+  associationName: string;
   
   // Property Information
-  propertyAddress: string;
-  mailingAddress: string;
-  mailingAddressSame: boolean;
+  propertyAddress: {
+    streetNumber: string;
+    city: string;
+    state: string;
+    zip: string;
+  };
   
-  // Contact Preferences
-  validEmailAddresses: string;
-  secondaryMailingAddress: string;
-  secondaryEmailAddresses: string;
-  preferredDeliveryMethod: 'mail' | 'email' | 'both';
+  // Property Owners
+  propertyOwners: Array<{
+    name: string;
+    driversLicense: string;
+  }>;
   
-  // Rental Information
-  isRented: boolean;
-  tenantName: string;
-  tenantPhone: string;
-  tenantEmails: string;
+  // Property Owner Address (if different)
+  ownerAddress: {
+    streetNumber: string;
+    city: string;
+    state: string;
+    zip: string;
+    sameAsProperty: boolean;
+  };
+  
+  // Contact Information
+  ownerPhone: {
+    home: string;
+    cell: string;
+    work: string;
+    fax: string;
+  };
+  ownerEmail: {
+    primary: string;
+    secondary: string;
+  };
+  emergencyPhone: string;
+  
+  // Mailing Address
+  mailingAddress: {
+    address: string;
+    sameAsProperty: boolean;
+  };
+  
+  // Property Occupants
+  occupants: {
+    sameAsOwner: boolean;
+    differentThanOwner: boolean;
+    occupantPhone: {
+      home: string;
+      cell: string;
+      work: string;
+      fax: string;
+    };
+    occupantEmail: {
+      primary: string;
+      secondary: string;
+    };
+  };
+  
+  // Preferences
+  deliveryMethod: 'mail' | 'email';
+  mailDeliveryFee: boolean;
+  
+  // Parking Information
+  numberOfCars: string;
+  
+  // Vehicles
+  vehicles: Array<{
+    make: string;
+    model: string;
+    year: string;
+    color: string;
+    license: string;
+    state: string;
+  }>;
   
   // Submission Info
   submissionDate: string;
@@ -577,4 +633,5 @@ export default function NewResidentRegistrationPage() {
     </div>
   );
 }
+
 

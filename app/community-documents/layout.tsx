@@ -8,3 +8,4 @@ export default function CommunityDocumentsLayout({
   return <DashboardLayout>{children}</DashboardLayout>;
 }
 
+
