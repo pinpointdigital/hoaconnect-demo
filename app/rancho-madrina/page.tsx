@@ -278,6 +278,30 @@ export default function RanchoMadrinaPublicSite() {
         </div>
       </section>
 
+      {/* Meeting Announcement Banner */}
+      <section className="py-6 bg-gradient-to-r from-slate-100 to-stone-100 border-b border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row items-center justify-between bg-white rounded-xl p-6 shadow-lg border border-slate-200">
+            <div className="flex items-center space-x-4 mb-4 sm:mb-0">
+              <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center">
+                <Calendar className="text-slate-600" size={24} />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">Next Meeting</h3>
+                <p className="text-slate-600">November 20, 2024 at 7:00 PM</p>
+              </div>
+            </div>
+            <button
+              onClick={() => setShowAgenda(true)}
+              className="px-6 py-3 bg-gradient-to-r from-slate-600 to-slate-700 text-white font-medium rounded-lg hover:from-slate-700 hover:to-slate-800 transition-all duration-200 shadow-sm hover:shadow-md flex items-center space-x-2"
+            >
+              <FileText size={16} />
+              <span>Click here for agenda</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* About Section */}
       <section 
         id="about" 
