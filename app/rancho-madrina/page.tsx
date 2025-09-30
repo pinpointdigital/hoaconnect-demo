@@ -221,127 +221,129 @@ export default function RanchoMadrinaPublicSite() {
             </h1>
           </div>
 
-          {/* Hero Image */}
+          {/* Hero Image and CTAs */}
           <div className="mb-12 animate-slide-up">
-            <div className="max-w-4xl mx-auto">
-              <img
-                src="/demo/rancho-madrina-header.jpg"
-                alt="Rancho Madrina Community Entrance"
-                className="w-full h-96 object-cover rounded-2xl shadow-2xl"
-                onError={(e) => {
-                  const target = e.currentTarget;
-                  target.style.display = 'none';
-                  const parent = target.parentElement;
-                  if (parent) {
-                    parent.innerHTML = `
-                      <div class="w-full h-96 bg-gradient-to-br from-amber-100 via-orange-100 to-red-100 rounded-2xl shadow-2xl flex items-center justify-center">
-                        <div class="text-center">
-                          <div class="text-6xl mb-4">🏘️</div>
-                          <h2 class="text-2xl font-bold text-gray-800">Rancho Madrina Community</h2>
-                          <p class="text-gray-600">Gated Community Entrance</p>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+              {/* Hero Image */}
+              <div className="lg:col-span-2">
+                <img
+                  src="/demo/rancho-madrina-header.jpg"
+                  alt="Rancho Madrina Community Entrance"
+                  className="w-full h-96 object-cover rounded-2xl shadow-2xl"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    target.style.display = 'none';
+                    const parent = target.parentElement;
+                    if (parent) {
+                      parent.innerHTML = `
+                        <div class="w-full h-96 bg-gradient-to-br from-amber-100 via-orange-100 to-red-100 rounded-2xl shadow-2xl flex items-center justify-center">
+                          <div class="text-center">
+                            <div class="text-6xl mb-4">🏘️</div>
+                            <h2 class="text-2xl font-bold text-gray-800">Rancho Madrina Community</h2>
+                            <p class="text-gray-600">Gated Community Entrance</p>
+                          </div>
                         </div>
-                      </div>
-                    `;
-                  }
-                }}
-              />
-            </div>
-          </div>
-
-          {/* Main CTAs */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 animate-fade-in-up">
-            <button
-              onClick={() => scrollToSection('about')}
-              className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-slate-200"
-            >
-              <HomeIcon className="text-slate-600 mb-4 mx-auto" size={32} />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Community Information</h3>
-              <p className="text-gray-600 text-sm">Learn about our community amenities and lifestyle</p>
-            </button>
-
-            <Link href="/dashboard/new-residents/registration">
-              <button className="bg-gradient-to-br from-stone-600 to-stone-700 text-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full">
-                <Users className="text-white mb-4 mx-auto" size={32} />
-                <h3 className="text-lg font-semibold mb-2">Community Registration</h3>
-                <p className="text-stone-200 text-sm">New residents start here</p>
-              </button>
-            </Link>
-
-            <Link href="/dashboard?role=homeowner">
-              <button className="bg-gradient-to-br from-slate-500 to-slate-600 text-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full">
-                <Building className="text-white mb-4 mx-auto" size={32} />
-                <h3 className="text-lg font-semibold mb-2">Owner Login</h3>
-                <p className="text-slate-200 text-sm">Access your resident portal</p>
-              </button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Community Updates */}
-      <section className="py-6 bg-slate-50/50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-2">Community Updates</h2>
-            <p className="text-slate-600">Stay informed about important community events and announcements</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Next Meeting */}
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
-              <div className="flex items-center justify-between mb-4">
-                <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center">
-                  <Calendar className="text-slate-600" size={20} />
-                </div>
-                <span className="text-xs font-medium text-slate-500 bg-slate-100 px-2 py-1 rounded-full">Nov 20</span>
+                      `;
+                    }
+                  }}
+                />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Board Meeting</h3>
-              <p className="text-sm text-slate-600 mb-4">Monthly community board meeting and updates</p>
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-slate-700">7:00 PM</span>
+
+              {/* CTAs */}
+              <div className="space-y-4 animate-fade-in-up">
                 <button
-                  onClick={() => setShowAgenda(true)}
-                  className="text-slate-600 hover:text-slate-800 text-sm font-medium"
+                  onClick={() => scrollToSection('about')}
+                  className="w-full bg-white p-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-slate-200"
                 >
-                  View Agenda →
+                  <HomeIcon className="text-slate-600 mb-3 mx-auto" size={28} />
+                  <h3 className="text-base font-semibold text-gray-900 mb-1">Community Information</h3>
+                  <p className="text-gray-600 text-xs">Learn about our amenities</p>
                 </button>
+
+                <Link href="/dashboard/new-residents/registration">
+                  <button className="w-full bg-gradient-to-br from-stone-600 to-stone-700 text-white p-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                    <Users className="text-white mb-3 mx-auto" size={28} />
+                    <h3 className="text-base font-semibold mb-1">Community Registration</h3>
+                    <p className="text-stone-200 text-xs">New residents start here</p>
+                  </button>
+                </Link>
+
+                <Link href="/dashboard?role=homeowner">
+                  <button className="w-full bg-gradient-to-br from-slate-500 to-slate-600 text-white p-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                    <Building className="text-white mb-3 mx-auto" size={28} />
+                    <h3 className="text-base font-semibold mb-1">Owner Login</h3>
+                    <p className="text-slate-200 text-xs">Access your portal</p>
+                  </button>
+                </Link>
               </div>
             </div>
+          </div>
 
-            {/* Holiday Event */}
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
-              <div className="flex items-center justify-between mb-4">
-                <div className="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center">
-                  <span className="text-amber-600 text-lg">🎄</span>
-                </div>
-                <span className="text-xs font-medium text-amber-600 bg-amber-100 px-2 py-1 rounded-full">Dec 1</span>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Holiday Decorations</h3>
-              <p className="text-sm text-slate-600 mb-4">Community entrance holiday lighting installation</p>
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-slate-700">9:00 AM</span>
-                <span className="text-sm text-slate-500">Volunteers Welcome</span>
-              </div>
+          {/* Community Updates */}
+          <div className="mb-16">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Community Updates</h2>
+              <p className="text-slate-600">Stay informed about important community events and announcements</p>
             </div>
-
-            {/* Maintenance Update */}
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
-              <div className="flex items-center justify-between mb-4">
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <span className="text-blue-600 text-lg">🏊</span>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Next Meeting */}
+              <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center">
+                    <Calendar className="text-slate-600" size={20} />
+                  </div>
+                  <span className="text-xs font-medium text-slate-500 bg-slate-100 px-2 py-1 rounded-full">Nov 20</span>
                 </div>
-                <span className="text-xs font-medium text-blue-600 bg-blue-100 px-2 py-1 rounded-full">Completed</span>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Board Meeting</h3>
+                <p className="text-sm text-slate-600 mb-4">Monthly community board meeting and updates</p>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-slate-700">7:00 PM</span>
+                  <button
+                    onClick={() => setShowAgenda(true)}
+                    className="text-slate-600 hover:text-slate-800 text-sm font-medium"
+                  >
+                    View Agenda →
+                  </button>
+                </div>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Pool Maintenance</h3>
-              <p className="text-sm text-slate-600 mb-4">Annual pool cleaning and equipment service finished</p>
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-slate-700">Oct 15</span>
-                <span className="text-sm text-slate-500">Pool Ready</span>
+
+              {/* Holiday Event */}
+              <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center">
+                    <span className="text-amber-600 text-lg">🎄</span>
+                  </div>
+                  <span className="text-xs font-medium text-amber-600 bg-amber-100 px-2 py-1 rounded-full">Dec 1</span>
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Holiday Decorations</h3>
+                <p className="text-sm text-slate-600 mb-4">Community entrance holiday lighting installation</p>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-slate-700">9:00 AM</span>
+                  <span className="text-sm text-slate-500">Volunteers Welcome</span>
+                </div>
+              </div>
+
+              {/* Maintenance Update */}
+              <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <span className="text-blue-600 text-lg">🏊</span>
+                  </div>
+                  <span className="text-xs font-medium text-blue-600 bg-blue-100 px-2 py-1 rounded-full">Completed</span>
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Pool Maintenance</h3>
+                <p className="text-sm text-slate-600 mb-4">Annual pool cleaning and equipment service finished</p>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-slate-700">Oct 15</span>
+                  <span className="text-sm text-slate-500">Pool Ready</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
+
 
       {/* About Section */}
       <section 
