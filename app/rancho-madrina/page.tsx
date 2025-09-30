@@ -287,56 +287,36 @@ export default function RanchoMadrinaPublicSite() {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Next Meeting */}
-              <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center">
-                    <Calendar className="text-slate-600" size={20} />
-                  </div>
-                  <span className="text-xs font-medium text-slate-500 bg-slate-100 px-2 py-1 rounded-full">Nov 20</span>
+              {/* Board Meeting */}
+              <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200 hover:shadow-md transition-shadow cursor-pointer" onClick={() => setShowAgenda(true)}>
+                <div className="h-32 bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center">
+                  <Calendar className="text-slate-600" size={32} />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Board Meeting</h3>
-                <p className="text-sm text-slate-600 mb-4">Monthly community board meeting and updates</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-slate-700">7:00 PM</span>
-                  <button
-                    onClick={() => setShowAgenda(true)}
-                    className="text-slate-600 hover:text-slate-800 text-sm font-medium"
-                  >
-                    View Agenda →
-                  </button>
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Board Meeting</h3>
+                  <p className="text-sm text-slate-600">November 20, 2024 • 7:00 PM</p>
                 </div>
               </div>
 
-              {/* Holiday Event */}
-              <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center">
-                    <span className="text-amber-600 text-lg">🎄</span>
-                  </div>
-                  <span className="text-xs font-medium text-amber-600 bg-amber-100 px-2 py-1 rounded-full">Dec 1</span>
+              {/* Holiday Decorations */}
+              <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                <div className="h-32 bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center">
+                  <span className="text-4xl">🎄</span>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Holiday Decorations</h3>
-                <p className="text-sm text-slate-600 mb-4">Community entrance holiday lighting installation</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-slate-700">9:00 AM</span>
-                  <span className="text-sm text-slate-500">Volunteers Welcome</span>
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Holiday Decorations</h3>
+                  <p className="text-sm text-slate-600">December 1, 2024 • 9:00 AM</p>
                 </div>
               </div>
 
-              {/* Maintenance Update */}
-              <div className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <span className="text-blue-600 text-lg">🏊</span>
-                  </div>
-                  <span className="text-xs font-medium text-blue-600 bg-blue-100 px-2 py-1 rounded-full">Completed</span>
+              {/* Pool Maintenance */}
+              <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                <div className="h-32 bg-gradient-to-br from-blue-100 to-cyan-200 flex items-center justify-center">
+                  <span className="text-4xl">🏊‍♂️</span>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Pool Maintenance</h3>
-                <p className="text-sm text-slate-600 mb-4">Annual pool cleaning and equipment service finished</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-slate-700">Oct 15</span>
-                  <span className="text-sm text-slate-500">Pool Ready</span>
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Pool Maintenance</h3>
+                  <p className="text-sm text-slate-600">October 15, 2024 • Completed</p>
                 </div>
               </div>
             </div>
