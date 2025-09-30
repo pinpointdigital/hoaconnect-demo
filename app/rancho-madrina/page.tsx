@@ -289,8 +289,26 @@ export default function RanchoMadrinaPublicSite() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* Board Meeting */}
               <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200 hover:shadow-md transition-shadow cursor-pointer" onClick={() => setShowAgenda(true)}>
-                <div className="h-32 bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center">
-                  <Calendar className="text-slate-600" size={32} />
+                <div className="h-32 relative">
+                  <img
+                    src="/demo/rancho-madrina-photos/rancho-madrina-photo-1.jpg"
+                    alt="Board Meeting"
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      target.style.display = 'none';
+                      const parent = target.parentElement;
+                      if (parent) {
+                        parent.innerHTML = `
+                          <div class="w-full h-full bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center">
+                            <svg class="w-8 h-8 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                          </div>
+                        `;
+                      }
+                    }}
+                  />
                 </div>
                 <div className="p-4">
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">Board Meeting</h3>
@@ -300,8 +318,24 @@ export default function RanchoMadrinaPublicSite() {
 
               {/* Holiday Decorations */}
               <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
-                <div className="h-32 bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center">
-                  <span className="text-4xl">🎄</span>
+                <div className="h-32 relative">
+                  <img
+                    src="/demo/rancho-madrina-photos/rancho-madrina-photo-2.jpg"
+                    alt="Holiday Decorations"
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      target.style.display = 'none';
+                      const parent = target.parentElement;
+                      if (parent) {
+                        parent.innerHTML = `
+                          <div class="w-full h-full bg-gradient-to-br from-amber-100 to-orange-200 flex items-center justify-center">
+                            <span class="text-4xl">🎄</span>
+                          </div>
+                        `;
+                      }
+                    }}
+                  />
                 </div>
                 <div className="p-4">
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">Holiday Decorations</h3>
@@ -311,8 +345,24 @@ export default function RanchoMadrinaPublicSite() {
 
               {/* Pool Maintenance */}
               <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
-                <div className="h-32 bg-gradient-to-br from-blue-100 to-cyan-200 flex items-center justify-center">
-                  <span className="text-4xl">🏊‍♂️</span>
+                <div className="h-32 relative">
+                  <img
+                    src="/demo/rancho-madrina-photos/rancho-madrina-photo-3.jpg"
+                    alt="Pool Maintenance"
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      target.style.display = 'none';
+                      const parent = target.parentElement;
+                      if (parent) {
+                        parent.innerHTML = `
+                          <div class="w-full h-full bg-gradient-to-br from-blue-100 to-cyan-200 flex items-center justify-center">
+                            <span class="text-4xl">🏊‍♂️</span>
+                          </div>
+                        `;
+                      }
+                    }}
+                  />
                 </div>
                 <div className="p-4">
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">Pool Maintenance</h3>
