@@ -61,15 +61,23 @@ export default function RanchoMadrinaPublicSite() {
   // Navigation items
   const navItems = [
     { id: 'home', label: 'Home' },
-    { id: 'about', label: 'About' },
+    { 
+      id: 'about', 
+      label: 'About',
+      submenu: [
+        { id: 'about', label: 'Community' },
+        { id: 'management', label: 'Management' },
+        { id: 'meetings', label: 'Meetings' },
+        { id: 'financial', label: 'Financial' },
+        { id: 'documents', label: 'Documents' }
+      ]
+    },
     { id: 'gallery', label: 'Gallery' },
-    { id: 'management', label: 'Management' },
-    { id: 'meetings', label: 'Meetings' },
-    { id: 'financial', label: 'Financial' },
     { id: 'schools', label: 'Schools' },
-    { id: 'utilities', label: 'Services' },
-    { id: 'documents', label: 'Documents' }
+    { id: 'utilities', label: 'Services' }
   ];
+
+  const [showAboutSubmenu, setShowAboutSubmenu] = useState(false);
 
   return (
     <div className="min-h-screen bg-white">
@@ -130,7 +138,7 @@ export default function RanchoMadrinaPublicSite() {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="pt-24 pb-20 bg-gradient-to-br from-amber-50 to-orange-50">
+      <section id="home" className="pt-24 pb-20 bg-gradient-to-br from-blue-50 via-teal-50 to-amber-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 pt-8">
             <div className="handwritten-welcome mb-2">
@@ -145,7 +153,7 @@ export default function RanchoMadrinaPublicSite() {
           <div className="mb-12 animate-slide-up">
             <div className="max-w-4xl mx-auto">
               <img
-                src="/demo/rancho-madrina-hoa-photo.jpg"
+                src="/demo/rancho-madrina-header.jpg"
                 alt="Rancho Madrina Community Entrance"
                 className="w-full h-96 object-cover rounded-2xl shadow-2xl"
                 onError={(e) => {
@@ -172,15 +180,15 @@ export default function RanchoMadrinaPublicSite() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 animate-fade-in-up">
             <button
               onClick={() => scrollToSection('about')}
-              className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-amber-100"
+              className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-teal-100"
             >
-              <HomeIcon className="text-amber-600 mb-4 mx-auto" size={32} />
+              <HomeIcon className="text-teal-600 mb-4 mx-auto" size={32} />
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Community Information</h3>
               <p className="text-gray-600 text-sm">Learn about our community amenities and lifestyle</p>
             </button>
 
             <Link href="/dashboard/new-residents/registration">
-              <button className="bg-amber-600 text-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full">
+              <button className="bg-gradient-to-br from-amber-500 to-orange-500 text-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full">
                 <Users className="text-white mb-4 mx-auto" size={32} />
                 <h3 className="text-lg font-semibold mb-2">Community Registration</h3>
                 <p className="text-amber-100 text-sm">New residents start here</p>
@@ -188,10 +196,10 @@ export default function RanchoMadrinaPublicSite() {
             </Link>
 
             <Link href="/dashboard?role=captain">
-              <button className="bg-stone-700 text-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full">
+              <button className="bg-gradient-to-br from-slate-600 to-blue-700 text-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full">
                 <Building className="text-white mb-4 mx-auto" size={32} />
                 <h3 className="text-lg font-semibold mb-2">Owner Login</h3>
-                <p className="text-stone-200 text-sm">Access your resident portal</p>
+                <p className="text-blue-100 text-sm">Access your resident portal</p>
               </button>
             </Link>
           </div>
@@ -441,18 +449,12 @@ export default function RanchoMadrinaPublicSite() {
         </div>
       </section>
 
-      {/* Financial Information - Start of unified background */}
+      {/* Financial Information */}
       <section 
         id="financial" 
-        className={`py-20 bg-gray-50 relative overflow-hidden transition-all duration-1000 ${
+        className={`py-20 bg-gray-50 transition-all duration-1000 ${
           visibleSections.has('financial') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
-        style={{
-          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.90)), url('/demo/rancho-madrina-photos/rancho-madrina-photo-4.jpg')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed'
-        }}
       >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -481,18 +483,12 @@ export default function RanchoMadrinaPublicSite() {
         </div>
       </section>
 
-      {/* Schools Section - Unified background continues */}
+      {/* Schools Section */}
       <section 
         id="schools" 
-        className={`py-20 bg-white relative overflow-hidden transition-all duration-1000 ${
+        className={`py-20 bg-white transition-all duration-1000 ${
           visibleSections.has('schools') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
-        style={{
-          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.90)), url('/demo/rancho-madrina-photos/rancho-madrina-photo-4.jpg')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed'
-        }}
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -573,15 +569,9 @@ export default function RanchoMadrinaPublicSite() {
       {/* Services Section */}
       <section 
         id="utilities" 
-        className={`py-20 bg-stone-50 relative overflow-hidden transition-all duration-1000 ${
+        className={`py-20 bg-stone-50 transition-all duration-1000 ${
           visibleSections.has('utilities') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
-        style={{
-          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.90)), url('/demo/rancho-madrina-photos/rancho-madrina-photo-4.jpg')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed'
-        }}
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -644,15 +634,9 @@ export default function RanchoMadrinaPublicSite() {
       {/* Documents Section */}
       <section 
         id="documents" 
-        className={`py-20 bg-white relative overflow-hidden transition-all duration-1000 ${
+        className={`py-20 bg-white transition-all duration-1000 ${
           visibleSections.has('documents') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
-        style={{
-          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.90)), url('/demo/rancho-madrina-photos/rancho-madrina-photo-4.jpg')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed'
-        }}
       >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -755,6 +739,11 @@ export default function RanchoMadrinaPublicSite() {
         </div>
       )}
 
+      <link 
+        href="https://fonts.googleapis.com/css2?family=Pacifico&family=Kalam:wght@400;700&family=Caveat:wght@400;500;600;700&display=swap" 
+        rel="stylesheet" 
+      />
+      
       <style jsx>{`
         @keyframes fade-in {
           from { opacity: 0; transform: translateY(20px); }
@@ -801,59 +790,18 @@ export default function RanchoMadrinaPublicSite() {
           perspective: 1000px;
         }
 
-        /* Handwritten welcome animation */
+        /* Handwritten welcome styling */
         .handwritten-welcome {
-          font-family: 'Brush Script MT', cursive, 'Dancing Script', cursive;
-          font-size: 1.5rem;
-          color: #d97706;
-          opacity: 0;
-          animation: handwrite 2s ease-out 0.5s forwards;
-          position: relative;
-          display: inline-block;
-        }
-
-        .handwritten-welcome::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 0;
-          height: 100%;
-          background: linear-gradient(to right, transparent, #fef3c7, transparent);
-          animation: writing-effect 2s ease-out 0.5s forwards;
-        }
-
-        @keyframes handwrite {
-          0% {
-            opacity: 0;
-            transform: translateY(-10px);
-          }
-          20% {
-            opacity: 0.3;
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes writing-effect {
-          0% {
-            width: 0;
-          }
-          50% {
-            width: 100%;
-            opacity: 0.8;
-          }
-          100% {
-            width: 100%;
-            opacity: 0;
-          }
+          font-family: 'Pacifico', 'Kalam', 'Caveat', cursive;
+          font-size: 2.5rem;
+          color: #0891b2;
+          font-weight: 400;
+          letter-spacing: 0.5px;
         }
 
         @media (min-width: 768px) {
           .handwritten-welcome {
-            font-size: 2rem;
+            font-size: 3.5rem;
           }
         }
       `}</style>
