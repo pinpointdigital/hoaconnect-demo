@@ -293,7 +293,7 @@ export default function RanchoMadrinaPublicSite() {
                   <img
                     src="https://www.cmhoa.com/wp-content/uploads/2019/08/hoa-board-meetings-types-Planning-and-purpose.jpeg"
                     alt="HOA Board Meeting"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                     onError={(e) => {
                       const target = e.currentTarget;
                       target.style.display = 'none';
@@ -325,7 +325,7 @@ export default function RanchoMadrinaPublicSite() {
                   <img
                     src="https://pristinelandscapingandlighting.com/wp-content/uploads/2024/07/HOA-Lawn-Care.jpeg"
                     alt="HOA Fall Cleanup - Lawn Care Service"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                     onError={(e) => {
                       const target = e.currentTarget;
                       target.style.display = 'none';
@@ -352,7 +352,7 @@ export default function RanchoMadrinaPublicSite() {
                   <img
                     src="https://www.familypoolmaintenance.com/wp-content/uploads/2020/08/pool-cleaning-service.jpg"
                     alt="Pool Maintenance Service"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                     onError={(e) => {
                       const target = e.currentTarget;
                       target.style.display = 'none';
