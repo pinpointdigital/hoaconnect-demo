@@ -99,8 +99,8 @@ export default function RanchoMadrinaPublicSite() {
                     <>
                       <button
                         onClick={() => scrollToSection(item.id)}
-                        className={`flex items-center gap-1 text-sm font-medium transition-colors hover:text-teal-600 ${
-                          activeSection === item.id ? 'text-teal-600' : 'text-gray-700'
+                        className={`flex items-center gap-1 text-sm font-medium transition-colors hover:text-slate-600 ${
+                          activeSection === item.id ? 'text-slate-600' : 'text-gray-700'
                         }`}
                       >
                         {item.label}
@@ -114,7 +114,7 @@ export default function RanchoMadrinaPublicSite() {
                             <button
                               key={subItem.id}
                               onClick={() => scrollToSection(subItem.id)}
-                              className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-teal-50 hover:text-teal-600 transition-colors"
+                              className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-slate-50 hover:text-slate-600 transition-colors"
                             >
                               {subItem.label}
                             </button>
@@ -125,8 +125,8 @@ export default function RanchoMadrinaPublicSite() {
                   ) : (
                     <button
                       onClick={() => scrollToSection(item.id)}
-                      className={`text-sm font-medium transition-colors hover:text-teal-600 ${
-                        activeSection === item.id ? 'text-teal-600' : 'text-gray-700'
+                      className={`text-sm font-medium transition-colors hover:text-slate-600 ${
+                        activeSection === item.id ? 'text-slate-600' : 'text-gray-700'
                       }`}
                     >
                       {item.label}
@@ -138,13 +138,13 @@ export default function RanchoMadrinaPublicSite() {
               {/* CTA Buttons */}
               <div className="flex items-center space-x-3 ml-4">
                 <Link href="/dashboard/new-residents/registration">
-                  <button className="px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-sm font-medium rounded-lg hover:from-amber-600 hover:to-orange-600 transition-all duration-200 shadow-sm hover:shadow-md">
+                  <button className="px-4 py-2 bg-gradient-to-r from-stone-600 to-stone-700 text-white text-sm font-medium rounded-lg hover:from-stone-700 hover:to-stone-800 transition-all duration-200 shadow-sm hover:shadow-md">
                     Community Registration
                   </button>
                 </Link>
                 
                 <Link href="/dashboard?role=captain">
-                  <button className="px-4 py-2 bg-gradient-to-r from-slate-600 to-blue-700 text-white text-sm font-medium rounded-lg hover:from-slate-700 hover:to-blue-800 transition-all duration-200 shadow-sm hover:shadow-md">
+                  <button className="px-4 py-2 bg-gradient-to-r from-slate-500 to-slate-600 text-white text-sm font-medium rounded-lg hover:from-slate-600 hover:to-slate-700 transition-all duration-200 shadow-sm hover:shadow-md">
                     Owner Login
                   </button>
                 </Link>
@@ -171,8 +171,8 @@ export default function RanchoMadrinaPublicSite() {
                     onClick={() => scrollToSection(item.id)}
                     className={`block w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                       activeSection === item.id 
-                        ? 'bg-teal-50 text-teal-600' 
-                        : 'text-gray-700 hover:bg-teal-50'
+                        ? 'bg-slate-50 text-slate-600' 
+                        : 'text-gray-700 hover:bg-slate-50'
                     }`}
                   >
                     {item.label}
@@ -183,7 +183,7 @@ export default function RanchoMadrinaPublicSite() {
                         <button
                           key={subItem.id}
                           onClick={() => scrollToSection(subItem.id)}
-                          className="block w-full text-left px-3 py-1 text-xs text-gray-600 hover:text-teal-600 transition-colors"
+                          className="block w-full text-left px-3 py-1 text-xs text-gray-600 hover:text-slate-600 transition-colors"
                         >
                           {subItem.label}
                         </button>
@@ -196,13 +196,13 @@ export default function RanchoMadrinaPublicSite() {
               {/* Mobile CTA Buttons */}
               <div className="pt-4 space-y-2 border-t border-gray-200 mt-4">
                 <Link href="/dashboard/new-residents/registration">
-                  <button className="w-full px-4 py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-sm font-medium rounded-lg hover:from-amber-600 hover:to-orange-600 transition-all duration-200">
+                  <button className="w-full px-4 py-3 bg-gradient-to-r from-stone-600 to-stone-700 text-white text-sm font-medium rounded-lg hover:from-stone-700 hover:to-stone-800 transition-all duration-200">
                     Community Registration
                   </button>
                 </Link>
                 
                 <Link href="/dashboard?role=captain">
-                  <button className="w-full px-4 py-3 bg-gradient-to-r from-slate-600 to-blue-700 text-white text-sm font-medium rounded-lg hover:from-slate-700 hover:to-blue-800 transition-all duration-200">
+                  <button className="w-full px-4 py-3 bg-gradient-to-r from-slate-500 to-slate-600 text-white text-sm font-medium rounded-lg hover:from-slate-600 hover:to-slate-700 transition-all duration-200">
                     Owner Login
                   </button>
                 </Link>
@@ -213,7 +213,7 @@ export default function RanchoMadrinaPublicSite() {
       </nav>
 
       {/* Hero Section */}
-      <section id="home" className="pt-24 pb-20 bg-gradient-to-br from-blue-50 via-teal-50 to-amber-50">
+      <section id="home" className="pt-24 pb-20 bg-gradient-to-br from-slate-50 via-stone-50 to-neutral-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 pt-8">
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 animate-fade-in">
@@ -252,26 +252,26 @@ export default function RanchoMadrinaPublicSite() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 animate-fade-in-up">
             <button
               onClick={() => scrollToSection('about')}
-              className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-teal-100"
+              className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-slate-200"
             >
-              <HomeIcon className="text-teal-600 mb-4 mx-auto" size={32} />
+              <HomeIcon className="text-slate-600 mb-4 mx-auto" size={32} />
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Community Information</h3>
               <p className="text-gray-600 text-sm">Learn about our community amenities and lifestyle</p>
             </button>
 
             <Link href="/dashboard/new-residents/registration">
-              <button className="bg-gradient-to-br from-amber-500 to-orange-500 text-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full">
+              <button className="bg-gradient-to-br from-stone-600 to-stone-700 text-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full">
                 <Users className="text-white mb-4 mx-auto" size={32} />
                 <h3 className="text-lg font-semibold mb-2">Community Registration</h3>
-                <p className="text-amber-100 text-sm">New residents start here</p>
+                <p className="text-stone-200 text-sm">New residents start here</p>
               </button>
             </Link>
 
             <Link href="/dashboard?role=captain">
-              <button className="bg-gradient-to-br from-slate-600 to-blue-700 text-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full">
+              <button className="bg-gradient-to-br from-slate-500 to-slate-600 text-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 w-full">
                 <Building className="text-white mb-4 mx-auto" size={32} />
                 <h3 className="text-lg font-semibold mb-2">Owner Login</h3>
-                <p className="text-blue-100 text-sm">Access your resident portal</p>
+                <p className="text-slate-200 text-sm">Access your resident portal</p>
               </button>
             </Link>
           </div>
