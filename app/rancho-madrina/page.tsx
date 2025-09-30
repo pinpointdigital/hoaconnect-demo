@@ -291,8 +291,8 @@ export default function RanchoMadrinaPublicSite() {
               <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200 hover:shadow-md transition-shadow cursor-pointer" onClick={() => setShowAgenda(true)}>
                 <div className="h-32 relative">
                   <img
-                    src="/demo/rancho-madrina-photos/rancho-madrina-hoa-photo-3.jpg"
-                    alt="Board Meeting - Community Center"
+                    src="https://www.cmhoa.com/wp-content/uploads/2019/08/hoa-board-meetings-types-Planning-and-purpose.jpeg"
+                    alt="HOA Board Meeting"
                     className="w-full h-full object-cover"
                     onError={(e) => {
                       const target = e.currentTarget;
@@ -347,8 +347,8 @@ export default function RanchoMadrinaPublicSite() {
               <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
                 <div className="h-32 relative">
                   <img
-                    src="/demo/rancho-madrina-photos/rancho-madrina-photo-5.jpg"
-                    alt="Pool Maintenance - Community Pool Area"
+                    src="https://www.familypoolmaintenance.com/wp-content/uploads/2020/08/pool-cleaning-service.jpg"
+                    alt="Pool Maintenance Service"
                     className="w-full h-full object-cover"
                     onError={(e) => {
                       const target = e.currentTarget;
