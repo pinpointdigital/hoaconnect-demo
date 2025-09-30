@@ -85,7 +85,12 @@ export default function PageEditor() {
   useEffect(() => {
     const saved = localStorage.getItem('page-editor-content');
     if (saved) {
-      setContent(JSON.parse(saved));
+      const savedContent = JSON.parse(saved);
+      // Ensure highlights exist in saved content
+      if (!savedContent.highlights) {
+        savedContent.highlights = defaultContent.highlights;
+      }
+      setContent(savedContent);
     }
   }, []);
 
@@ -290,7 +295,7 @@ export default function PageEditor() {
                   <p className="text-sm text-gray-600 mb-6">Edit the four feature cards that showcase your community's key attributes.</p>
                 </div>
                 
-                {Object.entries(content.highlights).map(([key, highlight]) => (
+                {Object.entries(content.highlights || {}).map(([key, highlight]) => (
                   <div key={key} className="p-4 border border-gray-200 rounded-lg">
                     <h4 className="font-medium text-gray-900 mb-3">
                       Highlight {key.slice(-1)}
@@ -589,7 +594,7 @@ export default function PageEditor() {
                           
                           {/* Community Highlights Preview */}
                           <div className="grid grid-cols-2 gap-3">
-                            {Object.entries(content.highlights).map(([key, highlight]) => (
+                            {Object.entries(content.highlights || {}).map(([key, highlight]) => (
                               <div key={key} className="bg-amber-50 p-3 rounded-lg border border-amber-200">
                                 <h4 className="font-semibold text-gray-900 text-sm mb-1">{highlight.title}</h4>
                                 <p className="text-xs text-gray-600">{highlight.description}</p>
