@@ -257,7 +257,7 @@ export default function RanchoMadrinaPublicSite() {
                 >
                   <HomeIcon className="text-slate-600 mb-2 mx-auto" size={32} />
                   <h3 className="text-base font-semibold text-gray-900 mb-1">Community Information</h3>
-                  <p className="text-gray-600 text-xs text-center">Learn about our amenities</p>
+                  <p className="text-gray-600 text-sm text-center">Learn about our amenities</p>
                 </button>
 
                 <Link href="/dashboard/new-residents/registration">
@@ -280,7 +280,7 @@ export default function RanchoMadrinaPublicSite() {
           </div>
 
           {/* Community Updates */}
-          <div className="mb-16">
+          <div className="mb-16 mt-20">
             <div className="text-center mb-8">
               <h2 className="text-2xl font-bold text-gray-900 mb-2">Community Updates</h2>
               <p className="text-slate-600">Stay informed about important community events and announcements</p>
