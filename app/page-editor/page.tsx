@@ -116,7 +116,7 @@ export default function PageEditor() {
       <div className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
-            <h1 className="text-2xl font-bold text-gray-900">Simple Page Editor</h1>
+            <h1 className="text-2xl font-bold text-gray-900">HOA Website Editor</h1>
             <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
               Demo Mode
             </span>
@@ -344,10 +344,30 @@ export default function PageEditor() {
                         <span className="text-sm text-gray-700">About</span>
                         <span className="text-sm text-gray-700">Gallery</span>
                         <div className="flex space-x-2">
-                          <button className={`px-3 py-1 bg-gradient-to-r from-${content.secondaryColor}-600 to-${content.secondaryColor}-700 text-white text-xs rounded`}>
+                          <button 
+                            className="px-3 py-1 text-white text-xs rounded"
+                            style={{
+                              background: content.primaryColor === 'slate' ? 'linear-gradient(to right, #475569, #334155)' :
+                                         content.primaryColor === 'blue' ? 'linear-gradient(to right, #3b82f6, #1d4ed8)' :
+                                         content.primaryColor === 'amber' ? 'linear-gradient(to right, #f59e0b, #d97706)' :
+                                         content.primaryColor === 'emerald' ? 'linear-gradient(to right, #10b981, #047857)' :
+                                         content.primaryColor === 'rose' ? 'linear-gradient(to right, #f43f5e, #e11d48)' :
+                                         'linear-gradient(to right, #475569, #334155)'
+                            }}
+                          >
                             Registration
                           </button>
-                          <button className={`px-3 py-1 bg-gradient-to-r from-${content.primaryColor}-500 to-${content.primaryColor}-600 text-white text-xs rounded`}>
+                          <button 
+                            className="px-3 py-1 text-white text-xs rounded"
+                            style={{
+                              background: content.secondaryColor === 'stone' ? 'linear-gradient(to right, #57534e, #44403c)' :
+                                         content.secondaryColor === 'cyan' ? 'linear-gradient(to right, #06b6d4, #0891b2)' :
+                                         content.secondaryColor === 'orange' ? 'linear-gradient(to right, #ea580c, #c2410c)' :
+                                         content.secondaryColor === 'teal' ? 'linear-gradient(to right, #14b8a6, #0d9488)' :
+                                         content.secondaryColor === 'pink' ? 'linear-gradient(to right, #ec4899, #db2777)' :
+                                         'linear-gradient(to right, #57534e, #44403c)'
+                            }}
+                          >
                             Login
                           </button>
                         </div>
@@ -478,7 +498,7 @@ export default function PageEditor() {
             <Link href="/" className="text-blue-600 hover:text-blue-800 text-sm font-medium transition-colors">
               ← Back to Landing Page
             </Link>
-            <span className="text-gray-400 text-sm">Simple Page Editor Demo</span>
+            <span className="text-gray-400 text-sm">HOA Website Editor Demo</span>
           </div>
           
           <div className="flex items-center space-x-4">
